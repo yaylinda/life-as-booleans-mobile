@@ -1,4 +1,3 @@
-import {StyleSheet} from 'react-native';
 import {Box, NativeBaseProvider} from "native-base";
 
 export default function App() {
