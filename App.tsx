@@ -20,13 +20,12 @@ export default function App() {
     }
 
     return (
-        <NativeBaseProvider>
-            <NavigationContainer>
-                {
-                    user ? <AppStackNavigator/> : <AuthStackNavigator/>
-                }
-            </NavigationContainer>
-        </NativeBaseProvider>
+
+        <NavigationContainer>
+            {
+                user ? <AppStackNavigator/> : <AuthStackNavigator/>
+            }
+        </NavigationContainer>
     );
 }
 
