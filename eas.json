@@ -1,0 +1,22 @@
+{
+  "build": {
+    "production": {
+      "node": "18.8.0"
+    },
+    "preview": {
+      "extends": "production",
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      }
+    },
+    "development": {
+      "extends": "production",
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      }
+    }
+  }
+}
