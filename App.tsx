@@ -1,16 +1,32 @@
-import {Box, NativeBaseProvider, Text} from "native-base";
+import {NativeBaseProvider} from "native-base";
 import * as WebBrowser from 'expo-web-browser';
-import * as Google from 'expo-auth-session/providers/google';
-import {SafeAreaView} from "react-native";
-import {BaseTheme} from "./src/BaseTheme";
-import config from './nativebase.config';
+import {NavigationContainer} from "@react-navigation/native";
+import useAuthStore from "./src/stores/authStore";
+import React from "react";
+import SplashScreen from "./src/screens/SplashScreen";
+import {AppStackNavigator, AuthStackNavigator} from "./src/navigators";
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function App() {
+    const {loading, user, init} = useAuthStore();
+
+    React.useEffect(() => {
+        init();
+    }, []);
+
+    if (loading) {
+        return <SplashScreen/>
+    }
+
     return (
         <NativeBaseProvider>
-            <Text>Hello</Text>
+            <NavigationContainer>
+                {
+                    user ? <AppStackNavigator/> : <AuthStackNavigator/>
+                }
+            </NavigationContainer>
         </NativeBaseProvider>
     );
 }
+
