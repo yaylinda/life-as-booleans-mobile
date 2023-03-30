@@ -1,20 +1,12 @@
-import { Button, Center, Icon, NativeBaseProvider } from 'native-base';
-import { AntDesign } from '@expo/vector-icons';
+import { Center, NativeBaseProvider, Text } from 'native-base';
 import React from 'react';
 
-const LoginScreen = () => {
-    return (
-        <NativeBaseProvider>
-            <Center style={{ flex: 1 }}>
-                <Button
-                    variant="outline"
-                    leftIcon={<Icon as={AntDesign} name="google" />}
-                >
-                    Login with Google
-                </Button>
-            </Center>
-        </NativeBaseProvider>
-    );
-};
+const LoginScreen = () => (
+    <NativeBaseProvider>
+        <Center style={{ flex: 1 }}>
+            <Text>Login</Text>
+        </Center>
+    </NativeBaseProvider>
+);
 
 export default LoginScreen;

@@ -1,15 +1,22 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { AuthState } from './types';
 
-const AUTH_STATE_KEY = '@auth_state';
+export enum LocalStorageKey {
+    USER_INFO = '@user_info',
+}
 
-export const clearAuthState = async (): Promise<void> =>
-    await AsyncStorage.removeItem(AUTH_STATE_KEY);
+export async function getData<T>(key: LocalStorageKey): Promise<T | null> {
+    const value = await AsyncStorage.getItem(key);
+    return value ? JSON.parse(value) as T : null;
+}
 
-export const getAuthState = async (): Promise<AuthState | null> => {
-    const value = await AsyncStorage.getItem(AUTH_STATE_KEY);
-    return value ? JSON.parse(value) : null;
-};
+export async function setData<T>(key: LocalStorageKey, data: T): Promise<void> {
+    return await AsyncStorage.setItem(key, JSON.stringify(data));
+}
 
-export const setAuthState = async (authState: AuthState): Promise<void> =>
-    await AsyncStorage.setItem(AUTH_STATE_KEY, JSON.stringify(authState));
+export async function clearData(key: LocalStorageKey): Promise<void> {
+    return await AsyncStorage.removeItem(key);
+}
+
+export async function clearAll(): Promise<void> {
+    return await AsyncStorage.clear();
+}

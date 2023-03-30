@@ -1,29 +1,26 @@
-
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import {AppStackNavigator, AuthStackNavigator} from './src/navigators';
+import { AppStackNavigator, AuthStackNavigator } from './src/navigators';
 import SplashScreen from './src/screens/SplashScreen';
-import useAuthStore from './src/stores/authStore';
+import useUserStore from './src/stores/userStore';
 
 WebBrowser.maybeCompleteAuthSession();
 
 const App = () => {
-    const {loading, user, init} = useAuthStore();
+    const { loading, user, init } = useUserStore();
 
     React.useEffect(() => {
         init();
     }, [init]);
 
     if (loading) {
-        return <SplashScreen/>;
+        return <SplashScreen />;
     }
 
     return (
         <NavigationContainer>
-            {
-                user ? <AppStackNavigator/> : <AuthStackNavigator/>
-            }
+            { user ? <AppStackNavigator /> : <AuthStackNavigator />}
         </NavigationContainer>
     );
 };
