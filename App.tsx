@@ -8,7 +8,7 @@ import useAuthStore from './src/stores/authStore';
 
 WebBrowser.maybeCompleteAuthSession();
 
-export default function App() {
+const App = () => {
     const {loading, user, init} = useAuthStore();
 
     React.useEffect(() => {
@@ -20,12 +20,12 @@ export default function App() {
     }
 
     return (
-
         <NavigationContainer>
             {
                 user ? <AppStackNavigator/> : <AuthStackNavigator/>
             }
         </NavigationContainer>
     );
-}
+};
 
+export default App;

@@ -27,10 +27,14 @@ const DEFAULT_DATA: AuthStoreStateData = {
 const useAuthStore = create<AuthStoreState>()((set ) => ({
     ...DEFAULT_DATA,
 
-    init: () => {
+    init: async () => {
         set({ loading: true });
 
-        const authState = getAuthState();
+        const authState = await getAuthState();
+
+        if (authState) {
+            set({ user: authState.user });
+        }
 
         set({ loading: false });
     },

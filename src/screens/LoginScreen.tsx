@@ -1,5 +1,5 @@
-import React from 'react';
 import {NativeBaseProvider, Text, View} from 'native-base';
+import React from 'react';
 
 const LoginScreen = () => (
     <NativeBaseProvider>
