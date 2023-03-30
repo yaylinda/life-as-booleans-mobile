@@ -1,27 +1,15 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import HomeScreen from './screens/HomeScreen';
-import LoginScreen from './screens/LoginScreen';
+import LandingScreen from './screens/LandingScreen';
 
-const AuthStack = createNativeStackNavigator();
 const AppStack = createNativeStackNavigator();
-
-export const AuthStackNavigator = () => (
-    <AuthStack.Navigator>
-        <AuthStack.Screen
-            name="Login"
-            options={{ headerShown: false}}
-            component={LoginScreen}
-        />
-    </AuthStack.Navigator>
-);
 
 export const AppStackNavigator = () => (
     <AppStack.Navigator>
         <AppStack.Screen
-            name="Home"
+            name="Landing"
             options={{ headerShown: false}}
-            component={HomeScreen}
+            component={LandingScreen}
         />
     </AppStack.Navigator>
 );
