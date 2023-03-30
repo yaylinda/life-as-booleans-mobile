@@ -9,6 +9,7 @@ interface AuthStoreStateData {
 
 interface AuthStoreStateFunctions {
     init: () => void;
+    loginWithGoogle: () => void;
 }
 
 interface AuthStoreState extends AuthStoreStateData, AuthStoreStateFunctions {
@@ -39,6 +40,9 @@ const useAuthStore = create<AuthStoreState>()((set ) => ({
         set({ loading: false });
     },
 
+    loginWithGoogle: async () => {
+        set({ loading: true });
+    },
 }));
 
 export default useAuthStore;
