@@ -1,3 +1,3 @@
-export const clearAuthState = () => {};
-export const getAuthState = () => {};
-export const setAuthState = () => {};
+export const clearAuthState = () => { return 1; };
+export const getAuthState = () => { return 1; };
+export const setAuthState = () => { return 1; };

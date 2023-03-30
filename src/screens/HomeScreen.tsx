@@ -1,13 +1,12 @@
-import {NativeBaseProvider, Text, View} from "native-base";
+import React from 'react';
+import {NativeBaseProvider, Text, View} from 'native-base';
 
-const HomeScreen = () => {
-    return (
-        <NativeBaseProvider>
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <Text>HomeScreen</Text>
-            </View>
-        </NativeBaseProvider>
-    );
-}
+const HomeScreen = () => (
+    <NativeBaseProvider>
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <Text>HomeScreen</Text>
+        </View>
+    </NativeBaseProvider>
+);
 
 export default HomeScreen;

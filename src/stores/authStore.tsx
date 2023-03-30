@@ -1,5 +1,5 @@
 import {create} from 'zustand';
-import {clearAuthState, getAuthState, setAuthState} from '../localStorage';
+import { getAuthState} from '../localStorage';
 import type {User} from '../types';
 
 interface AuthStoreStateData {
@@ -20,11 +20,11 @@ const DEFAULT_DATA: AuthStoreStateData = {
     user: null,
 };
 
-const IGNORED_AUTH_ERROR_CODES = [
-    'auth/popup-closed-by-user',
-];
+// const IGNORED_AUTH_ERROR_CODES = [
+//     'auth/popup-closed-by-user',
+// ];
 
-const useAuthStore = create<AuthStoreState>()((set, get) => ({
+const useAuthStore = create<AuthStoreState>()((set ) => ({
     ...DEFAULT_DATA,
 
     init: () => {
