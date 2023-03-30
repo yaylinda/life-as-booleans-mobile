@@ -1,17 +1,16 @@
 
-import {  Center,  Text, useColorMode } from 'native-base';
+import {  Center,  Text } from 'native-base';
 import React from 'react';
-import { getRandomGradient } from '../gradients';
+
+import useUserStore from '../stores/userStore';
 
 const LoginScreen = () => {
-    const { colorMode } = useColorMode();
-    const gradColors = getRandomGradient(colorMode!);
-
+    const {gradientColors} = useUserStore();
     return (
         <Center
             bg={{
                 linearGradient: {
-                    colors: gradColors,
+                    colors: gradientColors,
                     start: [0, 0],
                     end: [0, 1]
                 }
