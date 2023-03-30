@@ -1,12 +1,10 @@
-import {NativeBaseProvider, Text, View} from 'native-base';
+import { Center, Text } from 'native-base';
 import React from 'react';
 
 const SplashScreen = () => (
-    <NativeBaseProvider>
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <Text>SplashScreen</Text>
-        </View>
-    </NativeBaseProvider>
+    <Center style={{ flex: 1 }}>
+        <Text>SplashScreen</Text>
+    </Center>
 );
 
 export default SplashScreen;

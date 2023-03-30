@@ -1,11 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
-import * as WebBrowser from 'expo-web-browser';
+import { NativeBaseProvider } from 'native-base';
 import React from 'react';
 import { AppStackNavigator, AuthStackNavigator } from './src/navigators';
 import SplashScreen from './src/screens/SplashScreen';
 import useUserStore from './src/stores/userStore';
-
-WebBrowser.maybeCompleteAuthSession();
+import config from './nativebase.config';
 
 const App = () => {
     const { loading, user, init } = useUserStore();
@@ -14,14 +13,16 @@ const App = () => {
         init();
     }, [init]);
 
-    if (loading) {
-        return <SplashScreen />;
-    }
-
     return (
-        <NavigationContainer>
-            { user ? <AppStackNavigator /> : <AuthStackNavigator />}
-        </NavigationContainer>
+        <NativeBaseProvider config={config}>
+            {
+                loading ? <SplashScreen /> : (
+                    <NavigationContainer>
+                        {user ? <AppStackNavigator /> : <AuthStackNavigator />}
+                    </NavigationContainer>
+                )
+            }
+        </NativeBaseProvider>
     );
 };
 
