@@ -1,15 +1,14 @@
 import { FontAwesome } from '@expo/vector-icons';
+
 import moment from 'moment';
-import {  Button, Center, Heading, HStack, IconButton, Slide, Spinner, useSafeArea, VStack } from 'native-base';
+import { Button, Center, Heading, HStack, IconButton, Slide, Spinner, useSafeArea, VStack } from 'native-base';
 import React from 'react';
 import { SafeAreaView } from 'react-native';
+
 import WeekDataContainer from '../components/WeekDataContainer';
 import Welcome from '../components/Welcome';
 import useUserStore from '../stores/userStore';
 import { getWeekStart } from '../utilities';
-import AddDataKeyModal from '../components/AddDataKeyModal';
-import addDataKeyModal from '../components/AddDataKeyModal';
-import { set } from 'husky';
 
 interface HeaderProps {
     startDate: moment.Moment;
@@ -18,16 +17,16 @@ interface HeaderProps {
     nextWeek: () => void;
 }
 
-const Header = ({startDate, isCurrentWeek, prevWeek, nextWeek}: HeaderProps) => {
+const Header = ({ startDate, isCurrentWeek, prevWeek, nextWeek }: HeaderProps) => {
 
     return (
-        <HStack w='100%' justifyContent='space-between' alignItems='center'>
+        <HStack w="100%" justifyContent="space-between" alignItems="center">
             <IconButton
                 borderRadius="full"
                 _icon={{
                     as: FontAwesome,
                     name: 'chevron-left',
-                    color: 'coolGray.50',
+                    color: 'coolGray.50'
                 }}
                 onPress={prevWeek}
             />
@@ -37,7 +36,7 @@ const Header = ({startDate, isCurrentWeek, prevWeek, nextWeek}: HeaderProps) => 
                 _icon={{
                     as: FontAwesome,
                     name: 'chevron-right',
-                    color: isCurrentWeek ? 'coolGray.50:alpha.10' : 'coolGray.50',
+                    color: isCurrentWeek ? 'coolGray.50:alpha.10' : 'coolGray.50'
                 }}
                 onPress={nextWeek}
                 disabled={isCurrentWeek}
@@ -49,7 +48,7 @@ const Header = ({startDate, isCurrentWeek, prevWeek, nextWeek}: HeaderProps) => 
 const LandingScreen = () => {
     const safeAreaProps = useSafeArea({
         safeAreaTop: true,
-        safeAreaBottom: true,
+        safeAreaBottom: true
     });
 
     const { loadingData, loadingFonts, gradientColors, user } = useUserStore();
@@ -90,11 +89,12 @@ const LandingScreen = () => {
             {loading ? <Spinner size="lg" color="white" /> : user ? (
                 <SafeAreaView>
                     <VStack paddingX={5} space={5}>
-                        <Header startDate={weekStartDate} isCurrentWeek={isCurrentWeek} prevWeek={prevWeek} nextWeek={nextWeek} />
+                        <Header startDate={weekStartDate} isCurrentWeek={isCurrentWeek} prevWeek={prevWeek}
+                                nextWeek={nextWeek} />
                         <WeekDataContainer weekStart={weekStartDate} isCurrentWeek={isCurrentWeek} />
                     </VStack>
                     <Slide in={!isCurrentWeek} placement="bottom">
-                        <Center w='100%' position="absolute" bottom={0} {...safeAreaProps}>
+                        <Center w="100%" position="absolute" bottom={0} {...safeAreaProps}>
                             <Button onPress={() => setWeekStartDate(getWeekStart)}>
                                 Today
                             </Button>

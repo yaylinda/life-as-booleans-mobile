@@ -2,9 +2,9 @@ import { FontAwesome } from '@expo/vector-icons';
 import { FlatList, IconButton } from 'native-base';
 import React from 'react';
 import useUserStore from '../stores/userStore';
+import AddDataKeyModal from './AddDataKeyModal';
 import WeekData from './WeekData';
 import type moment from 'moment';
-import AddDataKeyModal from './AddDataKeyModal';
 
 interface WeekDataContainerProps {
     weekStart: moment.Moment;
