@@ -1,20 +1,22 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { Center, Heading, HStack, IconButton, Spinner, VStack } from 'native-base';
+import moment from 'moment';
+import {  Button, Center, Heading, HStack, IconButton, Slide, Spinner, useSafeArea, VStack } from 'native-base';
 import React from 'react';
 import { SafeAreaView } from 'react-native';
 import WeekDataContainer from '../components/WeekDataContainer';
 import Welcome from '../components/Welcome';
 import useUserStore from '../stores/userStore';
 import { getWeekStart } from '../utilities';
-import type moment from 'moment';
 
 interface HeaderProps {
     startDate: moment.Moment;
+    isCurrentWeek: boolean;
     prevWeek: () => void;
     nextWeek: () => void;
 }
 
-const Header = ({startDate, prevWeek, nextWeek}: HeaderProps) => {
+const Header = ({startDate, isCurrentWeek, prevWeek, nextWeek}: HeaderProps) => {
+
     return (
         <HStack w='100%' justifyContent='space-between' alignItems='center'>
             <IconButton
@@ -32,9 +34,10 @@ const Header = ({startDate, prevWeek, nextWeek}: HeaderProps) => {
                 _icon={{
                     as: FontAwesome,
                     name: 'chevron-right',
-                    color: 'coolGray.50',
+                    color: isCurrentWeek ? 'coolGray.50:alpha.10' : 'coolGray.50',
                 }}
                 onPress={nextWeek}
+                disabled={isCurrentWeek}
             />
         </HStack>
     );
@@ -44,7 +47,14 @@ const LandingScreen = () => {
     const { loadingData, loadingFonts, gradientColors, user } = useUserStore();
     const loading = loadingData || loadingFonts;
 
+    const safeAreaProps = useSafeArea({
+        safeAreaTop: true,
+        safeAreaBottom: true,
+    });
+
     const [weekStartDate, setWeekStartDate] = React.useState<moment.Moment>(getWeekStart());
+
+    const isCurrentWeek = weekStartDate.isSame(moment(), 'week');
 
     const prevWeek = () => {
         setWeekStartDate((date) => date.clone().subtract(1, 'week').startOf('day'));
@@ -68,9 +78,16 @@ const LandingScreen = () => {
             {loading ? <Spinner size="lg" color="white" /> : user ? (
                 <SafeAreaView>
                     <VStack paddingX={5} space={5}>
-                        <Header startDate={weekStartDate} prevWeek={prevWeek} nextWeek={nextWeek} />
+                        <Header startDate={weekStartDate} isCurrentWeek={isCurrentWeek} prevWeek={prevWeek} nextWeek={nextWeek} />
                         <WeekDataContainer weekStart={weekStartDate} />
                     </VStack>
+                    <Slide in={!isCurrentWeek} placement="bottom">
+                        <Center w='100%' position="absolute" bottom={0} {...safeAreaProps}>
+                            <Button onPress={() => setWeekStartDate(getWeekStart)}>
+                                Today
+                            </Button>
+                        </Center>
+                    </Slide>
                 </SafeAreaView>
             ) : <Welcome />}
         </Center>

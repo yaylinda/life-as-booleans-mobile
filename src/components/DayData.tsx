@@ -8,7 +8,7 @@ interface DayDataProps {
     dataKey: string,
 }
 
-const DayData = ({  isDefaultDataKey, dayEpoch, dataKey  }: DayDataProps) => {
+const DayData = ({      }: DayDataProps) => {
     return (
         <IconButton
             borderRadius="full"
