@@ -2,7 +2,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { Center, Heading, HStack, IconButton, Spinner, VStack } from 'native-base';
 import React from 'react';
 import { SafeAreaView } from 'react-native';
-import WeekView from '../components/WeekView';
+import WeekDataContainer from '../components/WeekDataContainer';
 import Welcome from '../components/Welcome';
 import useUserStore from '../stores/userStore';
 import { getWeekStart } from '../utilities';
@@ -47,11 +47,11 @@ const LandingScreen = () => {
     const [weekStartDate, setWeekStartDate] = React.useState<moment.Moment>(getWeekStart());
 
     const prevWeek = () => {
-        setWeekStartDate((date) => date.clone().subtract(1, 'week'));
+        setWeekStartDate((date) => date.clone().subtract(1, 'week').startOf('day'));
     };
 
     const nextWeek = () => {
-        setWeekStartDate((date) => date.clone().add(1, 'week'));
+        setWeekStartDate((date) => date.clone().add(1, 'week').startOf('day'));
     };
 
     return (
@@ -69,7 +69,7 @@ const LandingScreen = () => {
                 <SafeAreaView>
                     <VStack paddingX={5}>
                         <Header startDate={weekStartDate} prevWeek={prevWeek} nextWeek={nextWeek} />
-                        <WeekView startDate={weekStartDate} />
+                        <WeekDataContainer weekStart={weekStartDate} />
                     </VStack>
                 </SafeAreaView>
             ) : <Welcome />}

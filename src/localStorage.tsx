@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export enum LocalStorageKey {
     USER_INFO = '@user_info',
+    DATA_KEYS = '@data_keys',
 }
 
 export async function getData<T>(key: LocalStorageKey): Promise<T | null> {

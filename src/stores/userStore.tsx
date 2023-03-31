@@ -27,6 +27,8 @@ interface UserStoreStateData {
     loadingFonts: boolean;
     user: User | null;
     gradientColors: [string, string];
+    dataKeys: string[];
+    data: { [dateKey in string]: { [dataKey in string]: boolean } }
 }
 
 interface UserStoreStateFunctions {
@@ -38,11 +40,15 @@ interface UserStoreState extends UserStoreStateData, UserStoreStateFunctions {
 
 }
 
+export const DEFAULT_DATA_KEYS = ['MOOD'];
+
 const DEFAULT_DATA: UserStoreStateData = {
     loadingData: true,
     loadingFonts: true,
     user: null,
-    gradientColors: getRandomGradient('dark')
+    gradientColors: getRandomGradient('dark'),
+    dataKeys: [],
+    data: {},
 };
 
 const useUserStore = create<UserStoreState>()((set, get) => ({
@@ -55,6 +61,15 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         if (user) {
             set({ user });
         }
+
+        const dataKeys: string[] | null = await getData<string[]>(LocalStorageKey.DATA_KEYS);
+        if (dataKeys) {
+            set({ dataKeys });
+        } else {
+            await setData<string[]>(LocalStorageKey.DATA_KEYS, DEFAULT_DATA_KEYS);
+            set({ dataKeys: DEFAULT_DATA_KEYS });
+        }
+
         set({ loadingData: false });
 
         loadAsync({
