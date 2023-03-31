@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { HStack, Text, VStack } from 'native-base';
+import { Divider, HStack, Text, VStack } from 'native-base';
 import React from 'react';
 import { DEFAULT_DATA_KEYS } from '../stores/userStore';
 import DayData from './DayData';
@@ -25,8 +25,23 @@ const WeekData = ({weekStart, dataKey}: WeekDataProps) => {
     }, [weekStart]);
 
     return (
-        <VStack>
-            <Text>{dataKey}</Text>
+        <VStack
+            mb={4}
+            padding={4}
+            space={2}
+            bg="coolGray.50:alpha.20"
+            borderRadius="3xl"
+        >
+            <Text
+                textTransform='capitalize'
+                fontWeight='bold'
+                fontSize='lg'
+            >
+                {dataKey}
+            </Text>
+
+            <Divider bg="coolGray.50:alpha.50"/>
+
             <HStack justifyContent='space-between'>
                 {
                     dayEpochs.map((dayEpoch) => (
