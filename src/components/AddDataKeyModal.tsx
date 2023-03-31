@@ -1,13 +1,9 @@
 import { Button, Input, Modal, VStack } from 'native-base';
 import React from 'react';
 import useUserStore from '../stores/userStore';
+import type { ClosableProps } from '../types';
 
-interface AddDataKeyModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-}
-
-const AddDataKeyModal = ({isOpen, onClose}: AddDataKeyModalProps) => {
+const AddDataKeyModal = ({isOpen, onClose}: ClosableProps) => {
     const { addDataKey } = useUserStore();
 
     const [newDataKey, setNewDataKey] = React.useState<string>('');

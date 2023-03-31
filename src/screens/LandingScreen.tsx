@@ -89,8 +89,12 @@ const LandingScreen = () => {
             {loading ? <Spinner size="lg" color="white" /> : user ? (
                 <SafeAreaView>
                     <VStack paddingX={5} space={5}>
-                        <Header startDate={weekStartDate} isCurrentWeek={isCurrentWeek} prevWeek={prevWeek}
-                                nextWeek={nextWeek} />
+                        <Header
+                            startDate={weekStartDate}
+                            isCurrentWeek={isCurrentWeek}
+                            prevWeek={prevWeek}
+                            nextWeek={nextWeek}
+                        />
                         <WeekDataContainer weekStart={weekStartDate} isCurrentWeek={isCurrentWeek} />
                     </VStack>
                     <Slide in={!isCurrentWeek} placement="bottom">

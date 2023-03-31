@@ -11,13 +11,13 @@ interface WeekDataProps {
 
 const WeekData = ({weekStart, dataKey}: WeekDataProps) => {
 
-    const dayEpochs = React.useMemo(() => {
+    const dates: moment.Moment[] = React.useMemo(() => {
         const start = moment(weekStart).startOf('day');
         const end = start.clone().add(1, 'week').startOf('day');
 
-        const dates: string[] = [];
+        const dates: moment.Moment[] = [];
         while (start.isBefore(end)) {
-            dates.push(`${start.clone().valueOf()}`);
+            dates.push(start.clone());
             start.add(1, 'day');
         }
 
@@ -44,11 +44,11 @@ const WeekData = ({weekStart, dataKey}: WeekDataProps) => {
 
             <HStack justifyContent='space-between'>
                 {
-                    dayEpochs.map((dayEpoch) => (
+                    dates.map((date) => (
                         <DayData
-                            key={`day_${dayEpoch}_${dataKey}`}
+                            key={`day_${date.valueOf()}_${dataKey}`}
                             isDefaultDataKey={DEFAULT_DATA_KEYS.includes(dataKey)}
-                            dayEpoch={dayEpoch}
+                            date={date}
                             dataKey={dataKey}
                         />
                     ))

@@ -2,6 +2,7 @@ export interface User {
     username: string;
 }
 
-export interface AuthState {
-    user: User;
+export interface ClosableProps {
+    isOpen: boolean;
+    onClose: () => void;
 }

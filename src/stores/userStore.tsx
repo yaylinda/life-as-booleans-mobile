@@ -28,13 +28,14 @@ interface UserStoreStateData {
     user: User | null;
     gradientColors: [string, string];
     dataKeys: string[];
-    data: { [dateKey in string]: { [dataKey in string]: boolean } }
+    data: { [dayEpoch in string]: { [dataKey in string]: boolean } }
 }
 
 interface UserStoreStateFunctions {
     init: () => void;
     setUsername: (username: string) => void;
     addDataKey: (dataKey: string) => void;
+    getData: (dayEpoch: string, dataKey: string) => Promise<boolean | undefined>;
 }
 
 interface UserStoreState extends UserStoreStateData, UserStoreStateFunctions {
@@ -105,7 +106,27 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         const dataKeys = [...get().dataKeys, dataKey];
         await setData<string[]>(LocalStorageKey.DATA_KEYS, dataKeys);
         set({ dataKeys });
-    }
+    },
+
+    getData: async (dayEpoch: string, dataKey: string) => {
+        if (get().data[dayEpoch]?.[dataKey] !== undefined) {
+            return get().data[dayEpoch][dataKey];
+        }
+
+        const dayData = await getData<{ [dataKey in string]: boolean }>(dayEpoch);
+
+        if (dayData) {
+            set({
+                data: {
+                    ...get().data,
+                    [dayEpoch]: dayData,
+                }
+            });
+            return dayData[dataKey];
+        }
+
+        return undefined;
+    },
 }));
 
 export default useUserStore;
