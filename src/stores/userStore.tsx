@@ -34,6 +34,7 @@ interface UserStoreStateData {
 interface UserStoreStateFunctions {
     init: () => void;
     setUsername: (username: string) => void;
+    addDataKey: (dataKey: string) => void;
 }
 
 interface UserStoreState extends UserStoreStateData, UserStoreStateFunctions {
@@ -99,6 +100,12 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         await setData<User>(LocalStorageKey.USER_INFO, user);
         set({ user });
     },
+
+    addDataKey: async (dataKey: string) => {
+        const dataKeys = [...get().dataKeys, dataKey];
+        await setData<string[]>(LocalStorageKey.DATA_KEYS, dataKeys);
+        set({ dataKeys });
+    }
 }));
 
 export default useUserStore;

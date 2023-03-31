@@ -18,6 +18,7 @@ const Welcome = () => {
             />
             <Button
                 variant="ghost"
+                disabled={!name}
                 onPress={() => setUsername(name)}
             >
                 Continue

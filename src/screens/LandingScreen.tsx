@@ -7,6 +7,9 @@ import WeekDataContainer from '../components/WeekDataContainer';
 import Welcome from '../components/Welcome';
 import useUserStore from '../stores/userStore';
 import { getWeekStart } from '../utilities';
+import AddDataKeyModal from '../components/AddDataKeyModal';
+import addDataKeyModal from '../components/AddDataKeyModal';
+import { set } from 'husky';
 
 interface HeaderProps {
     startDate: moment.Moment;
@@ -44,24 +47,33 @@ const Header = ({startDate, isCurrentWeek, prevWeek, nextWeek}: HeaderProps) => 
 };
 
 const LandingScreen = () => {
-    const { loadingData, loadingFonts, gradientColors, user } = useUserStore();
-    const loading = loadingData || loadingFonts;
-
     const safeAreaProps = useSafeArea({
         safeAreaTop: true,
         safeAreaBottom: true,
     });
 
+    const { loadingData, loadingFonts, gradientColors, user } = useUserStore();
     const [weekStartDate, setWeekStartDate] = React.useState<moment.Moment>(getWeekStart());
 
     const isCurrentWeek = weekStartDate.isSame(moment(), 'week');
+    const loading = loadingData || loadingFonts;
 
     const prevWeek = () => {
-        setWeekStartDate((date) => date.clone().subtract(1, 'week').startOf('day'));
+        setWeekStartDate((date) =>
+            date
+                .clone()
+                .subtract(1, 'week')
+                .startOf('day')
+        );
     };
 
     const nextWeek = () => {
-        setWeekStartDate((date) => date.clone().add(1, 'week').startOf('day'));
+        setWeekStartDate((date) =>
+            date
+                .clone()
+                .add(1, 'week')
+                .startOf('day')
+        );
     };
 
     return (
@@ -79,7 +91,7 @@ const LandingScreen = () => {
                 <SafeAreaView>
                     <VStack paddingX={5} space={5}>
                         <Header startDate={weekStartDate} isCurrentWeek={isCurrentWeek} prevWeek={prevWeek} nextWeek={nextWeek} />
-                        <WeekDataContainer weekStart={weekStartDate} />
+                        <WeekDataContainer weekStart={weekStartDate} isCurrentWeek={isCurrentWeek} />
                     </VStack>
                     <Slide in={!isCurrentWeek} placement="bottom">
                         <Center w='100%' position="absolute" bottom={0} {...safeAreaProps}>
