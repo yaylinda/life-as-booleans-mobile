@@ -42,7 +42,7 @@ const DEFAULT_DATA: UserStoreStateData = {
     loadingData: true,
     loadingFonts: true,
     user: null,
-    gradientColors: getRandomGradient('light')
+    gradientColors: getRandomGradient('dark')
 };
 
 const useUserStore = create<UserStoreState>()((set, get) => ({
