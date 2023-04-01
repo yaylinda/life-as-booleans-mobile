@@ -57,35 +57,30 @@ export const DEFAULT_TRACKERS: { [key in string]: Tracker } = {
                 value: 'veryBad',
                 label: 'Very Bad',
                 icon: 'sad-cry',
-                iconFamily: 'FontAwesome5',
                 color: 'error.500'
             },
             bad: {
                 value: 'bad',
                 label: 'Bad',
                 icon: 'frown',
-                iconFamily: 'FontAwesome5',
                 color: 'orange.500'
             },
             okay: {
                 value: 'okay',
                 label: 'Okay',
                 icon: 'meh',
-                iconFamily: 'FontAwesome5',
                 color: 'yellow.400'
             },
             good: {
                 value: 'good',
                 label: 'Good',
                 icon: 'smile',
-                iconFamily: 'FontAwesome5',
                 color: 'lime.400'
             },
             veryGood: {
                 value: 'veryGood',
                 label: 'Very Good',
                 icon: 'smile-beam',
-                iconFamily: 'FontAwesome5',
                 color: 'green.500'
             }
         }

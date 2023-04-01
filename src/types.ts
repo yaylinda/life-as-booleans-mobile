@@ -11,7 +11,6 @@ export interface TrackerValueOption {
     value: string;
     label: string;
     icon: string;
-    iconFamily: string;
     color: string;
 }
 

@@ -13,16 +13,14 @@ const EMPTY_TRACKER = (): Tracker => ({
         yes: {
             value: 'yes',
             label: 'Yes',
-            icon: '',
-            iconFamily: '',
-            color: '',
+            icon: 'check',
+            color: 'green.500',
         },
         no: {
             value: 'no',
             label: 'No',
-            icon: '',
-            iconFamily: '',
-            color: '',
+            icon: 'times',
+            color: 'red.500',
         }
     },
 });
