@@ -19,7 +19,7 @@ import {
 import { loadAsync } from 'expo-font';
 import { create } from 'zustand';
 import { getRandomGradient } from '../gradients';
-import { getData, LocalStorageKey, setData } from '../localStorage';
+import { clearAll, getData, LocalStorageKey, setData } from '../localStorage';
 import type { User } from '../types';
 
 interface UserStoreStateData {
@@ -36,6 +36,8 @@ interface UserStoreStateFunctions {
     setUsername: (username: string) => void;
     addDataKey: (dataKey: string) => void;
     getData: (dayEpoch: string, dataKey: string) => Promise<boolean | undefined>;
+    logout: () => void;
+    clearData: () => void;
 }
 
 interface UserStoreState extends UserStoreStateData, UserStoreStateFunctions {
@@ -126,6 +128,16 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         }
 
         return undefined;
+    },
+
+    logout: () => {
+        set({ user: null } );
+    },
+
+    clearData: async () => {
+        await clearAll();
+        set({ dataKeys: [], data: {} });
+        await setData<User>(LocalStorageKey.USER_INFO, get().user!);
     },
 }));
 

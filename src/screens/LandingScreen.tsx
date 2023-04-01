@@ -28,6 +28,9 @@ const Header = ({ startDate, isCurrentWeek, prevWeek, nextWeek }: HeaderProps) =
                     name: 'chevron-left',
                     color: 'coolGray.50'
                 }}
+                _pressed={{
+                    bg: 'coolGray.50:alpha.10'
+                }}
                 onPress={prevWeek}
             />
             <Heading>Week of {startDate.format('MMM DD')}</Heading>
@@ -37,6 +40,9 @@ const Header = ({ startDate, isCurrentWeek, prevWeek, nextWeek }: HeaderProps) =
                     as: FontAwesome,
                     name: 'chevron-right',
                     color: isCurrentWeek ? 'coolGray.50:alpha.10' : 'coolGray.50'
+                }}
+                _pressed={{
+                    bg: 'coolGray.50:alpha.10'
                 }}
                 onPress={nextWeek}
                 disabled={isCurrentWeek}
@@ -99,7 +105,13 @@ const LandingScreen = () => {
                     </VStack>
                     <Slide in={!isCurrentWeek} placement="bottom">
                         <Center w="100%" position="absolute" bottom={0} {...safeAreaProps}>
-                            <Button onPress={() => setWeekStartDate(getWeekStart)}>
+                            <Button
+                                bg="black:alpha.50"
+                                _pressed={{
+                                    bg: 'black:alpha.40'
+                                }}
+                                onPress={() => setWeekStartDate(getWeekStart)}
+                            >
                                 Today
                             </Button>
                         </Center>

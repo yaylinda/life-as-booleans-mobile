@@ -3,9 +3,9 @@ import { Button, FlatList, Icon, IconButton } from 'native-base';
 import React from 'react';
 import useUserStore from '../stores/userStore';
 import AddDataKeyModal from './AddDataKeyModal';
+import SettingsActionSheet from './SettingsActionSheet';
 import WeekData from './WeekData';
 import type moment from 'moment';
-import SettingsActionSheet from './SettingsActionSheet';
 
 interface WeekDataContainerProps {
     weekStart: moment.Moment;
@@ -38,6 +38,9 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
                         <IconButton
                             borderRadius="full"
                             bg="coolGray.50:alpha.20"
+                            _pressed={{
+                                bg: 'coolGray.50:alpha.30'
+                            }}
                             _icon={{
                                 as: FontAwesome,
                                 name: 'plus',

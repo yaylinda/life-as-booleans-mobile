@@ -1,8 +1,8 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { IconButton, Text, VStack } from 'native-base';
 import React from 'react';
-import moment from 'moment';
 import useUserStore from '../stores/userStore';
+import type moment from 'moment';
 
 interface DayDataProps {
     isDefaultDataKey: boolean,
@@ -10,10 +10,10 @@ interface DayDataProps {
     dataKey: string,
 }
 
-const DayData = ({isDefaultDataKey, date, dataKey}: DayDataProps) => {
+const DayData = ({ date, dataKey}: DayDataProps) => {
     const {getData} = useUserStore();
 
-    const [value, setValue] = React.useState<boolean | undefined>();
+    const [, setValue] = React.useState<boolean | undefined>();
 
     const dayEpoch = `${date.valueOf()}`;
     const dayOfWeekLabel = date.format('dd')[0];
