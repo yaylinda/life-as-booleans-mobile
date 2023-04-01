@@ -19,40 +19,76 @@ import {
 import { loadAsync } from 'expo-font';
 import { create } from 'zustand';
 import { getRandomGradient } from '../gradients';
-import { clearAll, getData, LocalStorageKey, setData } from '../localStorage';
-import type { User } from '../types';
+import { getItem, LocalStorageKey, multiGet, multiRemove, setItem } from '../localStorage';
+import type { Tracker, User } from '../types';
 
 interface UserStoreStateData {
     loadingData: boolean;
     loadingFonts: boolean;
-    user: User | null;
     gradientColors: [string, string];
-    trackers: string[];
-    data: { [dayEpoch in string]: { [tracker in string]: boolean } }
+    user: User | null;
+    trackers: { [key in string]: Tracker };
+    data: { [key in string]: string };
 }
 
 interface UserStoreStateFunctions {
     init: () => void;
     setUsername: (username: string) => void;
-    addTracker: (tracker: string) => void;
-    getData: (dayEpoch: string, tracker: string) => Promise<boolean | undefined>;
+    addTracker: (tracker: Tracker) => void;
+    getData: (dayEpoch: string, trackerId: string) => Promise<string | undefined>;
+    setData: (dayEpoch: string, trackerId: string, value: string) => void;
     logout: () => void;
     clearData: () => void;
+    _setDefaultTrackers: () => void;
+    _loadFonts: () => void;
 }
 
 interface UserStoreState extends UserStoreStateData, UserStoreStateFunctions {
 
 }
 
-export const DEFAULT_TRACKERS = ['Overall Mood'];
+export const DEFAULT_TRACKERS: { [key in string]: Tracker } = {
+    'overall_mood': {
+        id: 'overall_mood',
+        displayName: 'Overall Mood',
+        emoji: '',
+        valueOptions: [
+            {
+                label: 'Bad',
+                icon: '',
+                color: ''
+            },
+            {
+                label: 'Not good',
+                icon: '',
+                color: ''
+            },
+            {
+                label: 'Okay',
+                icon: '',
+                color: ''
+            },
+            {
+                label: 'Good',
+                icon: '',
+                color: ''
+            },
+            {
+                label: 'Great',
+                icon: '',
+                color: ''
+            }
+        ]
+    }
+};
 
 const DEFAULT_DATA: UserStoreStateData = {
     loadingData: true,
     loadingFonts: true,
-    user: null,
     gradientColors: getRandomGradient('dark'),
-    trackers: [],
-    data: {},
+    user: null,
+    trackers: {},
+    data: {}
 };
 
 const useUserStore = create<UserStoreState>()((set, get) => ({
@@ -61,22 +97,100 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
     init: async () => {
         set({ loadingData: true, loadingFonts: true });
 
-        const user: User | null = await getData<User>(LocalStorageKey.USER_INFO);
+        const user: User | null = await getItem<User>(LocalStorageKey.USER_INFO);
         if (user) {
             set({ user });
         }
 
-        const trackers: string[] | null = await getData<string[]>(LocalStorageKey.DATA_KEYS);
-        if (trackers) {
+        const trackerIds: string[] | null = await getItem<string[]>(LocalStorageKey.TRACKER_IDS);
+        if (trackerIds) {
+            const trackers = await multiGet<Tracker>(trackerIds);
             set({ trackers });
         } else {
-            await setData<string[]>(LocalStorageKey.DATA_KEYS, DEFAULT_TRACKERS);
-            set({ trackers: DEFAULT_TRACKERS });
+            await get()._setDefaultTrackers();
         }
 
         set({ loadingData: false });
 
-        loadAsync({
+        get()._loadFonts();
+    },
+
+    setUsername: async (username: string) => {
+        const user = { ...get().user, username };
+        await setItem<User>(LocalStorageKey.USER_INFO, user);
+        set({ user });
+    },
+
+    addTracker: async (tracker: Tracker) => {
+        await setItem<string[]>(LocalStorageKey.TRACKER_IDS, [
+            ...Object.keys(get().trackers),
+            tracker.id,
+        ]);
+        await setItem<Tracker>(tracker.id, tracker);
+
+        set({
+            trackers: {
+                ...get().trackers,
+                [tracker.id]: tracker,
+            }
+        });
+    },
+
+    getData: async (dayEpoch: string, trackerId: string) => {
+        const key = `${dayEpoch}_${trackerId}`;
+
+        if (get().data[key] !== undefined) {
+            return get().data[key];
+        }
+
+        const value = await getItem<string>(key);
+
+        if (value) {
+            set({
+                data: {
+                    ...get().data,
+                    [key]: value
+                }
+            });
+            return value;
+        }
+
+        return undefined;
+    },
+
+    setData: async (dayEpoch: string, trackerId: string, value: string) => {
+        const key = `${dayEpoch}_${trackerId}`;
+
+        await setItem<string>(key, value);
+
+        set({
+            data: {
+                ...get().data,
+                [key]: value
+            }
+        });
+    },
+
+    logout: () => {
+        set({ user: null });
+    },
+
+    clearData: async () => {
+        const keysToRemove = [
+            ...Object.keys(get().trackers),
+            ...Object.keys(get().data)
+        ];
+        await multiRemove(keysToRemove);
+        await get()._setDefaultTrackers();
+    },
+
+    _setDefaultTrackers: async () => {
+        await setItem<string[]>(LocalStorageKey.TRACKER_IDS, Object.keys(DEFAULT_TRACKERS));
+        set({ trackers: DEFAULT_TRACKERS });
+    },
+
+    _loadFonts: async () => {
+        await loadAsync({
             Nunito_200ExtraLight,
             Nunito_300Light,
             Nunito_400Regular,
@@ -93,51 +207,8 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
             Nunito_700Bold_Italic,
             Nunito_800ExtraBold_Italic,
             Nunito_900Black_Italic
-        }).then(() => {
-            set({ loadingFonts: false });
         });
-    },
-
-    setUsername: async (username: string) => {
-        const user = { ...get().user, username };
-        await setData<User>(LocalStorageKey.USER_INFO, user);
-        set({ user });
-    },
-
-    addTracker: async (tracker: string) => {
-        const trackers = [...get().trackers, tracker];
-        await setData<string[]>(LocalStorageKey.DATA_KEYS, trackers);
-        set({ trackers });
-    },
-
-    getData: async (dayEpoch: string, tracker: string) => {
-        if (get().data[dayEpoch]?.[tracker] !== undefined) {
-            return get().data[dayEpoch][tracker];
-        }
-
-        const dayData = await getData<{ [tracker in string]: boolean }>(dayEpoch);
-
-        if (dayData) {
-            set({
-                data: {
-                    ...get().data,
-                    [dayEpoch]: dayData,
-                }
-            });
-            return dayData[tracker];
-        }
-
-        return undefined;
-    },
-
-    logout: () => {
-        set({ user: null } );
-    },
-
-    clearData: async () => {
-        await clearAll();
-        set({ trackers: DEFAULT_TRACKERS, data: {} });
-        await setData<User>(LocalStorageKey.USER_INFO, get().user!);
+        set({ loadingFonts: false });
     },
 }));
 

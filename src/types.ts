@@ -8,8 +8,9 @@ export interface ClosableProps {
 }
 
 export interface TrackValueOption {
-    value: string;
+    label: string;
     icon: string;
+    color: string;
 }
 
 export interface Tracker {
