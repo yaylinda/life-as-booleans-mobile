@@ -27,15 +27,15 @@ interface UserStoreStateData {
     loadingFonts: boolean;
     user: User | null;
     gradientColors: [string, string];
-    dataKeys: string[];
-    data: { [dayEpoch in string]: { [dataKey in string]: boolean } }
+    trackers: string[];
+    data: { [dayEpoch in string]: { [tracker in string]: boolean } }
 }
 
 interface UserStoreStateFunctions {
     init: () => void;
     setUsername: (username: string) => void;
-    addDataKey: (dataKey: string) => void;
-    getData: (dayEpoch: string, dataKey: string) => Promise<boolean | undefined>;
+    addTracker: (tracker: string) => void;
+    getData: (dayEpoch: string, tracker: string) => Promise<boolean | undefined>;
     logout: () => void;
     clearData: () => void;
 }
@@ -44,14 +44,14 @@ interface UserStoreState extends UserStoreStateData, UserStoreStateFunctions {
 
 }
 
-export const DEFAULT_DATA_KEYS = ['MOOD'];
+export const DEFAULT_TRACKERS = ['Overall Mood'];
 
 const DEFAULT_DATA: UserStoreStateData = {
     loadingData: true,
     loadingFonts: true,
     user: null,
     gradientColors: getRandomGradient('dark'),
-    dataKeys: [],
+    trackers: [],
     data: {},
 };
 
@@ -66,12 +66,12 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
             set({ user });
         }
 
-        const dataKeys: string[] | null = await getData<string[]>(LocalStorageKey.DATA_KEYS);
-        if (dataKeys) {
-            set({ dataKeys });
+        const trackers: string[] | null = await getData<string[]>(LocalStorageKey.DATA_KEYS);
+        if (trackers) {
+            set({ trackers });
         } else {
-            await setData<string[]>(LocalStorageKey.DATA_KEYS, DEFAULT_DATA_KEYS);
-            set({ dataKeys: DEFAULT_DATA_KEYS });
+            await setData<string[]>(LocalStorageKey.DATA_KEYS, DEFAULT_TRACKERS);
+            set({ trackers: DEFAULT_TRACKERS });
         }
 
         set({ loadingData: false });
@@ -104,18 +104,18 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         set({ user });
     },
 
-    addDataKey: async (dataKey: string) => {
-        const dataKeys = [...get().dataKeys, dataKey];
-        await setData<string[]>(LocalStorageKey.DATA_KEYS, dataKeys);
-        set({ dataKeys });
+    addTracker: async (tracker: string) => {
+        const trackers = [...get().trackers, tracker];
+        await setData<string[]>(LocalStorageKey.DATA_KEYS, trackers);
+        set({ trackers });
     },
 
-    getData: async (dayEpoch: string, dataKey: string) => {
-        if (get().data[dayEpoch]?.[dataKey] !== undefined) {
-            return get().data[dayEpoch][dataKey];
+    getData: async (dayEpoch: string, tracker: string) => {
+        if (get().data[dayEpoch]?.[tracker] !== undefined) {
+            return get().data[dayEpoch][tracker];
         }
 
-        const dayData = await getData<{ [dataKey in string]: boolean }>(dayEpoch);
+        const dayData = await getData<{ [tracker in string]: boolean }>(dayEpoch);
 
         if (dayData) {
             set({
@@ -124,7 +124,7 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
                     [dayEpoch]: dayData,
                 }
             });
-            return dayData[dataKey];
+            return dayData[tracker];
         }
 
         return undefined;
@@ -136,7 +136,7 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
 
     clearData: async () => {
         await clearAll();
-        set({ dataKeys: [], data: {} });
+        set({ trackers: DEFAULT_TRACKERS, data: {} });
         await setData<User>(LocalStorageKey.USER_INFO, get().user!);
     },
 }));

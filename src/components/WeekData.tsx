@@ -1,15 +1,15 @@
 import moment from 'moment';
 import { Divider, HStack, Text, VStack } from 'native-base';
 import React from 'react';
-import { DEFAULT_DATA_KEYS } from '../stores/userStore';
+import { DEFAULT_TRACKERS } from '../stores/userStore';
 import DayData from './DayData';
 
 interface WeekDataProps {
     weekStart: moment.Moment;
-    dataKey: string;
+    tracker: string;
 }
 
-const WeekData = ({weekStart, dataKey}: WeekDataProps) => {
+const WeekData = ({weekStart, tracker}: WeekDataProps) => {
 
     const dates: moment.Moment[] = React.useMemo(() => {
         const start = moment(weekStart).startOf('day');
@@ -37,7 +37,7 @@ const WeekData = ({weekStart, dataKey}: WeekDataProps) => {
                 fontWeight='bold'
                 fontSize='lg'
             >
-                {dataKey}
+                {tracker}
             </Text>
 
             <Divider bg="coolGray.50:alpha.50"/>
@@ -46,10 +46,10 @@ const WeekData = ({weekStart, dataKey}: WeekDataProps) => {
                 {
                     dates.map((date) => (
                         <DayData
-                            key={`day_${date.valueOf()}_${dataKey}`}
-                            isDefaultDataKey={DEFAULT_DATA_KEYS.includes(dataKey)}
+                            key={`day_${date.valueOf()}_${tracker}`}
+                            isDefaultTracker={DEFAULT_TRACKERS.includes(tracker)}
                             date={date}
-                            dataKey={dataKey}
+                            tracker={tracker}
                         />
                     ))
                 }

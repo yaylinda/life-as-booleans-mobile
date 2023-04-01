@@ -5,12 +5,12 @@ import useUserStore from '../stores/userStore';
 import type moment from 'moment';
 
 interface DayDataProps {
-    isDefaultDataKey: boolean,
+    isDefaultTracker: boolean,
     date: moment.Moment,
-    dataKey: string,
+    tracker: string,
 }
 
-const DayData = ({ date, dataKey}: DayDataProps) => {
+const DayData = ({ date, tracker}: DayDataProps) => {
     const {getData} = useUserStore();
 
     const [, setValue] = React.useState<boolean | undefined>();
@@ -21,12 +21,12 @@ const DayData = ({ date, dataKey}: DayDataProps) => {
 
     React.useEffect(() => {
         const get = async () => {
-            const data = await getData(dayEpoch, dataKey);
+            const data = await getData(dayEpoch, tracker);
             setValue(data);
         };
 
         get();
-    }, [dataKey, dayEpoch, getData]);
+    }, [tracker, dayEpoch, getData]);
 
     return (
         <VStack alignItems='center'>

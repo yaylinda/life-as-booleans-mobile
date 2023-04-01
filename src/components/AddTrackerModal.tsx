@@ -3,19 +3,19 @@ import React from 'react';
 import useUserStore from '../stores/userStore';
 import type { ClosableProps } from '../types';
 
-const AddDataKeyModal = ({isOpen, onClose}: ClosableProps) => {
-    const { addDataKey } = useUserStore();
+const AddTrackerModal = ({isOpen, onClose}: ClosableProps) => {
+    const { addTracker } = useUserStore();
 
-    const [newDataKey, setNewDataKey] = React.useState<string>('');
+    const [newTracker, setNewTracker] = React.useState<string>('');
 
     React.useEffect(() => {
         if (!isOpen) {
-            setNewDataKey('');
+            setNewTracker('');
         }
     }, [isOpen]);
 
     const onSave = () => {
-        addDataKey(newDataKey);
+        addTracker(newTracker);
         onClose();
     };
 
@@ -26,13 +26,13 @@ const AddDataKeyModal = ({isOpen, onClose}: ClosableProps) => {
                     <VStack space={4}>
                         <Input
                             variant="rounded"
-                            value={newDataKey}
-                            onChangeText={setNewDataKey}
+                            value={newTracker}
+                            onChangeText={setNewTracker}
                             placeholder="Add a new tracker"
                         />
                         <Button
                             variant="ghost"
-                            disabled={!newDataKey}
+                            disabled={!newTracker}
                             onPress={onSave}
                         >
                             Save
@@ -44,4 +44,4 @@ const AddDataKeyModal = ({isOpen, onClose}: ClosableProps) => {
     );
 };
 
-export default AddDataKeyModal;
+export default AddTrackerModal;

@@ -2,7 +2,7 @@ import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Button, FlatList, Icon, IconButton } from 'native-base';
 import React from 'react';
 import useUserStore from '../stores/userStore';
-import AddDataKeyModal from './AddDataKeyModal';
+import AddTrackerModal from './AddTrackerModal';
 import SettingsActionSheet from './SettingsActionSheet';
 import WeekData from './WeekData';
 import type moment from 'moment';
@@ -16,17 +16,17 @@ const ADD_BUTTON_ITEM = 'ADD_BUTTON';
 const SETTINGS_BUTTON_ITEM = 'SETTINGS_BUTTON';
 
 const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps) => {
-    const { dataKeys } = useUserStore();
+    const { trackers } = useUserStore();
 
-    const [showAddDataKeyModal, setShowAddDataKeyModal] = React.useState<boolean>(false);
+    const [showAddTrackerModal, setShowAddTrackerModal] = React.useState<boolean>(false);
     const [showSettingsActionSheet, setShowSettingsActionSheet] = React.useState<boolean>(false);
 
     const dataItems = React.useMemo(() => {
         if (isCurrentWeek) {
-            return [...dataKeys, ADD_BUTTON_ITEM, SETTINGS_BUTTON_ITEM];
+            return [...trackers, ADD_BUTTON_ITEM, SETTINGS_BUTTON_ITEM];
         }
-        return dataKeys;
-    }, [dataKeys, isCurrentWeek]);
+        return trackers;
+    }, [trackers, isCurrentWeek]);
 
     return (
         <>
@@ -46,7 +46,7 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
                                 name: 'plus',
                                 color: 'coolGray.50'
                             }}
-                            onPress={() => setShowAddDataKeyModal(true)}
+                            onPress={() => setShowAddTrackerModal(true)}
                         />
                     ) : item === SETTINGS_BUTTON_ITEM ? (
                         <Button
@@ -67,14 +67,14 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
                         <WeekData
                             key={`week_${weekStart.valueOf()}_${item}`}
                             weekStart={weekStart}
-                            dataKey={item}
+                            tracker={item}
                         />
                     )
                 )}
             />
-            <AddDataKeyModal
-                isOpen={showAddDataKeyModal}
-                onClose={() => setShowAddDataKeyModal(false)}
+            <AddTrackerModal
+                isOpen={showAddTrackerModal}
+                onClose={() => setShowAddTrackerModal(false)}
             />
             <SettingsActionSheet
                 isOpen={showSettingsActionSheet}
