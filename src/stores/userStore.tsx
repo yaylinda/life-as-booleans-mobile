@@ -20,7 +20,7 @@ import { loadAsync } from 'expo-font';
 import moment from 'moment';
 import { create } from 'zustand';
 import { getRandomGradient } from '../gradients';
-import { getItem, LocalStorageKey, multiGet, multiRemove, multiSet, setItem } from '../localStorage';
+import { clearAll, getItem, LocalStorageKey, multiGet, multiSet, setItem } from '../localStorage';
 import type { Tracker, User } from '../types';
 
 interface UserStoreStateData {
@@ -38,7 +38,6 @@ interface UserStoreStateFunctions {
     addTracker: (tracker: Tracker) => void;
     getData: (dayEpoch: string, trackerId: string) => Promise<string | undefined>;
     setData: (dayEpoch: string, trackerId: string, value: string) => void;
-    logout: () => void;
     clearData: () => void;
     _setDefaultTrackers: () => void;
     _loadFonts: () => void;
@@ -181,17 +180,14 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         });
     },
 
-    logout: () => {
-        set({ user: null });
-    },
-
     clearData: async () => {
-        const keysToRemove = [
-            ...Object.keys(get().trackers),
-            ...Object.keys(get().data)
-        ];
-        await multiRemove(keysToRemove);
-        await get()._setDefaultTrackers();
+        await clearAll();
+        set({
+            user: null,
+            trackers: {},
+            data: {}
+        });
+        get()._setDefaultTrackers();
     },
 
     _setDefaultTrackers: async () => {

@@ -6,21 +6,16 @@ import type { ClosableProps } from '../types';
 
 const SettingsActionSheet = ({ isOpen, onClose }: ClosableProps) => {
 
-    const { user, gradientColors, logout, clearData} = useUserStore();
+    const { user, gradientColors, clearData} = useUserStore();
 
     const doClearData = () => {
         clearData();
         onClose();
     };
 
-    const doLogout = () => {
-        logout();
-        onClose();
-    };
-
     const confirmClearData = () => Alert.alert(
         'Confirm Delete',
-        'Are you sure you want to logout?', [
+        'Are you sure you want to delete all user data? This action cannot be undone.', [
             {
                 text: 'Cancel',
                 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -34,22 +29,6 @@ const SettingsActionSheet = ({ isOpen, onClose }: ClosableProps) => {
             }
         ]);
 
-    const confirmLogout = () => Alert.alert(
-        'Confirm Logout',
-        '', [
-            {
-                text: 'Cancel',
-                // eslint-disable-next-line @typescript-eslint/no-empty-function
-                onPress: () => {},
-                style: 'cancel'
-            },
-            {
-                text: 'OK',
-                onPress: doLogout,
-                style: 'default'
-            }
-        ]);
-
     return (
         <Actionsheet isOpen={isOpen} onClose={onClose}>
             <Actionsheet.Content>
@@ -60,7 +39,6 @@ const SettingsActionSheet = ({ isOpen, onClose }: ClosableProps) => {
                     <Heading>{user?.username}</Heading>
                 </HStack>
                 <Actionsheet.Item onPress={confirmClearData}>Clear Data</Actionsheet.Item>
-                <Actionsheet.Item onPress={confirmLogout}>Logout</Actionsheet.Item>
             </Actionsheet.Content>
         </Actionsheet>
     );
