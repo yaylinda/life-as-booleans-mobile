@@ -51,32 +51,37 @@ export const DEFAULT_TRACKERS: { [key in string]: Tracker } = {
     'overall_mood': {
         id: 'overall_mood',
         displayName: 'Overall Mood',
-        emoji: '',
+        emoji: '🙂',
         valueOptions: [
             {
-                label: 'Bad',
-                icon: '',
-                color: ''
+                label: 'Very Bad',
+                icon: 'sad-cry',
+                iconFamily: 'FontAwesome5',
+                color: 'error.500'
             },
             {
-                label: 'Not good',
-                icon: '',
-                color: ''
+                label: 'Bad',
+                icon: 'frown',
+                iconFamily: 'FontAwesome5',
+                color: 'orange.500'
             },
             {
                 label: 'Okay',
-                icon: '',
-                color: ''
+                icon: 'meh',
+                iconFamily: 'FontAwesome5',
+                color: 'yellow.400'
             },
             {
                 label: 'Good',
-                icon: '',
-                color: ''
+                icon: 'smile',
+                iconFamily: 'FontAwesome5',
+                color: 'lime.400'
             },
             {
-                label: 'Great',
-                icon: '',
-                color: ''
+                label: 'Very Good',
+                icon: 'smile-beam',
+                iconFamily: 'FontAwesome5',
+                color: 'green.500'
             }
         ]
     }

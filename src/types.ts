@@ -10,6 +10,7 @@ export interface ClosableProps {
 export interface TrackValueOption {
     label: string;
     icon: string;
+    iconFamily: string;
     color: string;
 }
 
