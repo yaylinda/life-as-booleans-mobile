@@ -17,6 +17,7 @@ import {
     Nunito_900Black_Italic
 } from '@expo-google-fonts/nunito';
 import { loadAsync } from 'expo-font';
+import moment from 'moment';
 import { create } from 'zustand';
 import { getRandomGradient } from '../gradients';
 import { getItem, LocalStorageKey, multiGet, multiRemove, multiSet, setItem } from '../localStorage';
@@ -33,7 +34,7 @@ interface UserStoreStateData {
 
 interface UserStoreStateFunctions {
     init: () => void;
-    setUsername: (username: string) => void;
+    createUser: (username: string) => void;
     addTracker: (tracker: Tracker) => void;
     getData: (dayEpoch: string, trackerId: string) => Promise<string | undefined>;
     setData: (dayEpoch: string, trackerId: string, value: string) => void;
@@ -120,8 +121,12 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         get()._loadFonts();
     },
 
-    setUsername: async (username: string) => {
-        const user = { ...get().user, username };
+    createUser: async (username: string) => {
+        const user: User = {
+            ...get().user,
+            username,
+            createdDateEpoch: moment().valueOf()
+        };
         await setItem<User>(LocalStorageKey.USER_INFO, user);
         set({ user });
     },
@@ -129,14 +134,14 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
     addTracker: async (tracker: Tracker) => {
         await setItem<string[]>(LocalStorageKey.TRACKER_IDS, [
             ...Object.keys(get().trackers),
-            tracker.id,
+            tracker.id
         ]);
         await setItem<Tracker>(tracker.id, tracker);
 
         set({
             trackers: {
                 ...get().trackers,
-                [tracker.id]: tracker,
+                [tracker.id]: tracker
             }
         });
     },
@@ -215,7 +220,7 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
             Nunito_900Black_Italic
         });
         set({ loadingFonts: false });
-    },
+    }
 }));
 
 export default useUserStore;

@@ -3,7 +3,7 @@ import React from 'react';
 import useUserStore from '../stores/userStore';
 
 const Welcome = () => {
-    const { setUsername } = useUserStore();
+    const { createUser } = useUserStore();
 
     const [name, setName] = React.useState<string>('');
 
@@ -19,7 +19,7 @@ const Welcome = () => {
             <Button
                 variant="ghost"
                 disabled={!name}
-                onPress={() => setUsername(name)}
+                onPress={() => createUser(name)}
             >
                 Continue
             </Button>

@@ -1,5 +1,6 @@
 export interface User {
     username: string;
+    createdDateEpoch: number;
 }
 
 export interface ClosableProps {

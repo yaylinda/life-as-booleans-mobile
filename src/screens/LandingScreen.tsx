@@ -1,55 +1,13 @@
-import { FontAwesome } from '@expo/vector-icons';
-
 import moment from 'moment';
-import { Button, Center, Heading, HStack, IconButton, Slide, Spinner, useSafeArea, VStack } from 'native-base';
+import { Button, Center, Slide, Spinner, useSafeArea, VStack } from 'native-base';
 import React from 'react';
 import { SafeAreaView } from 'react-native';
 
+import Header from '../components/Header';
 import WeekDataContainer from '../components/WeekDataContainer';
 import Welcome from '../components/Welcome';
 import useUserStore from '../stores/userStore';
 import { getWeekStart } from '../utilities';
-
-interface HeaderProps {
-    startDate: moment.Moment;
-    isCurrentWeek: boolean;
-    prevWeek: () => void;
-    nextWeek: () => void;
-}
-
-const Header = ({ startDate, isCurrentWeek, prevWeek, nextWeek }: HeaderProps) => {
-
-    return (
-        <HStack w="100%" justifyContent="space-between" alignItems="center">
-            <IconButton
-                borderRadius="full"
-                _icon={{
-                    as: FontAwesome,
-                    name: 'chevron-left',
-                    color: 'coolGray.50'
-                }}
-                _pressed={{
-                    bg: 'coolGray.50:alpha.10'
-                }}
-                onPress={prevWeek}
-            />
-            <Heading>Week of {startDate.format('MMM DD')}</Heading>
-            <IconButton
-                borderRadius="full"
-                _icon={{
-                    as: FontAwesome,
-                    name: 'chevron-right',
-                    color: isCurrentWeek ? 'coolGray.50:alpha.10' : 'coolGray.50'
-                }}
-                _pressed={{
-                    bg: 'coolGray.50:alpha.10'
-                }}
-                onPress={nextWeek}
-                disabled={isCurrentWeek}
-            />
-        </HStack>
-    );
-};
 
 const LandingScreen = () => {
     const safeAreaProps = useSafeArea({
@@ -60,6 +18,7 @@ const LandingScreen = () => {
     const { loadingData, loadingFonts, gradientColors, user } = useUserStore();
     const [weekStartDate, setWeekStartDate] = React.useState<moment.Moment>(getWeekStart());
 
+    const isFirstWeek = user ? weekStartDate.isSameOrBefore(moment(user.createdDateEpoch), 'week') : true;
     const isCurrentWeek = weekStartDate.isSame(moment(), 'week');
     const loading = loadingData || loadingFonts;
 
@@ -97,6 +56,7 @@ const LandingScreen = () => {
                     <VStack paddingX={5} space={5}>
                         <Header
                             startDate={weekStartDate}
+                            isFirstWeek={isFirstWeek}
                             isCurrentWeek={isCurrentWeek}
                             prevWeek={prevWeek}
                             nextWeek={nextWeek}
