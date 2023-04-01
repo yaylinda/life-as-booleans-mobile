@@ -74,59 +74,70 @@ const DayData = ({ date, tracker }: DayDataProps) => {
         }
     };
 
+    const dayTrackerButton = (triggerProps: { _props: never, state: { open: boolean } }) => (
+        <IconButton
+            {...triggerProps}
+            disabled={isAfter}
+            borderRadius="full"
+            bg={hasValue ? 'muted.50' : undefined}
+            padding={1}
+            _icon={{
+                as: FontAwesome5,
+                name: getIcon(),
+                color: getIconColor(),
+                textAlign: 'center'
+            }}
+            _pressed={{
+                bg: hasValue ? 'muted.50:alpha.70' : 'coolGray.50:alpha.10'
+            }}
+            onPress={() => setOpenPopover(true)}
+        />
+    );
+
+    const renderTrackerOptions = () => (
+        <HStack justifyContent="space-evenly" space={2}>
+            {
+                Object.values(tracker.valueOptionsMap).map((option: TrackerValueOption) => (
+                    <VStack
+                        key={`options_${option.value}_${tracker.id}_${dayEpoch}`} justifyContent="center"
+                        alignItems="center"
+                    >
+                        <IconButton
+                            borderRadius="full"
+                            _icon={{
+                                as: FontAwesome5,
+                                name: option.icon,
+                                color: option.color,
+                                textAlign: 'center'
+                            }}
+                            _pressed={{
+                                bg: 'coolGray.50:alpha.10'
+                            }}
+                            onPress={() => onSelectOption(option.value)}
+                        />
+                        <Text fontSize="2xs">{option.label}</Text>
+                    </VStack>
+                ))
+            }
+        </HStack>
+    );
+
     return (
-        <VStack alignItems="center">
-            <Text fontSize="2xs" fontWeight="bold">{dayOfWeekLabel}</Text>
+        <VStack alignItems="center" space={1}>
+            <Text fontSize="2xs" fontWeight="black">{dayOfWeekLabel}</Text>
             <Popover
                 isOpen={openPopover}
                 onClose={() => setOpenPopover(false)}
-                trigger={(triggerProps) => (
-                    <IconButton
-                        {...triggerProps}
-                        borderRadius="full"
-                        _icon={{
-                            as: FontAwesome5,
-                            name: getIcon(),
-                            color: getIconColor()
-                        }}
-                        _pressed={{
-                            bg: 'coolGray.50:alpha.10'
-                        }}
-                        onPress={() => setOpenPopover(true)}
-                    />
-                )}
+                trigger={dayTrackerButton}
             >
                 <Popover.Content>
                     <Popover.Arrow />
                     <Popover.Body>
-                        <VStack space={2}>
-                            <Text>Select option for: {tracker.displayName}</Text>
-                            <HStack justifyContent="space-evenly" space={2}>
-                                {
-                                    Object.values(tracker.valueOptionsMap).map((option: TrackerValueOption) => (
-                                        <VStack key={`options_${option.value}_${tracker.id}_${dayEpoch}`} justifyContent='center' alignItems='center'>
-                                            <IconButton
-                                                borderRadius="full"
-                                                _icon={{
-                                                    as: FontAwesome5,
-                                                    name: option.icon,
-                                                    color: option.color
-                                                }}
-                                                _pressed={{
-                                                    bg: 'coolGray.50:alpha.10'
-                                                }}
-                                                onPress={() => onSelectOption(option.value)}
-                                            />
-                                            <Text fontSize="2xs">{option.label}</Text>
-                                        </VStack>
-                                    ))
-                                }
-                            </HStack>
-                        </VStack>
+                        {renderTrackerOptions()}
                     </Popover.Body>
                 </Popover.Content>
             </Popover>
-            <Text fontSize="2xs" fontWeight="bold">{dayOfMonthLabel}</Text>
+            <Text fontSize="2xs" fontWeight="black">{dayOfMonthLabel}</Text>
         </VStack>
     );
 };

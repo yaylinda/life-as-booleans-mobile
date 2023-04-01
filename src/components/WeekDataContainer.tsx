@@ -44,7 +44,8 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
                             _icon={{
                                 as: FontAwesome,
                                 name: 'plus',
-                                color: 'coolGray.50'
+                                color: 'coolGray.50',
+                                textAlign: 'center'
                             }}
                             onPress={() => setShowAddTrackerModal(true)}
                         />

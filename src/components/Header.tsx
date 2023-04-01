@@ -19,7 +19,8 @@ const Header = ({ startDate, isFirstWeek, isCurrentWeek, prevWeek, nextWeek }: H
                 _icon={{
                     as: FontAwesome,
                     name: 'chevron-left',
-                    color: isFirstWeek ? 'coolGray.50:alpha.10' : 'coolGray.50'
+                    color: isFirstWeek ? 'coolGray.50:alpha.10' : 'coolGray.50',
+                    textAlign: 'center'
                 }}
                 _pressed={{
                     bg: 'coolGray.50:alpha.10'
@@ -33,7 +34,8 @@ const Header = ({ startDate, isFirstWeek, isCurrentWeek, prevWeek, nextWeek }: H
                 _icon={{
                     as: FontAwesome,
                     name: 'chevron-right',
-                    color: isCurrentWeek ? 'coolGray.50:alpha.10' : 'coolGray.50'
+                    color: isCurrentWeek ? 'coolGray.50:alpha.10' : 'coolGray.50',
+                    textAlign: 'center'
                 }}
                 _pressed={{
                     bg: 'coolGray.50:alpha.10'
