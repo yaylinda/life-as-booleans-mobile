@@ -1,13 +1,14 @@
 import { FontAwesome } from '@expo/vector-icons';
+import moment from 'moment';
 import { IconButton, Text, VStack } from 'native-base';
 import React from 'react';
 import useUserStore from '../stores/userStore';
-import type moment from 'moment';
+import type { Tracker } from '../types';
 
 interface DayDataProps {
     isDefaultTracker: boolean,
     date: moment.Moment,
-    tracker: string,
+    tracker: Tracker,
 }
 
 const DayData = ({ date, tracker}: DayDataProps) => {
@@ -18,10 +19,13 @@ const DayData = ({ date, tracker}: DayDataProps) => {
     const dayEpoch = `${date.valueOf()}`;
     const dayOfWeekLabel = date.format('dd')[0];
     const dayOfMonthLabel = date.format('DD');
+    const isToday = date.isSame(moment(), 'day');
+    const isBefore = date.isBefore(moment(), 'day');
+    const isAfter = date.isAfter(moment(), 'day');
 
     React.useEffect(() => {
         const get = async () => {
-            const data = await getData(dayEpoch, tracker);
+            const data = await getData(dayEpoch, tracker.id);
             setValue(data);
         };
 

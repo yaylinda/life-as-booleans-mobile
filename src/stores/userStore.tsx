@@ -19,7 +19,7 @@ import {
 import { loadAsync } from 'expo-font';
 import { create } from 'zustand';
 import { getRandomGradient } from '../gradients';
-import { getItem, LocalStorageKey, multiGet, multiRemove, setItem } from '../localStorage';
+import { getItem, LocalStorageKey, multiGet, multiRemove, multiSet, setItem } from '../localStorage';
 import type { Tracker, User } from '../types';
 
 interface UserStoreStateData {
@@ -52,38 +52,43 @@ export const DEFAULT_TRACKERS: { [key in string]: Tracker } = {
         id: 'overall_mood',
         displayName: 'Overall Mood',
         emoji: '🙂',
-        valueOptions: [
-            {
+        valueOptionsMap: {
+            veryBad: {
+                value: 'veryBad',
                 label: 'Very Bad',
                 icon: 'sad-cry',
                 iconFamily: 'FontAwesome5',
                 color: 'error.500'
             },
-            {
+            bad: {
+                value: 'bad',
                 label: 'Bad',
                 icon: 'frown',
                 iconFamily: 'FontAwesome5',
                 color: 'orange.500'
             },
-            {
+            okay: {
+                value: 'okay',
                 label: 'Okay',
                 icon: 'meh',
                 iconFamily: 'FontAwesome5',
                 color: 'yellow.400'
             },
-            {
+            good: {
+                value: 'good',
                 label: 'Good',
                 icon: 'smile',
                 iconFamily: 'FontAwesome5',
                 color: 'lime.400'
             },
-            {
+            veryGood: {
+                value: 'veryGood',
                 label: 'Very Good',
                 icon: 'smile-beam',
                 iconFamily: 'FontAwesome5',
                 color: 'green.500'
             }
-        ]
+        }
     }
 };
 
@@ -191,6 +196,7 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
 
     _setDefaultTrackers: async () => {
         await setItem<string[]>(LocalStorageKey.TRACKER_IDS, Object.keys(DEFAULT_TRACKERS));
+        await multiSet<Tracker>(DEFAULT_TRACKERS);
         set({ trackers: DEFAULT_TRACKERS });
     },
 

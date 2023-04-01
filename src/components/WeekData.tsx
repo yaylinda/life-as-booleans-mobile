@@ -51,7 +51,7 @@ const WeekData = ({weekStart, trackerId}: WeekDataProps) => {
                             key={`day_${date.valueOf()}_${trackerId}`}
                             isDefaultTracker={!!DEFAULT_TRACKERS[trackerId]}
                             date={date}
-                            tracker={trackerId}
+                            tracker={tracker}
                         />
                     ))
                 }

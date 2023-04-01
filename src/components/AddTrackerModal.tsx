@@ -5,34 +5,36 @@ import uuid from 'react-native-uuid';
 import useUserStore from '../stores/userStore';
 import type { ClosableProps, Tracker } from '../types';
 
-const DEFAULT_TRACKER = (): Tracker => ({
+const EMPTY_TRACKER = (): Tracker => ({
     id: uuid.v4() as string,
     displayName: '',
     emoji: '',
-    valueOptions: [
-        {
+    valueOptionsMap: {
+        yes: {
+            value: 'yes',
             label: 'Yes',
             icon: '',
             iconFamily: '',
             color: '',
         },
-        {
+        no: {
+            value: 'no',
             label: 'No',
             icon: '',
             iconFamily: '',
             color: '',
         }
-    ],
+    },
 });
 
 const AddTrackerModal = ({isOpen, onClose}: ClosableProps) => {
     const { addTracker } = useUserStore();
 
-    const [newTracker, setNewTracker] = React.useState<Tracker>(DEFAULT_TRACKER());
+    const [newTracker, setNewTracker] = React.useState<Tracker>(EMPTY_TRACKER());
 
     React.useEffect(() => {
         if (!isOpen) {
-            setNewTracker(DEFAULT_TRACKER());
+            setNewTracker(EMPTY_TRACKER());
         }
     }, [isOpen]);
 

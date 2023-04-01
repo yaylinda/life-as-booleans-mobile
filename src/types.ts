@@ -7,7 +7,8 @@ export interface ClosableProps {
     onClose: () => void;
 }
 
-export interface TrackValueOption {
+export interface TrackerValueOption {
+    value: string;
     label: string;
     icon: string;
     iconFamily: string;
@@ -18,5 +19,5 @@ export interface Tracker {
     id: string;
     displayName: string;
     emoji: string;
-    valueOptions: TrackValueOption[];
+    valueOptionsMap: { [key in string]: TrackerValueOption };
 }
