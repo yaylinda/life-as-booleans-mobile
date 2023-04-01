@@ -21,11 +21,11 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
     const [showAddTrackerModal, setShowAddTrackerModal] = React.useState<boolean>(false);
     const [showSettingsActionSheet, setShowSettingsActionSheet] = React.useState<boolean>(false);
 
-    const dataItems = React.useMemo(() => {
+    const dataItems: string[] = React.useMemo(() => {
         if (isCurrentWeek) {
-            return [...trackers, ADD_BUTTON_ITEM, SETTINGS_BUTTON_ITEM];
+            return [...Object.keys(trackers), ADD_BUTTON_ITEM, SETTINGS_BUTTON_ITEM];
         }
-        return trackers;
+        return Object.keys(trackers);
     }, [trackers, isCurrentWeek]);
 
     return (
@@ -67,7 +67,7 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
                         <WeekData
                             key={`week_${weekStart.valueOf()}_${item}`}
                             weekStart={weekStart}
-                            tracker={item}
+                            trackerId={item}
                         />
                     )
                 )}

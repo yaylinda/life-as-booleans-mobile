@@ -13,7 +13,7 @@ interface DayDataProps {
 const DayData = ({ date, tracker}: DayDataProps) => {
     const {getData} = useUserStore();
 
-    const [, setValue] = React.useState<boolean | undefined>();
+    const [, setValue] = React.useState<string | undefined>();
 
     const dayEpoch = `${date.valueOf()}`;
     const dayOfWeekLabel = date.format('dd')[0];
