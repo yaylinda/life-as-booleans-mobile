@@ -3,6 +3,7 @@ import moment from 'moment';
 import { HStack, IconButton, Popover, Text, VStack } from 'native-base';
 import React from 'react';
 import useUserStore from '../stores/userStore';
+import TrackerOption from './TrackerOption';
 import type { Tracker, TrackerValueOption } from '../types';
 
 interface DayDataProps {
@@ -96,27 +97,16 @@ const DayData = ({ date, tracker }: DayDataProps) => {
 
     const renderTrackerOptions = () => (
         <HStack justifyContent="space-evenly" space={2}>
-            {
-                Object.values(tracker.valueOptionsMap).map((option: TrackerValueOption) => (
-                    <VStack
-                        key={`options_${option.value}_${tracker.id}_${dayEpoch}`} justifyContent="center"
-                        alignItems="center"
-                    >
-                        <IconButton
-                            borderRadius="full"
-                            _icon={{
-                                as: FontAwesome5,
-                                name: option.icon,
-                                color: option.color,
-                                textAlign: 'center'
-                            }}
-                            _pressed={{
-                                bg: 'coolGray.50:alpha.10'
-                            }}
-                            onPress={() => onSelectOption(option.value)}
-                        />
-                        <Text fontSize="2xs">{option.label}</Text>
-                    </VStack>
+            {Object.values(tracker.valueOptionsMap)
+                .map((option: TrackerValueOption) => (
+                    <TrackerOption
+                        key={`option_${option.value}_${tracker.id}`}
+                        dayEpoch={dayEpoch}
+                        trackerId={tracker.id}
+                        option={option}
+                        selectedValue={value}
+                        onSelect={onSelectOption}
+                    />
                 ))
             }
         </HStack>
