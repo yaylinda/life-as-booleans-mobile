@@ -96,20 +96,25 @@ const DayData = ({ date, tracker }: DayDataProps) => {
     );
 
     const renderTrackerOptions = () => (
-        <HStack justifyContent="space-evenly" space={2}>
-            {Object.values(tracker.valueOptionsMap)
-                .map((option: TrackerValueOption) => (
-                    <TrackerOption
-                        key={`option_${option.value}_${tracker.id}`}
-                        dayEpoch={dayEpoch}
-                        trackerId={tracker.id}
-                        option={option}
-                        selectedValue={value}
-                        onSelect={onSelectOption}
-                    />
-                ))
-            }
-        </HStack>
+        <VStack space={2}>
+            <HStack justifyContent="space-evenly" space={2}>
+                {Object.values(tracker.valueOptionsMap)
+                    .map((option: TrackerValueOption) => (
+                        <TrackerOption
+                            key={`options_${option.value}_${tracker.id}_${dayEpoch}`}
+                            option={option}
+                            selectedValue={value}
+                            onSelect={onSelectOption}
+                        />
+                    ))
+                }
+            </HStack>
+            {!isToday && (
+                <Text fontSize="2xs" fontStyle='italic'>
+                    Editing tracker data for a previous day
+                </Text>
+            )}
+        </VStack>
     );
 
     return (

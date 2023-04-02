@@ -4,16 +4,12 @@ import React from 'react';
 import type { TrackerValueOption } from '../types';
 
 interface TrackerOptionProps {
-    dayEpoch: string;
-    trackerId: string;
     option: TrackerValueOption;
     selectedValue: string | undefined;
     onSelect: (value: string) => void;
 }
 
 const TrackerOption = ({
-    dayEpoch,
-    trackerId,
     option,
     selectedValue,
     onSelect
@@ -23,7 +19,7 @@ const TrackerOption = ({
 
     return (
         <VStack
-            key={`options_${option.value}_${trackerId}_${dayEpoch}`} justifyContent="center"
+            justifyContent="center"
             alignItems="center"
             bg={isSelected ? 'coolGray.50:alpha.20' : undefined }
             paddingBottom={1}
