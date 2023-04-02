@@ -14,69 +14,96 @@ interface WeekDataContainerProps {
 
 const ADD_BUTTON_ITEM = 'ADD_BUTTON';
 const SETTINGS_BUTTON_ITEM = 'SETTINGS_BUTTON';
+const NEW_TRACKER_ITEM = 'NEW_TRACKER_ITEM';
 
 const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps) => {
     const { trackers } = useUserStore();
 
-    const [showAddTrackerModal, setShowAddTrackerModal] = React.useState<boolean>(false);
+    const [addingNewTracker, setAddingNewTracker] = React.useState<boolean>(false);
     const [showSettingsActionSheet, setShowSettingsActionSheet] = React.useState<boolean>(false);
 
     const dataItems: string[] = React.useMemo(() => {
         if (isCurrentWeek) {
-            return [...Object.keys(trackers), ADD_BUTTON_ITEM, SETTINGS_BUTTON_ITEM];
+            return [
+                ...Object.keys(trackers),
+                addingNewTracker ? NEW_TRACKER_ITEM : ADD_BUTTON_ITEM ,
+                SETTINGS_BUTTON_ITEM
+            ];
         }
         return Object.keys(trackers);
-    }, [trackers, isCurrentWeek]);
+    }, [trackers, isCurrentWeek, addingNewTracker]);
+
+    const addNewTrackerButton = (
+        <IconButton
+            borderRadius="full"
+            bg="white:alpha.20"
+            _pressed={{
+                bg: 'white:alpha.30'
+            }}
+            _icon={{
+                as: FontAwesome,
+                name: 'plus',
+                color: 'white',
+                textAlign: 'center'
+            }}
+            onPress={() => setAddingNewTracker(true)}
+        />
+    );
+
+    const settingsButton = (
+        <Button
+            leftIcon={<Icon as={MaterialIcons} name="settings" />}
+            variant='link'
+            marginY={5}
+            _text={{
+                color: 'white'
+            }}
+            _icon={{
+                color: 'white'
+            }}
+            onPress={() => setShowSettingsActionSheet(true)}
+        >
+            Settings
+        </Button>
+    );
+
+    const renderItem = ({ item }: ({ item: string})) => {
+        switch (item) {
+        case ADD_BUTTON_ITEM:
+            return addNewTrackerButton;
+        case SETTINGS_BUTTON_ITEM:
+            return settingsButton;
+        case NEW_TRACKER_ITEM:
+            return (
+                <WeekData
+                    key={`week_${weekStart.valueOf()}_NEW`}
+                    weekStart={weekStart}
+                    isNew={true}
+                />
+            );
+        default:
+            return (
+                <WeekData
+                    key={`week_${weekStart.valueOf()}_${item}`}
+                    weekStart={weekStart}
+                    trackerId={item}
+                    isNew={false}
+                />
+            );
+        }
+    };
 
     return (
         <>
             <FlatList
                 paddingX={2}
                 data={dataItems}
-                renderItem={({ item }) => (
-                    item === ADD_BUTTON_ITEM ? (
-                        <IconButton
-                            borderRadius="full"
-                            bg="white:alpha.20"
-                            _pressed={{
-                                bg: 'white:alpha.30'
-                            }}
-                            _icon={{
-                                as: FontAwesome,
-                                name: 'plus',
-                                color: 'white',
-                                textAlign: 'center'
-                            }}
-                            onPress={() => setShowAddTrackerModal(true)}
-                        />
-                    ) : item === SETTINGS_BUTTON_ITEM ? (
-                        <Button
-                            leftIcon={<Icon as={MaterialIcons} name="settings" />}
-                            variant='link'
-                            marginY={5}
-                            _text={{
-                                color: 'white'
-                            }}
-                            _icon={{
-                                color: 'white'
-                            }}
-                            onPress={() => setShowSettingsActionSheet(true)}
-                        >
-                            Settings
-                        </Button>
-                    ) : (
-                        <WeekData
-                            key={`week_${weekStart.valueOf()}_${item}`}
-                            weekStart={weekStart}
-                            trackerId={item}
-                        />
-                    )
-                )}
+                renderItem={renderItem}
             />
-            <AddTrackerModal
-                isOpen={showAddTrackerModal}
-                onClose={() => setShowAddTrackerModal(false)}
-            />
+            {/*<AddTrackerModal*/}
+            {/*    isOpen={showAddTrackerModal}*/}
+            {/*    onClose={() => setShowAddTrackerModal(false)}*/}
+            {/*/>*/}
             <SettingsActionSheet
                 isOpen={showSettingsActionSheet}
                 onClose={() => setShowSettingsActionSheet(false)}

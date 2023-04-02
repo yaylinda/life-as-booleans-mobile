@@ -49,7 +49,11 @@ const DayData = ({ date, tracker }: DayDataProps) => {
         }
 
         if (isToday) {
-            return 'plus';
+            if (tracker.isNew) {
+                return 'circle';
+            } else {
+                return 'plus';
+            }
         }
 
         if (isBefore) {
@@ -67,7 +71,11 @@ const DayData = ({ date, tracker }: DayDataProps) => {
         }
 
         if (isToday) {
-            return 'white';
+            if (tracker.isNew) {
+                return 'white:alpha.50';
+            } else {
+                return 'white';
+            }
         }
 
         if (isBefore) {
@@ -78,7 +86,7 @@ const DayData = ({ date, tracker }: DayDataProps) => {
     const dayTrackerButton = (triggerProps: { _props: never, state: { open: boolean } }) => (
         <IconButton
             {...triggerProps}
-            disabled={isAfter}
+            disabled={isAfter || tracker.isNew}
             borderRadius="full"
             bg={hasValue ? 'gray.50' : undefined}
             padding={1}
