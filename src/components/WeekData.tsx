@@ -1,12 +1,15 @@
+import { produce } from 'immer';
+
 import moment from 'moment';
-import { Divider, HStack, Input, Text, VStack } from 'native-base';
+import { Divider, HStack,    VStack } from 'native-base';
 import React from 'react';
+import uuid from 'react-native-uuid';
 import useUserStore, { DEFAULT_TRACKERS } from '../stores/userStore';
 
 import DayData from './DayData';
-import { Tracker } from '../types';
-import uuid from 'react-native-uuid';
-import { produce } from 'immer';
+
+import WeekDataHeader from './WeekDataHeader';
+import type { Tracker } from '../types';
 
 const EMPTY_TRACKER = (): Tracker => ({
     id: uuid.v4() as string,
@@ -73,34 +76,11 @@ const WeekData = ({ isNew, weekStart, trackerId }: WeekDataProps) => {
             // borderColor="white"
             // borderWidth={isNew ? 1 : 0}
         >
-            {isNew ? (
-                <Input
-                    placeholder="New Tracker Name"
-                    value={tracker.displayName}
-                    onChangeText={(value) => updateTrackerField('displayName', value)}
-                    // InputRightElement={submitButton}
-                    px={0}
-                    py={0}
-                    size="xl"
-                    fontWeight="bold"
-                    lineHeight="lg"
-                    variant="unstyled"
-                    color="white"
-                    borderColor="gray.200"
-                    placeholderTextColor="gray.200"
-                    _focus={{
-                        borderColor: 'white'
-                    }}
-                />
-            ) : (
-                <Text
-                    textTransform="capitalize"
-                    fontWeight="bold"
-                    fontSize="lg"
-                >
-                    {tracker.displayName}
-                </Text>
-            )}
+            <WeekDataHeader
+                isNew={isNew}
+                trackerName={tracker.displayName}
+                updateTrackerName={(value) => updateTrackerField('displayName', value)}
+            />
 
             <Divider bg="white:alpha.50" />
 
