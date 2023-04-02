@@ -18,7 +18,7 @@ const Welcome = () => {
                 textAlign: 'center',
             }}
             _pressed={{
-                bg: 'coolGray.50:alpha.10'
+                bg: 'white:alpha.10'
             }}
             onPress={() => createUser(name)}
         />

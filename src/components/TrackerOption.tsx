@@ -21,7 +21,7 @@ const TrackerOption = ({
         <VStack
             justifyContent="center"
             alignItems="center"
-            bg={isSelected ? 'coolGray.50:alpha.20' : undefined }
+            bg={isSelected ? 'white:alpha.20' : undefined }
             paddingBottom={1}
             paddingX={1}
             borderRadius='md'

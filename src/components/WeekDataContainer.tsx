@@ -37,14 +37,14 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
                     item === ADD_BUTTON_ITEM ? (
                         <IconButton
                             borderRadius="full"
-                            bg="coolGray.50:alpha.20"
+                            bg="white:alpha.20"
                             _pressed={{
-                                bg: 'coolGray.50:alpha.30'
+                                bg: 'white:alpha.30'
                             }}
                             _icon={{
                                 as: FontAwesome,
                                 name: 'plus',
-                                color: 'coolGray.50',
+                                color: 'white',
                                 textAlign: 'center'
                             }}
                             onPress={() => setShowAddTrackerModal(true)}
@@ -55,10 +55,10 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
                             variant='link'
                             marginY={5}
                             _text={{
-                                color: 'coolGray.50'
+                                color: 'white'
                             }}
                             _icon={{
-                                color: 'coolGray.50'
+                                color: 'white'
                             }}
                             onPress={() => setShowSettingsActionSheet(true)}
                         >

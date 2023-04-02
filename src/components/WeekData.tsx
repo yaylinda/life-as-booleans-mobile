@@ -31,7 +31,7 @@ const WeekData = ({weekStart, trackerId}: WeekDataProps) => {
             mb={4}
             padding={4}
             space={2}
-            bg="coolGray.50:alpha.20"
+            bg="white:alpha.20"
             borderRadius="3xl"
         >
             <Text
@@ -42,7 +42,7 @@ const WeekData = ({weekStart, trackerId}: WeekDataProps) => {
                 {tracker.displayName}
             </Text>
 
-            <Divider bg="coolGray.50:alpha.50"/>
+            <Divider bg="white:alpha.50"/>
 
             <HStack justifyContent='space-between'>
                 {

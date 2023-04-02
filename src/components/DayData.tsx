@@ -67,11 +67,11 @@ const DayData = ({ date, tracker }: DayDataProps) => {
         }
 
         if (isToday) {
-            return 'coolGray.50';
+            return 'white';
         }
 
         if (isBefore) {
-            return 'coolGray.50:alpha.50';
+            return 'white:alpha.50';
         }
     };
 
@@ -80,7 +80,7 @@ const DayData = ({ date, tracker }: DayDataProps) => {
             {...triggerProps}
             disabled={isAfter}
             borderRadius="full"
-            bg={hasValue ? 'muted.50' : undefined}
+            bg={hasValue ? 'gray.50' : undefined}
             padding={1}
             _icon={{
                 as: FontAwesome5,
@@ -89,7 +89,7 @@ const DayData = ({ date, tracker }: DayDataProps) => {
                 textAlign: 'center'
             }}
             _pressed={{
-                bg: hasValue ? 'muted.50:alpha.70' : 'coolGray.50:alpha.10'
+                bg: hasValue ? 'gray.50:alpha.70' : 'white:alpha.10'
             }}
             onPress={() => setOpenPopover(true)}
         />
