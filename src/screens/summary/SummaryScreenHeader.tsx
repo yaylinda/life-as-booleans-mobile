@@ -1,11 +1,15 @@
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { Heading, HStack, IconButton } from 'native-base';
 import React from 'react';
+import type { RootStackScreenProps } from '../../navigators';
 
 const SummaryScreenHeader = () => {
 
+    const navigation = useNavigation<RootStackScreenProps<'Summary'>['navigation']>();
+
     return (
-        <HStack w="100%" justifyContent="space-between" alignItems="center">
+        <HStack justifyContent="space-between" alignItems="center">
             <IconButton
                 borderRadius="full"
                 _icon={{
@@ -17,10 +21,15 @@ const SummaryScreenHeader = () => {
                 _pressed={{
                     bg: 'white:alpha.10'
                 }}
-                // onPress={prevWeek}
-                // disabled={isFirstWeek}
+                onPress={() => navigation.navigate('Landing')}
             />
             <Heading>Summary</Heading>
+            <IconButton
+                borderRadius="full"
+                _pressed={{
+                    bg: undefined
+                }}
+            />
         </HStack>
     );
 };

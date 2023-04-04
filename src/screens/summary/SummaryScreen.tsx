@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import moment from 'moment';
-import { Center, ScrollView, VStack } from 'native-base';
+import {  ScrollView, VStack } from 'native-base';
 import React from 'react';
 import { SafeAreaView } from 'react-native';
 import useUserStore from '../../stores/userStore';
@@ -17,7 +17,7 @@ const SummaryScreen = () => {
     const { gradientColors } = useUserStore();
 
     return (
-        <Center
+        <VStack
             bg={{
                 linearGradient: {
                     colors: gradientColors,
@@ -25,17 +25,17 @@ const SummaryScreen = () => {
                     end: [0, 1]
                 }
             }}
-            style={{ flex: 1 }}
+            flex={1}
         >
             <SafeAreaView>
-                <VStack paddingX={5} space={5}>
+                <VStack space={2}>
                     <SummaryScreenHeader />
                     <ScrollView>
                         <YearTrackerDataGrid tracker={tracker} year={moment().year()}/>
                     </ScrollView>
                 </VStack>
             </SafeAreaView>
-        </Center>
+        </VStack>
     );
 };
 export default SummaryScreen;

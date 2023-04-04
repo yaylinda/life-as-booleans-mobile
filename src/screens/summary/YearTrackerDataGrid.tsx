@@ -23,7 +23,10 @@ const DayTrackerDataCell = ({ dayOfMonth, monthNum, year }: DayTrackerDataCellPr
     const dateEpoch = moment([year, monthNum, dayOfMonth]).valueOf();
 
     return (
-        <Box style={{ 'backgroundColor': 'gray.700'}} />
+        <Box style={{ 'backgroundColor': 'gray.700' }}>
+            {dayOfMonth}
+            {monthNum}
+        </Box>
     );
 };
 
@@ -36,18 +39,18 @@ const YearTrackerDataGrid = ({ tracker, year }: YearTrackerDataGridProps) => {
 
     return (
         <VStack>
-            {
-                (new Array(MAX_DAYS_IN_MONTH).fill(0))
-                    .map((_, d) => (
-                        <HStack key={`${tracker.id}_${d}`}>
-                            {
-                                (new Array(NUM_MONTHS).fill(0)).map((m) => (
-                                    <DayTrackerDataCell key={`${tracker.id}_${d}_${m}`} dayOfMonth={d + 1} monthNum={m} year={year}/>
-                                ))
-                            }
-                        </HStack>
-                    ))
-            }
+            {(new Array(MAX_DAYS_IN_MONTH).fill(0)).map((_, d) => (
+                <HStack key={`${tracker.id}_${d}`}>
+                    {(new Array(NUM_MONTHS).fill(0)).map((_, m) => (
+                        <DayTrackerDataCell
+                            key={`${tracker.id}_${d}_${m}`}
+                            dayOfMonth={d + 1}
+                            monthNum={m}
+                            year={year}
+                        />
+                    ))}
+                </HStack>
+            ))}
         </VStack>
     );
 };

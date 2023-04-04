@@ -41,7 +41,7 @@ const LandingScreen = () => {
     };
 
     return (
-        <Center
+        <VStack
             bg={{
                 linearGradient: {
                     colors: gradientColors,
@@ -49,11 +49,11 @@ const LandingScreen = () => {
                     end: [0, 1]
                 }
             }}
-            style={{ flex: 1 }}
+            flex={1}
         >
             {loading ? <Spinner size="lg" color="white" /> : user ? (
                 <SafeAreaView>
-                    <VStack paddingX={5} space={5}>
+                    <VStack space={2}>
                         <LandingScreenHeader
                             startDate={weekStartDate}
                             isFirstWeek={isFirstWeek}
@@ -81,7 +81,7 @@ const LandingScreen = () => {
                     </Slide>
                 </SafeAreaView>
             ) : <Welcome />}
-        </Center>
+        </VStack>
     );
 };
 
