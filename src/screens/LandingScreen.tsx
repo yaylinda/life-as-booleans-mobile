@@ -3,7 +3,7 @@ import { Button, Center, Slide, Spinner, useSafeArea, VStack } from 'native-base
 import React from 'react';
 import { SafeAreaView } from 'react-native';
 
-import Header from '../components/Header';
+import LandingScreenHeader from '../components/LandingScreenHeader';
 import WeekDataContainer from '../components/WeekDataContainer';
 import Welcome from '../components/Welcome';
 import useUserStore from '../stores/userStore';
@@ -54,7 +54,7 @@ const LandingScreen = () => {
             {loading ? <Spinner size="lg" color="white" /> : user ? (
                 <SafeAreaView>
                     <VStack paddingX={5} space={5}>
-                        <Header
+                        <LandingScreenHeader
                             startDate={weekStartDate}
                             isFirstWeek={isFirstWeek}
                             isCurrentWeek={isCurrentWeek}

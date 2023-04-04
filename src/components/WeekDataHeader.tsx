@@ -1,24 +1,26 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import invariant from 'invariant';
 import { HStack, IconButton, Input, Text } from 'native-base';
 import React from 'react';
 import useUserStore from '../stores/userStore';
 import type { RootStackScreenProps } from '../navigators';
+import type { Tracker } from '../types';
 
 interface WeekDataHeaderProps {
     isNew: boolean;
-    /**
-     * The current name of the existing tracker, or an empty string if adding
-     * a new Tracker
-     */
-    trackerName: string;
+    tracker: Tracker | null;
 }
 
-const WeekDataHeader = ({ isNew, trackerName }: WeekDataHeaderProps) => {
+const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
+
+    invariant(isNew || tracker !== null, 'A Tracker object must be given, unless creating a new Tracker');
 
     const navigation = useNavigation<RootStackScreenProps<'Landing'>['navigation']>();
 
     const { setIsAddingTracker, addTracker } = useUserStore();
+
+    const trackerName = tracker?.displayName || '';
 
     const [newTrackerName, setNewTrackerName] = React.useState<string>(trackerName);
 
@@ -100,7 +102,7 @@ const WeekDataHeader = ({ isNew, trackerName }: WeekDataHeaderProps) => {
                     color: 'white',
                     textAlign: 'center'
                 }}
-                onPress={() => navigation.navigate('Summary')}
+                onPress={() => navigation.navigate('Summary', { tracker: tracker! })}
             />
         </HStack>
     );

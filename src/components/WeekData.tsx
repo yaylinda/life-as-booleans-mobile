@@ -58,7 +58,7 @@ const WeekData = ({ isNew, weekStart, trackerId }: WeekDataProps) => {
         >
             <WeekDataHeader
                 isNew={isNew}
-                trackerName={tracker?.displayName || ''}
+                tracker={tracker}
             />
 
             <Divider bg="white:alpha.50" />

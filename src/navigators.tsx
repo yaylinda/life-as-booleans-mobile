@@ -2,11 +2,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import LandingScreen from './screens/LandingScreen';
 import SummaryScreen from './screens/SummaryScreen';
+import type { Tracker } from './types';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type RootStackParamList = {
     Landing: undefined,
-    Summary: undefined,
+    Summary: { tracker: Tracker },
 }
 
 export type RootStackScreenProps<T extends keyof RootStackParamList>

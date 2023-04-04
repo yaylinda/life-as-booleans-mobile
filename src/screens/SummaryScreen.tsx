@@ -1,8 +1,18 @@
-import { Center } from 'native-base';
+import { useRoute } from '@react-navigation/native';
+import moment from 'moment';
+import { Center, ScrollView, VStack } from 'native-base';
 import React from 'react';
+import { SafeAreaView } from 'react-native';
+import SummaryScreenHeader from '../components/SummaryScreenHeader';
+import YearTrackerDataGrid from '../components/YearTrackerDataGrid';
 import useUserStore from '../stores/userStore';
+import type { RootStackScreenProps } from '../navigators';
 
 const SummaryScreen = () => {
+
+    const route = useRoute<RootStackScreenProps<'Summary'>['route']>();
+
+    const { tracker } = route.params;
 
     const { gradientColors } = useUserStore();
 
@@ -16,7 +26,16 @@ const SummaryScreen = () => {
                 }
             }}
             style={{ flex: 1 }}
-        />
+        >
+            <SafeAreaView>
+                <VStack paddingX={5} space={5}>
+                    <SummaryScreenHeader />
+                    <ScrollView>
+                        <YearTrackerDataGrid tracker={tracker} year={moment().year()}/>
+                    </ScrollView>
+                </VStack>
+            </SafeAreaView>
+        </Center>
     );
 };
 export default SummaryScreen;
