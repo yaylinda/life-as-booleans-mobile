@@ -1,4 +1,5 @@
 import { FontAwesome5 } from '@expo/vector-icons';
+import invariant from 'invariant';
 import moment from 'moment';
 import { HStack, IconButton, Popover, Text, VStack } from 'native-base';
 import React from 'react';
@@ -9,10 +10,14 @@ import type { Tracker, TrackerValueOption } from '../types';
 interface DayDataProps {
     isDefaultTracker: boolean,
     date: moment.Moment,
-    tracker: Tracker,
+    tracker: Tracker | null,
+    isNew: boolean;
 }
 
-const DayData = ({ date, tracker }: DayDataProps) => {
+const DayData = ({ date, tracker, isNew }: DayDataProps) => {
+
+    invariant(isNew || tracker !== null, 'A Tracker object must be given, unless creating a new Tracker');
+
     const dayEpoch = `${date.valueOf()}`;
 
     const { getData, setData } = useUserStore();
@@ -23,12 +28,14 @@ const DayData = ({ date, tracker }: DayDataProps) => {
 
     React.useEffect(() => {
         const get = async () => {
-            const data = await getData(dayEpoch, tracker.id);
+            const data = await getData(dayEpoch, tracker!.id);
             setValue(data);
         };
 
-        get();
-    }, [dayEpoch, getData, tracker.id]);
+        if (tracker?.id) {
+            get();
+        }
+    }, [dayEpoch, getData, tracker]);
 
     const hasValue = value !== undefined;
     const dayOfWeekLabel = date.format('dd')[0];
@@ -38,18 +45,18 @@ const DayData = ({ date, tracker }: DayDataProps) => {
     const isAfter = date.isAfter(moment(), 'day');
 
     const onSelectOption = (value: string) => {
-        setData(dayEpoch, tracker.id, value);
+        setData(dayEpoch, tracker!.id, value);
         setValue(value);
         setOpenPopover(false);
     };
 
     const getIcon = () => {
         if (hasValue) {
-            return tracker.valueOptionsMap[value].icon;
+            return tracker!.valueOptionsMap[value].icon;
         }
 
         if (isToday) {
-            if (tracker.isNew) {
+            if (isNew) {
                 return 'circle';
             } else {
                 return 'plus';
@@ -67,11 +74,11 @@ const DayData = ({ date, tracker }: DayDataProps) => {
 
     const getIconColor = () => {
         if (hasValue) {
-            return tracker.valueOptionsMap[value].color;
+            return tracker!.valueOptionsMap[value].color;
         }
 
         if (isToday) {
-            if (tracker.isNew) {
+            if (isNew) {
                 return 'white:alpha.50';
             } else {
                 return 'white';
@@ -86,7 +93,7 @@ const DayData = ({ date, tracker }: DayDataProps) => {
     const dayTrackerButton = (triggerProps: { _props: never, state: { open: boolean } }) => (
         <IconButton
             {...triggerProps}
-            disabled={isAfter || tracker.isNew}
+            disabled={isAfter || isNew}
             borderRadius="full"
             bg={hasValue ? 'gray.50' : undefined}
             padding={1}
@@ -106,10 +113,10 @@ const DayData = ({ date, tracker }: DayDataProps) => {
     const renderTrackerOptions = () => (
         <VStack space={2}>
             <HStack justifyContent="space-evenly" space={2}>
-                {Object.values(tracker.valueOptionsMap)
+                {Object.values(tracker?.valueOptionsMap || [])
                     .map((option: TrackerValueOption) => (
                         <TrackerOption
-                            key={`options_${option.value}_${tracker.id}_${dayEpoch}`}
+                            key={`options_${option.value}_${tracker!.id}_${dayEpoch}`}
                             option={option}
                             selectedValue={value}
                             onSelect={onSelectOption}

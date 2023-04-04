@@ -1,36 +1,12 @@
-import { produce } from 'immer';
-
 import moment from 'moment';
-import { Divider, HStack,    VStack } from 'native-base';
+import { Divider, HStack, VStack } from 'native-base';
 import React from 'react';
-import uuid from 'react-native-uuid';
 import useUserStore, { DEFAULT_TRACKERS } from '../stores/userStore';
 
 import DayData from './DayData';
 
 import WeekDataHeader from './WeekDataHeader';
 import type { Tracker } from '../types';
-
-const EMPTY_TRACKER = (): Tracker => ({
-    id: uuid.v4() as string,
-    displayName: '',
-    emoji: '',
-    valueOptionsMap: {
-        yes: {
-            value: 'yes',
-            label: 'Yes',
-            icon: 'check',
-            color: 'green.500'
-        },
-        no: {
-            value: 'no',
-            label: 'No',
-            icon: 'times',
-            color: 'red.500'
-        }
-    },
-    isNew: true
-});
 
 interface WeekDataProps {
     isNew: boolean;
@@ -39,9 +15,13 @@ interface WeekDataProps {
 }
 
 const WeekData = ({ isNew, weekStart, trackerId }: WeekDataProps) => {
-    const [tracker, setTracker] = React.useState<Tracker>((!isNew && trackerId)
+    // const [tracker, setTracker] = React.useState<Tracker>((!isNew && trackerId)
+    //     ? useUserStore((state) => state.trackers[trackerId])
+    //     : EMPTY_TRACKER());
+
+    const tracker: Tracker | null = (!isNew && trackerId)
         ? useUserStore((state) => state.trackers[trackerId])
-        : EMPTY_TRACKER());
+        : null;
 
     const isDefaultTracker = (!isNew && trackerId) ? !!DEFAULT_TRACKERS[trackerId] : false;
 
@@ -58,13 +38,13 @@ const WeekData = ({ isNew, weekStart, trackerId }: WeekDataProps) => {
         return dates;
     }, [weekStart]);
 
-    const updateTrackerField = (fieldName: string, value: string) => {
-        setTracker((tracker) => produce(tracker, (draft) => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            draft[fieldName] = value;
-        }));
-    };
+    // const updateTrackerField = (fieldName: string, value: string) => {
+    //     setTracker((tracker) => produce(tracker, (draft) => {
+    //         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //         // @ts-ignore
+    //         draft[fieldName] = value;
+    //     }));
+    // };
 
     return (
         <VStack
@@ -78,8 +58,7 @@ const WeekData = ({ isNew, weekStart, trackerId }: WeekDataProps) => {
         >
             <WeekDataHeader
                 isNew={isNew}
-                trackerName={tracker.displayName}
-                updateTrackerName={(value) => updateTrackerField('displayName', value)}
+                trackerName={tracker?.displayName || ''}
             />
 
             <Divider bg="white:alpha.50" />
@@ -91,6 +70,7 @@ const WeekData = ({ isNew, weekStart, trackerId }: WeekDataProps) => {
                         isDefaultTracker={isDefaultTracker}
                         date={date}
                         tracker={tracker}
+                        isNew={isNew}
                     />
                 ))}
             </HStack>

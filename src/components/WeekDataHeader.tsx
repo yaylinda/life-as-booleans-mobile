@@ -1,14 +1,23 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { HStack, IconButton, Input, Text } from 'native-base';
 import React from 'react';
+import useUserStore from '../stores/userStore';
+
 
 interface WeekDataHeaderProps {
     isNew: boolean;
+    /**
+     * The current name of the existing tracker, or an empty string if adding
+     * a new Tracker
+     */
     trackerName: string;
-    updateTrackerName: (value: string) => void;
 }
 
-const WeekDataHeader = ({isNew, trackerName, updateTrackerName}: WeekDataHeaderProps) => {
+const WeekDataHeader = ({isNew, trackerName}: WeekDataHeaderProps) => {
+
+    const {setIsAddingTracker, addTracker} = useUserStore();
+
+    const [newTrackerName, setNewTrackerName] = React.useState<string>(trackerName);
 
     const newTrackerActions = (
         <HStack space={2}>
@@ -24,7 +33,7 @@ const WeekDataHeader = ({isNew, trackerName, updateTrackerName}: WeekDataHeaderP
                     color: 'white',
                     textAlign: 'center'
                 }}
-                // onPress={() => setAddingNewTracker(true)}
+                onPress={() => setIsAddingTracker(false)}
             />
             <IconButton
                 borderRadius="full"
@@ -38,7 +47,8 @@ const WeekDataHeader = ({isNew, trackerName, updateTrackerName}: WeekDataHeaderP
                     color: 'white',
                     textAlign: 'center'
                 }}
-                // onPress={() => setAddingNewTracker(true)}
+                onPress={() => addTracker(newTrackerName)}
+                disabled={!newTrackerName}
             />
         </HStack>
     );
@@ -47,8 +57,8 @@ const WeekDataHeader = ({isNew, trackerName, updateTrackerName}: WeekDataHeaderP
         return (
             <Input
                 placeholder="New Tracker Name"
-                value={trackerName}
-                onChangeText={updateTrackerName}
+                value={newTrackerName}
+                onChangeText={setNewTrackerName}
                 InputRightElement={newTrackerActions}
                 px={0}
                 py={0}

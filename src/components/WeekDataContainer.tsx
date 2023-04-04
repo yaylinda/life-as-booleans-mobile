@@ -17,21 +17,20 @@ const SETTINGS_BUTTON_ITEM = 'SETTINGS_BUTTON';
 const NEW_TRACKER_ITEM = 'NEW_TRACKER_ITEM';
 
 const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps) => {
-    const { trackers } = useUserStore();
+    const { trackers, isAddingTracker, setIsAddingTracker } = useUserStore();
 
-    const [addingNewTracker, setAddingNewTracker] = React.useState<boolean>(false);
     const [showSettingsActionSheet, setShowSettingsActionSheet] = React.useState<boolean>(false);
 
     const dataItems: string[] = React.useMemo(() => {
         if (isCurrentWeek) {
             return [
                 ...Object.keys(trackers),
-                addingNewTracker ? NEW_TRACKER_ITEM : ADD_BUTTON_ITEM ,
+                isAddingTracker ? NEW_TRACKER_ITEM : ADD_BUTTON_ITEM ,
                 SETTINGS_BUTTON_ITEM
             ];
         }
         return Object.keys(trackers);
-    }, [trackers, isCurrentWeek, addingNewTracker]);
+    }, [trackers, isCurrentWeek, isAddingTracker]);
 
     const addNewTrackerButton = (
         <IconButton
@@ -46,7 +45,7 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
                 color: 'white',
                 textAlign: 'center'
             }}
-            onPress={() => setAddingNewTracker(true)}
+            onPress={() => setIsAddingTracker(true)}
         />
     );
 

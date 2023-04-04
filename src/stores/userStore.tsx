@@ -21,6 +21,7 @@ import moment from 'moment';
 import { create } from 'zustand';
 import { getRandomGradient } from '../gradients';
 import { clearAll, getItem, LocalStorageKey, multiGet, multiSet, setItem } from '../localStorage';
+import { EMPTY_TRACKER } from '../utilities';
 import type { Tracker, User } from '../types';
 
 interface UserStoreStateData {
@@ -30,15 +31,17 @@ interface UserStoreStateData {
     user: User | null;
     trackers: { [key in string]: Tracker };
     data: { [key in string]: string };
+    isAddingTracker: boolean;
 }
 
 interface UserStoreStateFunctions {
     init: () => void;
     createUser: (username: string) => void;
-    addTracker: (tracker: Tracker) => void;
+    addTracker: (trackerName: string) => void;
     getData: (dayEpoch: string, trackerId: string) => Promise<string | undefined>;
     setData: (dayEpoch: string, trackerId: string, value: string) => void;
     clearData: () => void;
+    setIsAddingTracker: (value: boolean) => void;
     _setDefaultTrackers: () => void;
     _loadFonts: () => void;
 }
@@ -93,7 +96,8 @@ const DEFAULT_DATA: UserStoreStateData = {
     gradientColors: getRandomGradient('dark'),
     user: null,
     trackers: {},
-    data: {}
+    data: {},
+    isAddingTracker: false,
 };
 
 const useUserStore = create<UserStoreState>()((set, get) => ({
@@ -130,18 +134,21 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         set({ user });
     },
 
-    addTracker: async (tracker: Tracker) => {
+    addTracker: async (trackerName: string) => {
+        const newTracker = EMPTY_TRACKER(trackerName);
+
         await setItem<string[]>(LocalStorageKey.TRACKER_IDS, [
             ...Object.keys(get().trackers),
-            tracker.id
+            newTracker.id
         ]);
-        await setItem<Tracker>(tracker.id, tracker);
+        await setItem<Tracker>(newTracker.id, newTracker);
 
         set({
             trackers: {
                 ...get().trackers,
-                [tracker.id]: tracker
-            }
+                [newTracker.id]: newTracker
+            },
+            isAddingTracker: false,
         });
     },
 
@@ -188,6 +195,10 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
             data: {}
         });
         get()._setDefaultTrackers();
+    },
+
+    setIsAddingTracker: (value: boolean) => {
+        set({ isAddingTracker: value });
     },
 
     _setDefaultTrackers: async () => {
