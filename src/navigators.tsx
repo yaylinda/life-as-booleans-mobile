@@ -9,8 +9,11 @@ export type RootStackParamList = {
     Summary: undefined,
 }
 
-export type LandingNavigationProps = NativeStackScreenProps<RootStackParamList, 'Landing'>;
-export type SummaryNavigationProps = NativeStackScreenProps<RootStackParamList, 'Summary'>;
+export type RootStackScreenProps<T extends keyof RootStackParamList>
+    = NativeStackScreenProps<RootStackParamList, T>;
+
+// export type LandingNavigationProps = NativeStackScreenProps<RootStackParamList, 'Landing'>;
+// export type SummaryNavigationProps = NativeStackScreenProps<RootStackParamList, 'Summary'>;
 
 const AppStack = createNativeStackNavigator<RootStackParamList>();
 

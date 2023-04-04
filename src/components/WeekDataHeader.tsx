@@ -3,8 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { HStack, IconButton, Input, Text } from 'native-base';
 import React from 'react';
 import useUserStore from '../stores/userStore';
-import type { LandingNavigationProps } from '../navigators';
-
+import type { RootStackScreenProps } from '../navigators';
 
 interface WeekDataHeaderProps {
     isNew: boolean;
@@ -17,7 +16,7 @@ interface WeekDataHeaderProps {
 
 const WeekDataHeader = ({ isNew, trackerName }: WeekDataHeaderProps) => {
 
-    const { navigation } = useNavigation<LandingNavigationProps>();
+    const navigation = useNavigation<RootStackScreenProps<'Landing'>['navigation']>();
 
     const { setIsAddingTracker, addTracker } = useUserStore();
 
