@@ -1,7 +1,9 @@
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { HStack, IconButton, Input, Text } from 'native-base';
 import React from 'react';
 import useUserStore from '../stores/userStore';
+import type { LandingNavigationProps } from '../navigators';
 
 
 interface WeekDataHeaderProps {
@@ -13,9 +15,11 @@ interface WeekDataHeaderProps {
     trackerName: string;
 }
 
-const WeekDataHeader = ({isNew, trackerName}: WeekDataHeaderProps) => {
+const WeekDataHeader = ({ isNew, trackerName }: WeekDataHeaderProps) => {
 
-    const {setIsAddingTracker, addTracker} = useUserStore();
+    const { navigation } = useNavigation<LandingNavigationProps>();
+
+    const { setIsAddingTracker, addTracker } = useUserStore();
 
     const [newTrackerName, setNewTrackerName] = React.useState<string>(trackerName);
 
@@ -77,7 +81,7 @@ const WeekDataHeader = ({isNew, trackerName}: WeekDataHeaderProps) => {
     }
 
     return (
-        <HStack justifyContent='space-between'>
+        <HStack justifyContent="space-between">
             <Text
                 textTransform="capitalize"
                 fontWeight="bold"
@@ -93,11 +97,11 @@ const WeekDataHeader = ({isNew, trackerName}: WeekDataHeaderProps) => {
                 }}
                 _icon={{
                     as: FontAwesome,
-                    name: 'edit',
+                    name: 'info-circle',
                     color: 'white',
                     textAlign: 'center'
                 }}
-                // onPress={() => setAddingNewTracker(true)}
+                onPress={() => navigation.navigate('Summary')}
             />
         </HStack>
     );

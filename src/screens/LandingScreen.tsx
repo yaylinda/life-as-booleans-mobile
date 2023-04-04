@@ -61,7 +61,10 @@ const LandingScreen = () => {
                             prevWeek={prevWeek}
                             nextWeek={nextWeek}
                         />
-                        <WeekDataContainer weekStart={weekStartDate} isCurrentWeek={isCurrentWeek} />
+                        <WeekDataContainer
+                            weekStart={weekStartDate}
+                            isCurrentWeek={isCurrentWeek}
+                        />
                     </VStack>
                     <Slide in={!isCurrentWeek} placement="bottom">
                         <Center w="100%" position="absolute" bottom={0} {...safeAreaProps}>
