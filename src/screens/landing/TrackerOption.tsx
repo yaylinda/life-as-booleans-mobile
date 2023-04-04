@@ -1,7 +1,7 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import { IconButton, Text, VStack } from 'native-base';
 import React from 'react';
-import type { TrackerValueOption } from '../types';
+import type { TrackerValueOption } from '../../types';
 
 interface TrackerOptionProps {
     option: TrackerValueOption;

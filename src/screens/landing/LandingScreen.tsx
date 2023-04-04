@@ -3,11 +3,11 @@ import { Button, Center, Slide, Spinner, useSafeArea, VStack } from 'native-base
 import React from 'react';
 import { SafeAreaView } from 'react-native';
 
-import LandingScreenHeader from '../components/LandingScreenHeader';
-import WeekDataContainer from '../components/WeekDataContainer';
-import Welcome from '../components/Welcome';
-import useUserStore from '../stores/userStore';
-import { getWeekStart } from '../utilities';
+import Welcome from '../../components/Welcome';
+import useUserStore from '../../stores/userStore';
+import { getWeekStart } from '../../utilities';
+import LandingScreenHeader from './LandingScreenHeader';
+import WeekDataContainer from './WeekDataContainer';
 
 const LandingScreen = () => {
     const safeAreaProps = useSafeArea({

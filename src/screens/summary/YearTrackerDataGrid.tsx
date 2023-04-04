@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { Box, HStack, VStack } from 'native-base';
 import React from 'react';
-import type { Tracker } from '../types';
+import type { Tracker } from '../../types';
 
 const MAX_DAYS_IN_MONTH = 31;
 

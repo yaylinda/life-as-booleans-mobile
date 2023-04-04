@@ -1,9 +1,9 @@
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Button, FlatList, Icon, IconButton } from 'native-base';
 import React from 'react';
-import useUserStore from '../stores/userStore';
+import SettingsActionSheet from '../../components/SettingsActionSheet';
+import useUserStore from '../../stores/userStore';
 
-import SettingsActionSheet from './SettingsActionSheet';
 import WeekData from './WeekData';
 import type moment from 'moment';
 

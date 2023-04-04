@@ -3,9 +3,9 @@ import invariant from 'invariant';
 import moment from 'moment';
 import { HStack, IconButton, Popover, Text, VStack } from 'native-base';
 import React from 'react';
-import useUserStore from '../stores/userStore';
+import useUserStore from '../../stores/userStore';
 import TrackerOption from './TrackerOption';
-import type { Tracker, TrackerValueOption } from '../types';
+import type { Tracker, TrackerValueOption } from '../../types';
 
 interface DayDataProps {
     isDefaultTracker: boolean,

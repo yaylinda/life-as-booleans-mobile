@@ -3,9 +3,9 @@ import { useNavigation } from '@react-navigation/native';
 import invariant from 'invariant';
 import { HStack, IconButton, Input, Text } from 'native-base';
 import React from 'react';
-import useUserStore from '../stores/userStore';
-import type { RootStackScreenProps } from '../navigators';
-import type { Tracker } from '../types';
+import useUserStore from '../../stores/userStore';
+import type { RootStackScreenProps } from '../../navigators';
+import type { Tracker } from '../../types';
 
 interface WeekDataHeaderProps {
     isNew: boolean;

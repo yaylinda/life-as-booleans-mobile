@@ -3,10 +3,10 @@ import moment from 'moment';
 import { Center, ScrollView, VStack } from 'native-base';
 import React from 'react';
 import { SafeAreaView } from 'react-native';
-import SummaryScreenHeader from '../components/SummaryScreenHeader';
-import YearTrackerDataGrid from '../components/YearTrackerDataGrid';
-import useUserStore from '../stores/userStore';
-import type { RootStackScreenProps } from '../navigators';
+import useUserStore from '../../stores/userStore';
+import SummaryScreenHeader from './SummaryScreenHeader';
+import YearTrackerDataGrid from './YearTrackerDataGrid';
+import type { RootStackScreenProps } from '../../navigators';
 
 const SummaryScreen = () => {
 

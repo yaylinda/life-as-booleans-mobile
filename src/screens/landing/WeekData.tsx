@@ -1,12 +1,12 @@
 import moment from 'moment';
 import { Divider, HStack, VStack } from 'native-base';
 import React from 'react';
-import useUserStore, { DEFAULT_TRACKERS } from '../stores/userStore';
+import useUserStore, { DEFAULT_TRACKERS } from '../../stores/userStore';
 
 import DayData from './DayData';
 
 import WeekDataHeader from './WeekDataHeader';
-import type { Tracker } from '../types';
+import type { Tracker } from '../../types';
 
 interface WeekDataProps {
     isNew: boolean;
