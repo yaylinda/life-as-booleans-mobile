@@ -1,9 +1,7 @@
 import moment from 'moment';
-import { Button, Center, Slide, Spinner, useSafeArea, VStack } from 'native-base';
+import { Button, Center, Slide, useSafeArea, VStack } from 'native-base';
 import React from 'react';
-import { SafeAreaView } from 'react-native';
-
-import Welcome from '../../components/Welcome';
+import ScreenWrapper from '../../components/ScreenWrapper';
 import useUserStore from '../../stores/userStore';
 import { getWeekStart } from '../../utilities';
 import LandingScreenHeader from './LandingScreenHeader';
@@ -15,12 +13,11 @@ const LandingScreen = () => {
         safeAreaBottom: true
     });
 
-    const { loadingData, loadingFonts, gradientColors, user } = useUserStore();
+    const { user } = useUserStore();
     const [weekStartDate, setWeekStartDate] = React.useState<moment.Moment>(getWeekStart());
 
     const isFirstWeek = user ? weekStartDate.isSameOrBefore(moment(user.createdDateEpoch), 'week') : true;
     const isCurrentWeek = weekStartDate.isSame(moment(), 'week');
-    const loading = loadingData || loadingFonts;
 
     const prevWeek = () => {
         setWeekStartDate((date) =>
@@ -41,47 +38,34 @@ const LandingScreen = () => {
     };
 
     return (
-        <VStack
-            bg={{
-                linearGradient: {
-                    colors: gradientColors,
-                    start: [0, 0],
-                    end: [0, 1]
-                }
-            }}
-            flex={1}
-        >
-            {loading ? <Spinner size="lg" color="white" /> : user ? (
-                <SafeAreaView>
-                    <VStack space={2} paddingX={2}>
-                        <LandingScreenHeader
-                            startDate={weekStartDate}
-                            isFirstWeek={isFirstWeek}
-                            isCurrentWeek={isCurrentWeek}
-                            prevWeek={prevWeek}
-                            nextWeek={nextWeek}
-                        />
-                        <WeekDataContainer
-                            weekStart={weekStartDate}
-                            isCurrentWeek={isCurrentWeek}
-                        />
-                    </VStack>
-                    <Slide in={!isCurrentWeek} placement="bottom">
-                        <Center w="100%" position="absolute" bottom={0} {...safeAreaProps}>
-                            <Button
-                                bg="black:alpha.50"
-                                _pressed={{
-                                    bg: 'black:alpha.40'
-                                }}
-                                onPress={() => setWeekStartDate(getWeekStart)}
-                            >
-                                Today
-                            </Button>
-                        </Center>
-                    </Slide>
-                </SafeAreaView>
-            ) : <Welcome />}
-        </VStack>
+        <ScreenWrapper>
+            <VStack space={2} paddingX={2}>
+                <LandingScreenHeader
+                    startDate={weekStartDate}
+                    isFirstWeek={isFirstWeek}
+                    isCurrentWeek={isCurrentWeek}
+                    prevWeek={prevWeek}
+                    nextWeek={nextWeek}
+                />
+                <WeekDataContainer
+                    weekStart={weekStartDate}
+                    isCurrentWeek={isCurrentWeek}
+                />
+            </VStack>
+            <Slide in={!isCurrentWeek} placement="bottom">
+                <Center w="100%" position="absolute" bottom={0} {...safeAreaProps}>
+                    <Button
+                        bg="black:alpha.50"
+                        _pressed={{
+                            bg: 'black:alpha.40'
+                        }}
+                        onPress={() => setWeekStartDate(getWeekStart)}
+                    >
+                        Today
+                    </Button>
+                </Center>
+            </Slide>
+        </ScreenWrapper>
     );
 };
 

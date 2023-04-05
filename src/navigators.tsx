@@ -1,34 +1,108 @@
+import { FontAwesome5 } from '@expo/vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Icon } from 'native-base';
 import React from 'react';
 import LandingScreen from './screens/landing/LandingScreen';
+import LoginScreen from './screens/login/LoginScreen';
+import SettingsScreen from './screens/settings/SettingsScreen';
 import SummaryScreen from './screens/summary/SummaryScreen';
-import type { Tracker } from './types';
+import useUserStore from './stores/userStore';
+import type { BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import type { NavigatorScreenParams } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-export type RootStackParamList = {
+export type TabStackParamList = {
     Landing: undefined,
-    Summary: { tracker: Tracker },
+    Summary: undefined,
+    Settings: undefined,
 }
 
-export type RootStackScreenProps<T extends keyof RootStackParamList>
-    = NativeStackScreenProps<RootStackParamList, T>;
+export type AppStackParamList = {
+    Tab: NavigatorScreenParams<TabStackParamList>,
+    Login: undefined,
+}
 
-// export type LandingNavigationProps = NativeStackScreenProps<RootStackParamList, 'Landing'>;
-// export type SummaryNavigationProps = NativeStackScreenProps<RootStackParamList, 'Summary'>;
+export type TabStackScreenProps<T extends keyof TabStackParamList>
+    = BottomTabScreenProps<TabStackParamList, T>;
 
-const AppStack = createNativeStackNavigator<RootStackParamList>();
+export type AppStackScreenProps<T extends keyof AppStackParamList>
+    = NativeStackScreenProps<AppStackParamList, T>
 
-export const AppStackNavigator = () => (
-    <AppStack.Navigator>
-        <AppStack.Screen
-            name="Landing"
-            options={{ headerShown: false}}
-            component={LandingScreen}
-        />
-        <AppStack.Screen
-            name="Summary"
-            options={{ headerShown: false}}
-            component={SummaryScreen}
-        />
-    </AppStack.Navigator>
-);
+const TabStack = createBottomTabNavigator<TabStackParamList>();
+const AppStack = createNativeStackNavigator();
+
+const TabStackNavigator = () => {
+    return (
+        <TabStack.Navigator
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({  color, size }) => {
+                    let iconName;
+
+                    switch (route.name) {
+                    case 'Landing':
+                        iconName = 'server';
+                        break;
+                    case 'Summary':
+                        iconName = 'table';
+                        break;
+                    case 'Settings':
+                        iconName = 'cog';
+                        break;
+                    }
+
+                    return (
+                        <Icon
+                            as={FontAwesome5}
+                            name={iconName}
+                            size={size}
+                            color={color}
+                        />
+                    );
+                },
+                tabBarActiveTintColor: 'tomato',
+                tabBarInactiveTintColor: 'gray'
+            })}
+        >
+            <TabStack.Screen
+                name="Landing"
+                options={{ headerShown: false }}
+                component={LandingScreen}
+            />
+            <TabStack.Screen
+                name="Summary"
+                options={{ headerShown: false }}
+                component={SummaryScreen}
+            />
+            <TabStack.Screen
+                name="Settings"
+                options={{ headerShown: false }}
+                component={SettingsScreen}
+            />
+        </TabStack.Navigator>
+    );
+};
+
+export const AppStackNavigator = () => {
+    const { user } = useUserStore();
+
+    return (
+        <AppStack.Navigator>
+            {
+                user ? (
+                    <AppStack.Screen
+                        name="Tab"
+                        options={{ headerShown: false }}
+                        component={TabStackNavigator}
+                    />
+                ) : (
+                    <AppStack.Screen
+                        name="Login"
+                        options={{ headerShown: false }}
+                        component={LoginScreen}
+                    />
+                )
+            }
+        </AppStack.Navigator>
+    );
+};

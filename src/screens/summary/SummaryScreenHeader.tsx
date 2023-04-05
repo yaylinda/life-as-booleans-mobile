@@ -2,11 +2,11 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Heading, HStack, IconButton } from 'native-base';
 import React from 'react';
-import type { RootStackScreenProps } from '../../navigators';
+import type { TabStackScreenProps } from '../../navigators';
 
 const SummaryScreenHeader = () => {
 
-    const navigation = useNavigation<RootStackScreenProps<'Summary'>['navigation']>();
+    const navigation = useNavigation<TabStackScreenProps<'Summary'>['navigation']>();
 
     return (
         <HStack justifyContent="space-between" alignItems="center">

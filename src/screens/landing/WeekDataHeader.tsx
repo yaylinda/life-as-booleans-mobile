@@ -4,7 +4,7 @@ import invariant from 'invariant';
 import { HStack, IconButton, Input, Text } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
-import type { RootStackScreenProps } from '../../navigators';
+import type { TabStackScreenProps } from '../../navigators';
 import type { Tracker } from '../../types';
 
 interface WeekDataHeaderProps {
@@ -16,7 +16,7 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
 
     invariant(isNew || tracker !== null, 'A Tracker object must be given, unless creating a new Tracker');
 
-    const navigation = useNavigation<RootStackScreenProps<'Landing'>['navigation']>();
+    const navigation = useNavigation<TabStackScreenProps<'Landing'>['navigation']>();
 
     const { setIsAddingTracker, addTracker } = useUserStore();
 

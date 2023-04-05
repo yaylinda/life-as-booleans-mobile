@@ -1,7 +1,6 @@
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import { Button, FlatList, Icon, IconButton } from 'native-base';
+import { FontAwesome } from '@expo/vector-icons';
+import { FlatList, IconButton } from 'native-base';
 import React from 'react';
-import SettingsActionSheet from '../../components/SettingsActionSheet';
 import useUserStore from '../../stores/userStore';
 
 import WeekData from './WeekData';
@@ -13,20 +12,16 @@ interface WeekDataContainerProps {
 }
 
 const ADD_BUTTON_ITEM = 'ADD_BUTTON';
-const SETTINGS_BUTTON_ITEM = 'SETTINGS_BUTTON';
 const NEW_TRACKER_ITEM = 'NEW_TRACKER_ITEM';
 
 const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps) => {
     const { trackers, isAddingTracker, setIsAddingTracker } = useUserStore();
 
-    const [showSettingsActionSheet, setShowSettingsActionSheet] = React.useState<boolean>(false);
-
     const dataItems: string[] = React.useMemo(() => {
         if (isCurrentWeek) {
             return [
                 ...Object.keys(trackers),
-                isAddingTracker ? NEW_TRACKER_ITEM : ADD_BUTTON_ITEM ,
-                SETTINGS_BUTTON_ITEM
+                isAddingTracker ? NEW_TRACKER_ITEM : ADD_BUTTON_ITEM
             ];
         }
         return Object.keys(trackers);
@@ -49,29 +44,10 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
         />
     );
 
-    const settingsButton = (
-        <Button
-            leftIcon={<Icon as={MaterialIcons} name="settings" />}
-            variant='link'
-            marginY={5}
-            _text={{
-                color: 'white'
-            }}
-            _icon={{
-                color: 'white'
-            }}
-            onPress={() => setShowSettingsActionSheet(true)}
-        >
-            Settings
-        </Button>
-    );
-
-    const renderItem = ({ item }: ({ item: string})) => {
+    const renderItem = ({ item }: ({ item: string })) => {
         switch (item) {
         case ADD_BUTTON_ITEM:
             return addNewTrackerButton;
-        case SETTINGS_BUTTON_ITEM:
-            return settingsButton;
         case NEW_TRACKER_ITEM:
             return (
                 <WeekData
@@ -93,16 +69,10 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
     };
 
     return (
-        <>
-            <FlatList
-                data={dataItems}
-                renderItem={renderItem}
-            />
-            <SettingsActionSheet
-                isOpen={showSettingsActionSheet}
-                onClose={() => setShowSettingsActionSheet(false)}
-            />
-        </>
+        <FlatList
+            data={dataItems}
+            renderItem={renderItem}
+        />
     );
 };
 

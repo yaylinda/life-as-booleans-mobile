@@ -1,7 +1,7 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import {  Heading, HStack, IconButton, Input, VStack } from 'native-base';
 import React from 'react';
-import useUserStore from '../stores/userStore';
+import useUserStore from '../../stores/userStore';
 
 const Welcome = () => {
     const { createUser } = useUserStore();

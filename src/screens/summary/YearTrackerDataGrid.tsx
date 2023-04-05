@@ -34,7 +34,7 @@ const DayTrackerDataCell = ({ dIndex, mIndex }: DayTrackerDataCellProps) => {
     };
 
     return (
-        <Center w={`${CELL_SIZE}px`} h={`${CELL_SIZE}px`} bg='black:alpha.20'>
+        <Center w={`${CELL_SIZE}px`} h={`${CELL_SIZE}px`} bg='black:alpha.20' borderRadius={4}>
             {renderContent()}
         </Center>
     );
