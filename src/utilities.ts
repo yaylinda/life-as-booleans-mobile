@@ -33,4 +33,5 @@ export const EMPTY_TRACKER = (name: string): Tracker => ({
             color: 'red.500'
         }
     },
+    isDefaultTracker: false,
 });

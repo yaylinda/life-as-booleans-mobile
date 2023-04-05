@@ -18,7 +18,21 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
         'A Tracker object must be given, unless creating a new Tracker'
     );
 
-    const { setIsAddingTracker, addTracker, setEditingTrackerId, deleteTracker } = useUserStore();
+    const {
+        editingTrackerId,
+        setIsAddingTracker,
+        addTracker,
+        setEditingTrackerId,
+        deleteTracker,
+        updateTracker
+    } = useUserStore();
+
+    const isEditing = editingTrackerId === tracker?.id;
+
+    invariant(
+        !(isNew && isEditing),
+        'isNew and isEditing cannot both be true'
+    );
 
     const trackerName = tracker?.displayName || '';
 
@@ -27,6 +41,7 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
     const [openPopover, setOpenPopover] = React.useState<boolean>(false);
 
     const onEditName = () => {
+        setNewTrackerName('');
         setEditingTrackerId(tracker!.id);
         setOpenPopover(false);
     };
@@ -51,7 +66,20 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
             ]);
     };
 
-    const newTrackerActions = (
+    const cancelAddOrEdit = () => {
+        setIsAddingTracker(false);
+        setEditingTrackerId('');
+    };
+
+    const saveAddOrEdit = () => {
+        if (isNew) {
+            addTracker(newTrackerName);
+        } else if (isEditing) {
+            updateTracker(newTrackerName);
+        }
+    };
+
+    const newOrEditingTrackerActions = (
         <HStack space={2}>
             <IconButton
                 size="sm"
@@ -66,7 +94,7 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
                     color: 'white',
                     textAlign: 'center'
                 }}
-                onPress={() => setIsAddingTracker(false)}
+                onPress={cancelAddOrEdit}
             />
             <IconButton
                 size="sm"
@@ -81,38 +109,40 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
                     color: 'white',
                     textAlign: 'center'
                 }}
-                onPress={() => addTracker(newTrackerName)}
+                onPress={saveAddOrEdit}
                 disabled={!newTrackerName}
             />
         </HStack>
     );
 
-    const editTrackerButton = (triggerProps: { _props: never, state: { open: boolean } }) => (
-        <IconButton
-            {...triggerProps}
-            size="sm"
-            borderRadius="full"
-            padding={1.5}
-            _pressed={{
-                bg: 'white:alpha.10'
-            }}
-            _icon={{
-                as: FontAwesome5,
-                name: 'ellipsis-v',
-                color: 'white',
-                textAlign: 'center'
-            }}
-            onPress={() => setOpenPopover(true)}
-        />
+    const trackerOptionsButton = (triggerProps: { _props: never, state: { open: boolean } }) => (
+        tracker?.isDefaultTracker ? null : (
+            <IconButton
+                {...triggerProps}
+                size="sm"
+                borderRadius="full"
+                padding={1.5}
+                _pressed={{
+                    bg: 'white:alpha.10'
+                }}
+                _icon={{
+                    as: FontAwesome5,
+                    name: 'ellipsis-v',
+                    color: 'white',
+                    textAlign: 'center'
+                }}
+                onPress={() => setOpenPopover(true)}
+            />
+        )
     );
 
-    if (isNew) {
+    if (isNew || isEditing) {
         return (
             <Input
                 placeholder="New Tracker Name"
                 value={newTrackerName}
                 onChangeText={setNewTrackerName}
-                InputRightElement={newTrackerActions}
+                InputRightElement={newOrEditingTrackerActions}
                 px={0}
                 py={0}
                 size="xl"
@@ -138,11 +168,13 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
             >
                 {trackerName}
             </Text>
-            {editTrackerButton}
+            {trackerOptionsButton}
             <Popover
                 isOpen={openPopover}
                 onClose={() => setOpenPopover(false)}
-                trigger={editTrackerButton}
+                /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                // @ts-ignore
+                trigger={trackerOptionsButton}
             >
                 <Popover.Content>
                     <Popover.Arrow />

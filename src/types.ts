@@ -20,4 +20,5 @@ export interface Tracker {
     displayName: string;
     emoji: string;
     valueOptionsMap: { [key in string]: TrackerValueOption };
+    isDefaultTracker: boolean;
 }

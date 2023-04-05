@@ -16,18 +16,26 @@ const NEW_TRACKER_ITEM = 'NEW_TRACKER_ITEM';
 const SPACER_ITEM = 'SPACER_ITEM';
 
 const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps) => {
-    const { trackers, isAddingTracker, setIsAddingTracker } = useUserStore();
+    const { trackers, isAddingTracker, editingTrackerId, setIsAddingTracker } = useUserStore();
 
     const dataItems: string[] = React.useMemo(() => {
         if (isCurrentWeek) {
-            return [
-                ...Object.keys(trackers),
-                isAddingTracker ? NEW_TRACKER_ITEM : ADD_BUTTON_ITEM,
-                SPACER_ITEM,
-            ];
+            const items = [...Object.keys(trackers)];
+
+            if (isAddingTracker) {
+                items.push(NEW_TRACKER_ITEM);
+            }
+
+            if (!isAddingTracker && !editingTrackerId) {
+                items.push(ADD_BUTTON_ITEM);
+            }
+
+            items.push(SPACER_ITEM);
+
+            return items;
         }
         return [...Object.keys(trackers), SPACER_ITEM];
-    }, [trackers, isCurrentWeek, isAddingTracker]);
+    }, [trackers, isCurrentWeek, isAddingTracker, editingTrackerId]);
 
     const addNewTrackerButton = (
         <IconButton

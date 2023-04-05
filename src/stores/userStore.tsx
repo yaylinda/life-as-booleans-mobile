@@ -46,6 +46,7 @@ interface UserStoreStateFunctions {
     setIsAddingTracker: (value: boolean) => void;
     setEditingTrackerId: (trackerId: string) => void;
     deleteTracker: (trackerId: string) => void;
+    updateTracker: (trackerName: string) => void;
     _setDefaultTrackers: () => void;
     _loadFonts: () => void;
 }
@@ -90,7 +91,8 @@ export const DEFAULT_TRACKERS: { [key in string]: Tracker } = {
                 icon: 'smile-beam',
                 color: 'green.500'
             }
-        }
+        },
+        isDefaultTracker: true,
     }
 };
 
@@ -221,6 +223,30 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
             trackers: produce(get().trackers, (draft) => {
                 delete draft[trackerId];
             }),
+        });
+    },
+
+    updateTracker: async (trackerName: string) => {
+        if (!get().editingTrackerId) {
+            return;
+        }
+
+        const trackerToUpdate = get().trackers[get().editingTrackerId];
+
+        if (!trackerToUpdate) {
+            return;
+        }
+
+        trackerToUpdate.displayName = trackerName;
+
+        await setItem<Tracker>(get().editingTrackerId, trackerToUpdate);
+
+        set({
+            trackers: {
+                ...get().trackers,
+                [trackerToUpdate.id]: trackerToUpdate,
+            },
+            editingTrackerId: '',
         });
     },
 
