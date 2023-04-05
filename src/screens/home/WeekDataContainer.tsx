@@ -60,7 +60,7 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
             );
         case SPACER_ITEM:
             return (
-                <Box h={150} />
+                <Box h={160} />
             );
         default:
             return (

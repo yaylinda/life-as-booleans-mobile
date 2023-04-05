@@ -1,7 +1,8 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import invariant from 'invariant';
-import { HStack, IconButton, Input, Text } from 'native-base';
+import { Button, HStack, Icon, IconButton, Input, Popover, Text } from 'native-base';
 import React from 'react';
+import { Alert } from 'react-native';
 import useUserStore from '../../stores/userStore';
 import type { Tracker } from '../../types';
 
@@ -12,13 +13,43 @@ interface WeekDataHeaderProps {
 
 const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
 
-    invariant(isNew || tracker !== null, 'A Tracker object must be given, unless creating a new Tracker');
+    invariant(
+        isNew || tracker !== null,
+        'A Tracker object must be given, unless creating a new Tracker'
+    );
 
-    const { setIsAddingTracker, addTracker } = useUserStore();
+    const { setIsAddingTracker, addTracker, setEditingTrackerId, deleteTracker } = useUserStore();
 
     const trackerName = tracker?.displayName || '';
 
     const [newTrackerName, setNewTrackerName] = React.useState<string>(trackerName);
+
+    const [openPopover, setOpenPopover] = React.useState<boolean>(false);
+
+    const onEditName = () => {
+        setEditingTrackerId(tracker!.id);
+        setOpenPopover(false);
+    };
+
+    const onDeleteTracker = () => {
+        setOpenPopover(false);
+        Alert.alert(
+            'Confirm Delete',
+            'Are you sure you want to delete this tracker and all the associated data? This action cannot be undone.', [
+                {
+                    text: 'Cancel',
+                    // eslint-disable-next-line @typescript-eslint/no-empty-function
+                    onPress: () => {
+                    },
+                    style: 'cancel'
+                },
+                {
+                    text: 'Delete',
+                    onPress: () => deleteTracker(tracker!.id),
+                    style: 'destructive'
+                }
+            ]);
+    };
 
     const newTrackerActions = (
         <HStack space={2}>
@@ -56,6 +87,25 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
         </HStack>
     );
 
+    const editTrackerButton = (triggerProps: { _props: never, state: { open: boolean } }) => (
+        <IconButton
+            {...triggerProps}
+            size="sm"
+            borderRadius="full"
+            padding={1.5}
+            _pressed={{
+                bg: 'white:alpha.10'
+            }}
+            _icon={{
+                as: FontAwesome5,
+                name: 'ellipsis-v',
+                color: 'white',
+                textAlign: 'center'
+            }}
+            onPress={() => setOpenPopover(true)}
+        />
+    );
+
     if (isNew) {
         return (
             <Input
@@ -88,21 +138,34 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
             >
                 {trackerName}
             </Text>
-            <IconButton
-                size="sm"
-                borderRadius="full"
-                padding={1.5}
-                _pressed={{
-                    bg: 'white:alpha.10'
-                }}
-                _icon={{
-                    as: FontAwesome5,
-                    name: 'edit',
-                    color: 'white',
-                    textAlign: 'center'
-                }}
-                // onPress={() => {}}
-            />
+            {editTrackerButton}
+            <Popover
+                isOpen={openPopover}
+                onClose={() => setOpenPopover(false)}
+                trigger={editTrackerButton}
+            >
+                <Popover.Content>
+                    <Popover.Arrow />
+                    <Popover.Body padding={0}>
+                        <Button
+                            variant="ghost"
+                            leftIcon={<Icon as={FontAwesome5} name="edit" size="sm" />}
+                            justifyContent="flex-start"
+                            onPress={onEditName}
+                        >
+                            Edit Name
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            leftIcon={<Icon as={FontAwesome5} name="trash" size="sm" />}
+                            justifyContent="flex-start"
+                            onPress={onDeleteTracker}
+                        >
+                            Delete
+                        </Button>
+                    </Popover.Body>
+                </Popover.Content>
+            </Popover>
         </HStack>
     );
 };

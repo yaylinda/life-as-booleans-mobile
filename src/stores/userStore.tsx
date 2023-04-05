@@ -17,10 +17,11 @@ import {
     Nunito_900Black_Italic
 } from '@expo-google-fonts/nunito';
 import { loadAsync } from 'expo-font';
+import { produce } from 'immer';
 import moment from 'moment';
 import { create } from 'zustand';
 import { getRandomGradient } from '../gradients';
-import { clearAll, getItem, LocalStorageKey, multiGet, multiSet, setItem } from '../localStorage';
+import { clearAll, getItem, LocalStorageKey, multiGet, multiSet, removeItem, setItem } from '../localStorage';
 import { EMPTY_TRACKER } from '../utilities';
 import type { Tracker, User } from '../types';
 
@@ -32,6 +33,7 @@ interface UserStoreStateData {
     trackers: { [key in string]: Tracker };
     data: { [key in string]: string };
     isAddingTracker: boolean;
+    editingTrackerId: string;
 }
 
 interface UserStoreStateFunctions {
@@ -42,6 +44,8 @@ interface UserStoreStateFunctions {
     setData: (dayEpoch: string, trackerId: string, value: string) => void;
     clearData: () => void;
     setIsAddingTracker: (value: boolean) => void;
+    setEditingTrackerId: (trackerId: string) => void;
+    deleteTracker: (trackerId: string) => void;
     _setDefaultTrackers: () => void;
     _loadFonts: () => void;
 }
@@ -98,6 +102,7 @@ const DEFAULT_DATA: UserStoreStateData = {
     trackers: {},
     data: {},
     isAddingTracker: false,
+    editingTrackerId: '',
 };
 
 const useUserStore = create<UserStoreState>()((set, get) => ({
@@ -199,6 +204,24 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
 
     setIsAddingTracker: (value: boolean) => {
         set({ isAddingTracker: value });
+    },
+
+    setEditingTrackerId: (trackerId: string) => {
+        set({ editingTrackerId: trackerId });
+    },
+
+    deleteTracker: async (trackerId: string) => {
+        await setItem<string[]>(
+            LocalStorageKey.TRACKER_IDS,
+            Object.keys(get().trackers).filter(t => t !== trackerId)
+        );
+        await removeItem(trackerId);
+
+        set({
+            trackers: produce(get().trackers, (draft) => {
+                delete draft[trackerId];
+            }),
+        });
     },
 
     _setDefaultTrackers: async () => {
