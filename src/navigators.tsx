@@ -5,7 +5,7 @@ import { BlurView } from 'expo-blur';
 import { Icon, Text } from 'native-base';
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import LandingScreen from './screens/landing/LandingScreen';
+import HomeScreen from './screens/home/HomeScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import SettingsScreen from './screens/settings/SettingsScreen';
 import SummaryScreen from './screens/summary/SummaryScreen';
@@ -15,7 +15,7 @@ import type { NavigatorScreenParams } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type TabStackParamList = {
-    Landing: undefined,
+    Home: undefined,
     Summary: undefined,
     Settings: undefined,
 }
@@ -56,7 +56,7 @@ const TabStackNavigator = () => {
                     let iconName;
 
                     switch (route.name) {
-                    case 'Landing':
+                    case 'Home':
                         iconName = 'server';
                         break;
                     case 'Summary':
@@ -86,9 +86,9 @@ const TabStackNavigator = () => {
             })}
         >
             <TabStack.Screen
-                name="Landing"
+                name="Home"
                 options={{ headerShown: false }}
-                component={LandingScreen}
+                component={HomeScreen}
             />
             <TabStack.Screen
                 name="Summary"

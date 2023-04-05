@@ -94,7 +94,7 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
                 }}
                 _icon={{
                     as: FontAwesome5,
-                    name: 'info-circle',
+                    name: 'edit',
                     color: 'white',
                     textAlign: 'center'
                 }}

@@ -4,10 +4,10 @@ import React from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import useUserStore from '../../stores/userStore';
 import { getWeekStart } from '../../utilities';
-import LandingScreenHeader from './LandingScreenHeader';
+import HomeScreenHeader from './HomeScreenHeader';
 import WeekDataContainer from './WeekDataContainer';
 
-const LandingScreen = () => {
+const HomeScreen = () => {
     const safeAreaProps = useSafeArea({
         safeAreaTop: true,
         safeAreaBottom: true
@@ -40,7 +40,7 @@ const LandingScreen = () => {
     return (
         <>
             <ScreenWrapper>
-                <LandingScreenHeader
+                <HomeScreenHeader
                     startDate={weekStartDate}
                     isFirstWeek={isFirstWeek}
                     isCurrentWeek={isCurrentWeek}
@@ -69,4 +69,4 @@ const LandingScreen = () => {
     );
 };
 
-export default LandingScreen;
+export default HomeScreen;

@@ -12,7 +12,7 @@ const SummaryScreen = () => {
 
     return (
         <ScreenWrapper>
-            <HStack justifyContent="space-between" alignItems="center">
+            <HStack justifyContent="center">
                 <Heading>Summary</Heading>
             </HStack>
             <ScrollView>

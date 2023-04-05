@@ -11,7 +11,7 @@ interface HeaderProps {
     nextWeek: () => void;
 }
 
-const LandingScreenHeader = ({ startDate, isFirstWeek, isCurrentWeek, prevWeek, nextWeek }: HeaderProps) => {
+const HomeScreenHeader = ({ startDate, isFirstWeek, isCurrentWeek, prevWeek, nextWeek }: HeaderProps) => {
     return (
         <HStack w="100%" justifyContent="space-between" alignItems="center">
             <IconButton
@@ -47,4 +47,4 @@ const LandingScreenHeader = ({ startDate, isFirstWeek, isCurrentWeek, prevWeek, 
     );
 };
 
-export default LandingScreenHeader;
+export default HomeScreenHeader;
