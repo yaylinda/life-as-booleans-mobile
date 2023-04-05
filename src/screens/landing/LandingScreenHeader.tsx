@@ -1,4 +1,4 @@
-import { FontAwesome } from '@expo/vector-icons';
+import {  FontAwesome5 } from '@expo/vector-icons';
 import { Heading, HStack, IconButton } from 'native-base';
 import React from 'react';
 import type moment from 'moment/moment';
@@ -17,7 +17,7 @@ const LandingScreenHeader = ({ startDate, isFirstWeek, isCurrentWeek, prevWeek, 
             <IconButton
                 borderRadius="full"
                 _icon={{
-                    as: FontAwesome,
+                    as: FontAwesome5,
                     name: 'chevron-left',
                     color: isFirstWeek ? 'white:alpha.10' : 'white',
                     textAlign: 'center'
@@ -32,7 +32,7 @@ const LandingScreenHeader = ({ startDate, isFirstWeek, isCurrentWeek, prevWeek, 
             <IconButton
                 borderRadius="full"
                 _icon={{
-                    as: FontAwesome,
+                    as: FontAwesome5,
                     name: 'chevron-right',
                     color: isCurrentWeek ? 'white:alpha.10' : 'white',
                     textAlign: 'center'

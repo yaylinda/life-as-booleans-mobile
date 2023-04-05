@@ -1,4 +1,4 @@
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { FlatList, IconButton } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
@@ -35,7 +35,7 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
                 bg: 'white:alpha.30'
             }}
             _icon={{
-                as: FontAwesome,
+                as: FontAwesome5,
                 name: 'plus',
                 color: 'white',
                 textAlign: 'center'

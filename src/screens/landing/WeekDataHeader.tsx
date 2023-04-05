@@ -1,10 +1,8 @@
-import { FontAwesome } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { FontAwesome5 } from '@expo/vector-icons';
 import invariant from 'invariant';
 import { HStack, IconButton, Input, Text } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
-import type { TabStackScreenProps } from '../../navigators';
 import type { Tracker } from '../../types';
 
 interface WeekDataHeaderProps {
@@ -15,8 +13,6 @@ interface WeekDataHeaderProps {
 const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
 
     invariant(isNew || tracker !== null, 'A Tracker object must be given, unless creating a new Tracker');
-
-    const navigation = useNavigation<TabStackScreenProps<'Landing'>['navigation']>();
 
     const { setIsAddingTracker, addTracker } = useUserStore();
 
@@ -33,7 +29,7 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
                     bg: 'white:alpha.10'
                 }}
                 _icon={{
-                    as: FontAwesome,
+                    as: FontAwesome5,
                     name: 'trash',
                     color: 'white',
                     textAlign: 'center'
@@ -47,7 +43,7 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
                     bg: 'white:alpha.10'
                 }}
                 _icon={{
-                    as: FontAwesome,
+                    as: FontAwesome5,
                     name: 'save',
                     color: 'white',
                     textAlign: 'center'
@@ -97,12 +93,12 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
                     bg: 'white:alpha.10'
                 }}
                 _icon={{
-                    as: FontAwesome,
+                    as: FontAwesome5,
                     name: 'info-circle',
                     color: 'white',
                     textAlign: 'center'
                 }}
-                onPress={() => navigation.navigate('Summary', { tracker: tracker! })}
+                // onPress={() => {}}
             />
         </HStack>
     );

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { Button, Center, Slide, useSafeArea, VStack } from 'native-base';
+import { Button, Center, Slide, useSafeArea } from 'native-base';
 import React from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import useUserStore from '../../stores/userStore';
@@ -38,8 +38,8 @@ const LandingScreen = () => {
     };
 
     return (
-        <ScreenWrapper>
-            <VStack space={2} paddingX={2}>
+        <>
+            <ScreenWrapper>
                 <LandingScreenHeader
                     startDate={weekStartDate}
                     isFirstWeek={isFirstWeek}
@@ -51,8 +51,8 @@ const LandingScreen = () => {
                     weekStart={weekStartDate}
                     isCurrentWeek={isCurrentWeek}
                 />
-            </VStack>
-            <Slide in={!isCurrentWeek} placement="bottom">
+            </ScreenWrapper>
+            <Slide in={!isCurrentWeek} placement="bottom" position="absolute">
                 <Center w="100%" position="absolute" bottom={0} {...safeAreaProps}>
                     <Button
                         bg="black:alpha.50"
@@ -65,7 +65,7 @@ const LandingScreen = () => {
                     </Button>
                 </Center>
             </Slide>
-        </ScreenWrapper>
+        </>
     );
 };
 
