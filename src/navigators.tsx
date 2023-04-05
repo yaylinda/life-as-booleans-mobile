@@ -1,8 +1,10 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Icon } from 'native-base';
+import { BlurView } from 'expo-blur';
+import { Icon, Text } from 'native-base';
 import React from 'react';
+import {StyleSheet} from 'react-native';
 import LandingScreen from './screens/landing/LandingScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import SettingsScreen from './screens/settings/SettingsScreen';
@@ -33,10 +35,24 @@ const TabStack = createBottomTabNavigator<TabStackParamList>();
 const AppStack = createNativeStackNavigator();
 
 const TabStackNavigator = () => {
+
+    const { gradientColors } = useUserStore();
+
     return (
         <TabStack.Navigator
             screenOptions={({ route }) => ({
-                tabBarIcon: ({  color, size }) => {
+                tabBarLabel: ({ focused }) => {
+                    return (
+                        <Text
+                            fontSize='2xs'
+                            fontWeight='bold'
+                            color={focused ? gradientColors[1] : 'gray.200'}
+                        >
+                            {route.name}
+                        </Text>
+                    );
+                },
+                tabBarIcon: ({ focused, size }) => {
                     let iconName;
 
                     switch (route.name) {
@@ -56,12 +72,17 @@ const TabStackNavigator = () => {
                             as={FontAwesome5}
                             name={iconName}
                             size={size}
-                            color={color}
+                            color={focused ? gradientColors[1] : 'gray.200'}
                         />
                     );
                 },
-                tabBarActiveTintColor: 'tomato',
-                tabBarInactiveTintColor: 'gray'
+                tabBarStyle: {
+                    position: 'absolute',
+                    paddingTop: 8,
+                },
+                tabBarBackground: () => (
+                    <BlurView tint="dark" intensity={50} style={StyleSheet.absoluteFill} />
+                ),
             })}
         >
             <TabStack.Screen
