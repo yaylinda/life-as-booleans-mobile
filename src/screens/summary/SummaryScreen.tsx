@@ -28,7 +28,7 @@ const SummaryScreen = () => {
             flex={1}
         >
             <SafeAreaView>
-                <VStack space={2}>
+                <VStack space={2} paddingX={2}>
                     <SummaryScreenHeader />
                     <ScrollView>
                         <YearTrackerDataGrid tracker={tracker} year={moment().year()}/>

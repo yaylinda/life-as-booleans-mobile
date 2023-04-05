@@ -53,7 +53,7 @@ const LandingScreen = () => {
         >
             {loading ? <Spinner size="lg" color="white" /> : user ? (
                 <SafeAreaView>
-                    <VStack space={2}>
+                    <VStack space={2} paddingX={2}>
                         <LandingScreenHeader
                             startDate={weekStartDate}
                             isFirstWeek={isFirstWeek}

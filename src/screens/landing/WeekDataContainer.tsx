@@ -95,14 +95,9 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
     return (
         <>
             <FlatList
-                paddingX={2}
                 data={dataItems}
                 renderItem={renderItem}
             />
-            {/*<AddTrackerModal*/}
-            {/*    isOpen={showAddTrackerModal}*/}
-            {/*    onClose={() => setShowAddTrackerModal(false)}*/}
-            {/*/>*/}
             <SettingsActionSheet
                 isOpen={showSettingsActionSheet}
                 onClose={() => setShowSettingsActionSheet(false)}
