@@ -23,8 +23,9 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
     const newTrackerActions = (
         <HStack space={2}>
             <IconButton
+                size="sm"
                 borderRadius="full"
-                padding={1}
+                padding={1.5}
                 _pressed={{
                     bg: 'white:alpha.10'
                 }}
@@ -37,8 +38,9 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
                 onPress={() => setIsAddingTracker(false)}
             />
             <IconButton
+                size="sm"
                 borderRadius="full"
-                padding={1}
+                padding={1.5}
                 _pressed={{
                     bg: 'white:alpha.10'
                 }}
@@ -87,8 +89,9 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
                 {trackerName}
             </Text>
             <IconButton
+                size="sm"
                 borderRadius="full"
-                padding={1}
+                padding={1.5}
                 _pressed={{
                     bg: 'white:alpha.10'
                 }}

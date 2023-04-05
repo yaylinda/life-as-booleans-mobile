@@ -1,5 +1,5 @@
 import { FontAwesome5 } from '@expo/vector-icons';
-import { FlatList, IconButton } from 'native-base';
+import { Box, FlatList, IconButton } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
 
@@ -13,6 +13,7 @@ interface WeekDataContainerProps {
 
 const ADD_BUTTON_ITEM = 'ADD_BUTTON';
 const NEW_TRACKER_ITEM = 'NEW_TRACKER_ITEM';
+const SPACER_ITEM = 'SPACER_ITEM';
 
 const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps) => {
     const { trackers, isAddingTracker, setIsAddingTracker } = useUserStore();
@@ -21,10 +22,11 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
         if (isCurrentWeek) {
             return [
                 ...Object.keys(trackers),
-                isAddingTracker ? NEW_TRACKER_ITEM : ADD_BUTTON_ITEM
+                isAddingTracker ? NEW_TRACKER_ITEM : ADD_BUTTON_ITEM,
+                SPACER_ITEM,
             ];
         }
-        return Object.keys(trackers);
+        return [...Object.keys(trackers), SPACER_ITEM];
     }, [trackers, isCurrentWeek, isAddingTracker]);
 
     const addNewTrackerButton = (
@@ -56,6 +58,10 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
                     isNew={true}
                 />
             );
+        case SPACER_ITEM:
+            return (
+                <Box h={150} />
+            );
         default:
             return (
                 <WeekData
@@ -72,6 +78,7 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
         <FlatList
             data={dataItems}
             renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
         />
     );
 };

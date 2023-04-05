@@ -1,22 +1,18 @@
-import { Box, Center, Spinner, VStack } from 'native-base';
+import {  Center, Spinner, VStack } from 'native-base';
 import React from 'react';
 import { SafeAreaView } from 'react-native';
 import useUserStore from '../stores/userStore';
-// import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 interface ScreenWrapperProps {
     children?: JSX.Element | JSX.Element[];
 }
 
 const ScreenWrapper = ({children}: ScreenWrapperProps) => {
-    // const tabBarHeight = useBottomTabBarHeight();
-    // console.log(`tabBarHeight=${tabBarHeight}`);
-
-    // TODO - fix scrolling with bottom tab bar
 
     // TODO - fix font loading. need to move one level higher
 
     const { loadingData, loadingFonts, gradientColors } = useUserStore();
+
     const loading = loadingData || loadingFonts;
 
     return (
@@ -39,7 +35,6 @@ const ScreenWrapper = ({children}: ScreenWrapperProps) => {
                     ) : (
                         <VStack space={2} paddingX={2}>
                             {children}
-                            <Box height={`${79}px`} />
                         </VStack>
                     )
                 }

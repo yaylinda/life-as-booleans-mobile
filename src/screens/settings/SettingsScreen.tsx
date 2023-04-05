@@ -31,8 +31,8 @@ const SettingsScreen = () => {
     return (
         <ScreenWrapper>
             <HStack space={5} alignItems="center" justifyContent="flex-start">
-                <Avatar bg={gradientColors[0]}>
-                    {user?.username[0]}
+                <Avatar bg={gradientColors[1]} textAlign="center">
+                    <Heading>{user?.username[0]}</Heading>
                 </Avatar>
                 <Heading>{user?.username}</Heading>
             </HStack>
