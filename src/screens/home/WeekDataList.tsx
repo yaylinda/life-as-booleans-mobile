@@ -6,7 +6,7 @@ import useUserStore from '../../stores/userStore';
 import WeekData from './WeekData';
 import type moment from 'moment';
 
-interface WeekDataContainerProps {
+interface WeekDataListProps {
     weekStart: moment.Moment;
     isCurrentWeek: boolean;
 }
@@ -15,7 +15,7 @@ const ADD_BUTTON_ITEM = 'ADD_BUTTON';
 const NEW_TRACKER_ITEM = 'NEW_TRACKER_ITEM';
 const SPACER_ITEM = 'SPACER_ITEM';
 
-const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps) => {
+const WeekDataList = ({ weekStart, isCurrentWeek }: WeekDataListProps) => {
     const { trackers, isAddingTracker, editingTrackerId, setIsAddingTracker } = useUserStore();
 
     const dataItems: string[] = React.useMemo(() => {
@@ -91,4 +91,4 @@ const WeekDataContainer = ({ weekStart, isCurrentWeek }: WeekDataContainerProps)
     );
 };
 
-export default WeekDataContainer;
+export default WeekDataList;

@@ -5,7 +5,7 @@ import ScreenWrapper from '../../components/ScreenWrapper';
 import useUserStore from '../../stores/userStore';
 import { getWeekStart } from '../../utilities';
 import HomeScreenHeader from './HomeScreenHeader';
-import WeekDataContainer from './WeekDataContainer';
+import WeekDataList from './WeekDataList';
 
 const HomeScreen = () => {
     const safeAreaProps = useSafeArea({
@@ -47,7 +47,7 @@ const HomeScreen = () => {
                     prevWeek={prevWeek}
                     nextWeek={nextWeek}
                 />
-                <WeekDataContainer
+                <WeekDataList
                     weekStart={weekStartDate}
                     isCurrentWeek={isCurrentWeek}
                 />

@@ -11,6 +11,7 @@
 - [ ] consider a better a header for HomeScreen
 - [ ] fix colors of "options" menu
 - [ ] refactor to show year-view in action sheet from "options" menu
+- [ ] allow to backfill data until beginning of year
 
 #### Summary Screen
 - [ ] show data in summary/year-view

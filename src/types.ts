@@ -22,3 +22,8 @@ export interface Tracker {
     valueOptionsMap: { [key in string]: TrackerValueOption };
     isDefaultTracker: boolean;
 }
+
+export interface PopoverTriggerProps {
+    _props: unknown,
+    state: { open: boolean }
+}

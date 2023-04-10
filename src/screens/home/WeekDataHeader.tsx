@@ -4,7 +4,9 @@ import { Button, HStack, Icon, IconButton, Input, Popover, Text } from 'native-b
 import React from 'react';
 import { Alert } from 'react-native';
 import useUserStore from '../../stores/userStore';
+import { PopoverTriggerProps } from '../../types';
 import type { Tracker } from '../../types';
+import WeekDataHeaderOptionsPopover from './WeekDataHeaderOptionsPopover';
 
 interface WeekDataHeaderProps {
     isNew: boolean;
@@ -15,7 +17,7 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
 
     invariant(
         isNew || tracker !== null,
-        'A Tracker object must be given, unless creating a new Tracker'
+        'A Tracker object must be given, unless creating a new Tracker',
     );
 
     const {
@@ -24,14 +26,14 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
         addTracker,
         setEditingTrackerId,
         deleteTracker,
-        updateTracker
+        updateTracker,
     } = useUserStore();
 
     const isEditing = editingTrackerId === tracker?.id;
 
     invariant(
         !(isNew && isEditing),
-        'isNew and isEditing cannot both be true'
+        'isNew and isEditing cannot both be true',
     );
 
     const trackerName = tracker?.displayName || '';
@@ -56,13 +58,13 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
                     // eslint-disable-next-line @typescript-eslint/no-empty-function
                     onPress: () => {
                     },
-                    style: 'cancel'
+                    style: 'cancel',
                 },
                 {
                     text: 'Delete',
                     onPress: () => deleteTracker(tracker!.id),
-                    style: 'destructive'
-                }
+                    style: 'destructive',
+                },
             ]);
     };
 
@@ -86,13 +88,13 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
                 borderRadius="full"
                 padding={1.5}
                 _pressed={{
-                    bg: 'white:alpha.10'
+                    bg: 'white:alpha.10',
                 }}
                 _icon={{
                     as: FontAwesome5,
                     name: 'trash',
                     color: 'white',
-                    textAlign: 'center'
+                    textAlign: 'center',
                 }}
                 onPress={cancelAddOrEdit}
             />
@@ -101,13 +103,13 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
                 borderRadius="full"
                 padding={1.5}
                 _pressed={{
-                    bg: 'white:alpha.10'
+                    bg: 'white:alpha.10',
                 }}
                 _icon={{
                     as: FontAwesome5,
                     name: 'save',
                     color: 'white',
-                    textAlign: 'center'
+                    textAlign: 'center',
                 }}
                 onPress={saveAddOrEdit}
                 disabled={!newTrackerName}
@@ -115,25 +117,23 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
         </HStack>
     );
 
-    const trackerOptionsButton = (triggerProps: { _props: never, state: { open: boolean } }) => (
-        tracker?.isDefaultTracker ? null : (
-            <IconButton
-                {...triggerProps}
-                size="sm"
-                borderRadius="full"
-                padding={1.5}
-                _pressed={{
-                    bg: 'white:alpha.10'
-                }}
-                _icon={{
-                    as: FontAwesome5,
-                    name: 'ellipsis-v',
-                    color: 'white',
-                    textAlign: 'center'
-                }}
-                onPress={() => setOpenPopover(true)}
-            />
-        )
+    const trackerOptionsButton = (triggerProps: PopoverTriggerProps): JSX.Element => (
+        <IconButton
+            {...triggerProps}
+            size="sm"
+            borderRadius="full"
+            padding={1.5}
+            _pressed={{
+                bg: 'white:alpha.10',
+            }}
+            _icon={{
+                as: FontAwesome5,
+                name: 'ellipsis-v',
+                color: 'white',
+                textAlign: 'center',
+            }}
+            onPress={() => setOpenPopover(true)}
+        />
     );
 
     if (isNew || isEditing) {
@@ -153,7 +153,7 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
                 borderColor="gray.200"
                 placeholderTextColor="gray.200"
                 _focus={{
-                    borderColor: 'white'
+                    borderColor: 'white',
                 }}
             />
         );
@@ -169,35 +169,14 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
                 {trackerName}
             </Text>
             {trackerOptionsButton}
-            <Popover
+            <WeekDataHeaderOptionsPopover
                 isOpen={openPopover}
-                onClose={() => setOpenPopover(false)}
-                /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-                // @ts-ignore
+                isDefaultTracker={!!tracker?.isDefaultTracker}
                 trigger={trackerOptionsButton}
-            >
-                <Popover.Content>
-                    <Popover.Arrow />
-                    <Popover.Body padding={0}>
-                        <Button
-                            variant="ghost"
-                            leftIcon={<Icon as={FontAwesome5} name="edit" size="sm" />}
-                            justifyContent="flex-start"
-                            onPress={onEditName}
-                        >
-                            Edit Name
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            leftIcon={<Icon as={FontAwesome5} name="trash" size="sm" />}
-                            justifyContent="flex-start"
-                            onPress={onDeleteTracker}
-                        >
-                            Delete
-                        </Button>
-                    </Popover.Body>
-                </Popover.Content>
-            </Popover>
+                onClose={() => setOpenPopover(false)}
+                onDelete={onDeleteTracker}
+                onEdit={onEditName}
+            />
         </HStack>
     );
 };
