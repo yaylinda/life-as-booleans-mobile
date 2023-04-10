@@ -52,19 +52,19 @@ const HomeScreen = () => {
                     isCurrentWeek={isCurrentWeek}
                 />
             </ScreenWrapper>
-            <Slide in={!isCurrentWeek} placement="bottom" position="absolute">
-                <Center w="100%" position="absolute" bottom={0} {...safeAreaProps}>
-                    <Button
-                        bg="black:alpha.50"
-                        _pressed={{
-                            bg: 'black:alpha.40'
-                        }}
-                        onPress={() => setWeekStartDate(getWeekStart)}
-                    >
-                        Today
-                    </Button>
-                </Center>
-            </Slide>
+            {/*<Slide in={!isCurrentWeek} placement="bottom" position="absolute">*/}
+            {/*    <Center w="100%" position="absolute" bottom={0} {...safeAreaProps}>*/}
+            {/*        <Button*/}
+            {/*            bg="black:alpha.50"*/}
+            {/*            _pressed={{*/}
+            {/*                bg: 'black:alpha.40'*/}
+            {/*            }}*/}
+            {/*            onPress={() => setWeekStartDate(getWeekStart)}*/}
+            {/*        >*/}
+            {/*            Today*/}
+            {/*        </Button>*/}
+            {/*    </Center>*/}
+            {/*</Slide>*/}
         </>
     );
 };
