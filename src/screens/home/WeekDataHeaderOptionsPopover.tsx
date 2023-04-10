@@ -1,4 +1,5 @@
 import { FontAwesome5 } from '@expo/vector-icons';
+import invariant from 'invariant';
 import { Button, Icon, Popover } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
@@ -22,14 +23,18 @@ const WeekDataHeaderOptionsPopover = ({
 }: WeekDataHeaderOptionsPopoverProps) => {
 
     const { tracker, weekStart } = useWeekTracker();
-    const isDefaultTracker = tracker?.isDefaultTracker;
+
+    invariant(tracker, 'Tracker must not be null to have options');
+
+    const isDefaultTracker = tracker.isDefaultTracker;
 
     const { setYearViewData } = useUserStore();
 
     const openYearView = () => {
+        onClose();
         setYearViewData({
-            tracker: tracker!,
-            year: weekStart!.year()
+            tracker: tracker,
+            year: weekStart.year()
         });
     };
 

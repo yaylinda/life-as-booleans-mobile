@@ -63,7 +63,7 @@ const WeekDataList = ({ weekStart, isCurrentWeek }: WeekDataListProps) => {
                 <WeekTrackerWithContext
                     key={`week_${weekStart.valueOf()}_${item}`}
                     value={{ weekStart, trackerId: '' }}
-                    isNew={false}
+                    isNew={true}
                 />
             );
         case SPACER_ITEM:

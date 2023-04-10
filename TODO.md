@@ -11,12 +11,14 @@
 - [ ] indicate "today" on week view
 - [ ] consider a better a header for HomeScreen
 - [ ] fix colors of "options" menu
-- [ ] refactor to show year-view in action sheet from "options" menu
-- [ ] allow to backfill data until beginning of year
-- [ ] refactor to use context for week tracker components
+- [x] refactor to show year-view in action sheet from "options" menu
+- [ ] allow to backfill data
+- [x] refactor to use context for week tracker components
 
 #### Summary Screen
-- [ ] show data in summary/year-view
+- [ ] remove route from bottom nav
+- [ ] gradient background color
+- [ ] show data
 
 #### Settings Screen
 - [ ] fix settings "logout" button
