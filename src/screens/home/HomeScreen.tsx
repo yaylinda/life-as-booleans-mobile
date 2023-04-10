@@ -1,17 +1,18 @@
 import moment from 'moment';
-import { Button, Center, Slide, useSafeArea } from 'native-base';
+
 import React from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import useUserStore from '../../stores/userStore';
 import { getWeekStart } from '../../utilities';
 import HomeScreenHeader from './HomeScreenHeader';
 import WeekDataList from './WeekDataList';
+import YearDataActionSheet from './YearDataActionSheet';
 
 const HomeScreen = () => {
-    const safeAreaProps = useSafeArea({
-        safeAreaTop: true,
-        safeAreaBottom: true
-    });
+    // const safeAreaProps = useSafeArea({
+    //     safeAreaTop: true,
+    //     safeAreaBottom: true
+    // });
 
     const { user } = useUserStore();
     const [weekStartDate, setWeekStartDate] = React.useState<moment.Moment>(getWeekStart());
@@ -52,6 +53,7 @@ const HomeScreen = () => {
                     isCurrentWeek={isCurrentWeek}
                 />
             </ScreenWrapper>
+            <YearDataActionSheet />
             {/*<Slide in={!isCurrentWeek} placement="bottom" position="absolute">*/}
             {/*    <Center w="100%" position="absolute" bottom={0} {...safeAreaProps}>*/}
             {/*        <Button*/}

@@ -5,22 +5,23 @@ import { HStack, IconButton, Popover, Text, VStack } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
 import TrackerOption from './TrackerOption';
-import type { Tracker, TrackerValueOption } from '../../types';
+import { useWeekTracker } from './useWeekTracker';
+import type { TrackerValueOption } from '../../types';
 
 interface DayDataProps {
-    isDefaultTracker: boolean,
     date: moment.Moment,
-    tracker: Tracker | null,
     isNew: boolean;
 }
 
-const DayData = ({ date, tracker, isNew }: DayDataProps) => {
+const DayData = ({ date, isNew }: DayDataProps) => {
+
+    const { tracker } = useWeekTracker();
 
     invariant(isNew || tracker !== null, 'A Tracker object must be given, unless creating a new Tracker');
 
     const dayEpoch = `${date.valueOf()}`;
 
-    const { getData, setData } = useUserStore();
+    const { getTrackerData, setTrackerData } = useUserStore();
 
     const [value, setValue] = React.useState<string | undefined>();
 
@@ -28,14 +29,14 @@ const DayData = ({ date, tracker, isNew }: DayDataProps) => {
 
     React.useEffect(() => {
         const get = async () => {
-            const data = await getData(dayEpoch, tracker!.id);
+            const data = await getTrackerData(dayEpoch, tracker!.id);
             setValue(data);
         };
 
         if (tracker?.id) {
             get();
         }
-    }, [dayEpoch, getData, tracker]);
+    }, [dayEpoch, getTrackerData, tracker]);
 
     const hasValue = value !== undefined;
     const dayOfWeekLabel = date.format('dd')[0];
@@ -45,7 +46,7 @@ const DayData = ({ date, tracker, isNew }: DayDataProps) => {
     const isAfter = date.isAfter(moment(), 'day');
 
     const onSelectOption = (value: string) => {
-        setData(dayEpoch, tracker!.id, value);
+        setTrackerData(dayEpoch, tracker!.id, value);
         setValue(value);
         setOpenPopover(false);
     };
@@ -101,10 +102,10 @@ const DayData = ({ date, tracker, isNew }: DayDataProps) => {
                 as: FontAwesome5,
                 name: getIcon(),
                 color: getIconColor(),
-                textAlign: 'center'
+                textAlign: 'center',
             }}
             _pressed={{
-                bg: hasValue ? 'gray.50:alpha.70' : 'white:alpha.10'
+                bg: hasValue ? 'gray.50:alpha.70' : 'white:alpha.10',
             }}
             onPress={() => setOpenPopover(true)}
         />
@@ -125,7 +126,7 @@ const DayData = ({ date, tracker, isNew }: DayDataProps) => {
                 }
             </HStack>
             {!isToday && (
-                <Text fontSize="2xs" fontStyle='italic'>
+                <Text fontSize="2xs" fontStyle="italic">
                     Editing tracker data for a previous day
                 </Text>
             )}

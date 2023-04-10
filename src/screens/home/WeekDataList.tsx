@@ -2,8 +2,8 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Box, FlatList, IconButton } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
+import WeekTrackerWithContext from './WeekTrackerWithContext';
 
-import WeekData from './WeekData';
 import type moment from 'moment';
 
 interface WeekDataListProps {
@@ -60,10 +60,10 @@ const WeekDataList = ({ weekStart, isCurrentWeek }: WeekDataListProps) => {
             return addNewTrackerButton;
         case NEW_TRACKER_ITEM:
             return (
-                <WeekData
-                    key={`week_${weekStart.valueOf()}_NEW`}
-                    weekStart={weekStart}
-                    isNew={true}
+                <WeekTrackerWithContext
+                    key={`week_${weekStart.valueOf()}_${item}`}
+                    value={{ weekStart, trackerId: '' }}
+                    isNew={false}
                 />
             );
         case SPACER_ITEM:
@@ -72,10 +72,9 @@ const WeekDataList = ({ weekStart, isCurrentWeek }: WeekDataListProps) => {
             );
         default:
             return (
-                <WeekData
+                <WeekTrackerWithContext
                     key={`week_${weekStart.valueOf()}_${item}`}
-                    weekStart={weekStart}
-                    trackerId={item}
+                    value={{ weekStart, trackerId: item }}
                     isNew={false}
                 />
             );

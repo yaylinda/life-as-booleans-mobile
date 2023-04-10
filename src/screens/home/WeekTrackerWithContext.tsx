@@ -1,29 +1,23 @@
 import moment from 'moment';
 import { Divider, HStack, VStack } from 'native-base';
 import React from 'react';
-import useUserStore, { DEFAULT_TRACKERS } from '../../stores/userStore';
 
+import { withContext } from '../../withContext';
 import DayData from './DayData';
-
 import WeekDataHeader from './WeekDataHeader';
-import type { Tracker } from '../../types';
+import { WeekTrackerProvider } from './WeekTrackerContext';
+import { useWeekTracker } from './useWeekTracker';
 
 interface WeekDataProps {
     isNew: boolean;
-    weekStart: moment.Moment;
-    trackerId?: string;
 }
 
-const WeekData = ({ isNew, weekStart, trackerId }: WeekDataProps) => {
+const WeekTracker = ({ isNew }: WeekDataProps) => {
     // const [tracker, setTracker] = React.useState<Tracker>((!isNew && trackerId)
     //     ? useUserStore((state) => state.trackers[trackerId])
     //     : EMPTY_TRACKER());
 
-    const tracker: Tracker | null = (!isNew && trackerId)
-        ? useUserStore((state) => state.trackers[trackerId])
-        : null;
-
-    const isDefaultTracker = (!isNew && trackerId) ? !!DEFAULT_TRACKERS[trackerId] : false;
+    const { trackerId,  weekStart } = useWeekTracker();
 
     const dates: moment.Moment[] = React.useMemo(() => {
         const start = moment(weekStart).startOf('day');
@@ -56,10 +50,7 @@ const WeekData = ({ isNew, weekStart, trackerId }: WeekDataProps) => {
             // borderColor="white"
             // borderWidth={isNew ? 1 : 0}
         >
-            <WeekDataHeader
-                isNew={isNew}
-                tracker={tracker}
-            />
+            <WeekDataHeader isNew={isNew} />
 
             <Divider bg="white:alpha.50" />
 
@@ -67,9 +58,7 @@ const WeekData = ({ isNew, weekStart, trackerId }: WeekDataProps) => {
                 {dates.map((date) => (
                     <DayData
                         key={`day_${date.valueOf()}_${trackerId}`}
-                        isDefaultTracker={isDefaultTracker}
                         date={date}
-                        tracker={tracker}
                         isNew={isNew}
                     />
                 ))}
@@ -78,4 +67,4 @@ const WeekData = ({ isNew, weekStart, trackerId }: WeekDataProps) => {
     );
 };
 
-export default WeekData;
+export default withContext(WeekTracker, WeekTrackerProvider);

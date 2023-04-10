@@ -1,19 +1,20 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import invariant from 'invariant';
-import { Button, HStack, Icon, IconButton, Input, Popover, Text } from 'native-base';
+import { HStack, IconButton, Input, Text } from 'native-base';
 import React from 'react';
 import { Alert } from 'react-native';
 import useUserStore from '../../stores/userStore';
-import { PopoverTriggerProps } from '../../types';
-import type { Tracker } from '../../types';
 import WeekDataHeaderOptionsPopover from './WeekDataHeaderOptionsPopover';
+import { useWeekTracker } from './useWeekTracker';
+import type { PopoverTriggerProps } from '../../types';
 
 interface WeekDataHeaderProps {
     isNew: boolean;
-    tracker: Tracker | null;
 }
 
-const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
+const WeekDataHeader = ({ isNew }: WeekDataHeaderProps) => {
+
+    const { tracker } = useWeekTracker();
 
     invariant(
         isNew || tracker !== null,
@@ -171,7 +172,6 @@ const WeekDataHeader = ({ isNew, tracker }: WeekDataHeaderProps) => {
             {trackerOptionsButton}
             <WeekDataHeaderOptionsPopover
                 isOpen={openPopover}
-                isDefaultTracker={!!tracker?.isDefaultTracker}
                 trigger={trackerOptionsButton}
                 onClose={() => setOpenPopover(false)}
                 onDelete={onDeleteTracker}

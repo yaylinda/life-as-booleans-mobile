@@ -4,6 +4,7 @@
 
 #### General
 - [ ] fix loading of font on app init
+- [ ] vertically center loading icon
 
 #### Home Screen
 - [ ] maybe add back "today" button on HomeScreen
@@ -12,6 +13,7 @@
 - [ ] fix colors of "options" menu
 - [ ] refactor to show year-view in action sheet from "options" menu
 - [ ] allow to backfill data until beginning of year
+- [ ] refactor to use context for week tracker components
 
 #### Summary Screen
 - [ ] show data in summary/year-view

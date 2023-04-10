@@ -23,7 +23,7 @@ import { create } from 'zustand';
 import { getRandomGradient } from '../gradients';
 import { clearAll, getItem, LocalStorageKey, multiGet, multiSet, removeItem, setItem } from '../localStorage';
 import { EMPTY_TRACKER } from '../utilities';
-import type { Tracker, User } from '../types';
+import type { Tracker, User, YearViewData } from '../types';
 
 interface UserStoreStateData {
     loadingData: boolean;
@@ -34,19 +34,21 @@ interface UserStoreStateData {
     data: { [key in string]: string };
     isAddingTracker: boolean;
     editingTrackerId: string;
+    yearViewData: YearViewData | null;
 }
 
 interface UserStoreStateFunctions {
     init: () => void;
     createUser: (username: string) => void;
     addTracker: (trackerName: string) => void;
-    getData: (dayEpoch: string, trackerId: string) => Promise<string | undefined>;
-    setData: (dayEpoch: string, trackerId: string, value: string) => void;
+    getTrackerData: (dayEpoch: string, trackerId: string) => Promise<string | undefined>;
+    setTrackerData: (dayEpoch: string, trackerId: string, value: string) => void;
     clearData: () => void;
     setIsAddingTracker: (value: boolean) => void;
     setEditingTrackerId: (trackerId: string) => void;
     deleteTracker: (trackerId: string) => void;
     updateTracker: (trackerName: string) => void;
+    setYearViewData: (setYearViewData: YearViewData | null) => void;
     _setDefaultTrackers: () => void;
     _loadFonts: () => void;
 }
@@ -105,6 +107,7 @@ const DEFAULT_DATA: UserStoreStateData = {
     data: {},
     isAddingTracker: false,
     editingTrackerId: '',
+    yearViewData: null,
 };
 
 const useUserStore = create<UserStoreState>()((set, get) => ({
@@ -159,7 +162,7 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         });
     },
 
-    getData: async (dayEpoch: string, trackerId: string) => {
+    getTrackerData: async (dayEpoch: string, trackerId: string) => {
         const key = `${dayEpoch}_${trackerId}`;
 
         if (get().data[key] !== undefined) {
@@ -181,7 +184,7 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         return undefined;
     },
 
-    setData: async (dayEpoch: string, trackerId: string, value: string) => {
+    setTrackerData: async (dayEpoch: string, trackerId: string, value: string) => {
         const key = `${dayEpoch}_${trackerId}`;
 
         await setItem<string>(key, value);
@@ -248,6 +251,10 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
             },
             editingTrackerId: '',
         });
+    },
+
+    setYearViewData: (yearViewData: YearViewData | null) => {
+        set({ yearViewData });
     },
 
     _setDefaultTrackers: async () => {

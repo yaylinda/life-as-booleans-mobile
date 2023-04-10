@@ -27,3 +27,8 @@ export interface PopoverTriggerProps {
     _props: unknown,
     state: { open: boolean }
 }
+
+export interface YearViewData {
+    tracker: Tracker,
+    year: number,
+}

@@ -1,11 +1,12 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Button, Icon, Popover } from 'native-base';
 import React from 'react';
+import useUserStore from '../../stores/userStore';
+import { useWeekTracker } from './useWeekTracker';
 import type { PopoverTriggerProps } from '../../types';
 
 interface WeekDataHeaderOptionsPopoverProps {
     isOpen: boolean;
-    isDefaultTracker: boolean;
     trigger: (triggerProps: PopoverTriggerProps) => JSX.Element;
     onClose: () => void;
     onDelete: () => void;
@@ -14,13 +15,23 @@ interface WeekDataHeaderOptionsPopoverProps {
 
 const WeekDataHeaderOptionsPopover = ({
     isOpen,
-    isDefaultTracker,
     trigger,
     onClose,
     onDelete,
     onEdit,
 }: WeekDataHeaderOptionsPopoverProps) => {
-    const [showYearView, setShowYearView] = React.useState(false);
+
+    const { tracker, weekStart } = useWeekTracker();
+    const isDefaultTracker = tracker?.isDefaultTracker;
+
+    const { setYearViewData } = useUserStore();
+
+    const openYearView = () => {
+        setYearViewData({
+            tracker: tracker!,
+            year: weekStart!.year()
+        });
+    };
 
     return (
         <Popover
@@ -36,7 +47,7 @@ const WeekDataHeaderOptionsPopover = ({
                         variant="ghost"
                         leftIcon={<Icon as={FontAwesome5} name="table" size="sm" />}
                         justifyContent="flex-start"
-                        onPress={() => setShowYearView(false)}
+                        onPress={openYearView}
                     >
                         Show Year View
                     </Button>
