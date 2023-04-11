@@ -5,13 +5,12 @@ import type moment from 'moment/moment';
 
 interface HeaderProps {
     startDate: moment.Moment;
-    isFirstWeek: boolean;
     isCurrentWeek: boolean;
     prevWeek: () => void;
     nextWeek: () => void;
 }
 
-const HomeScreenHeader = ({ startDate, isFirstWeek, isCurrentWeek, prevWeek, nextWeek }: HeaderProps) => {
+const HomeScreenHeader = ({ startDate, isCurrentWeek, prevWeek, nextWeek }: HeaderProps) => {
     return (
         <HStack w="100%" justifyContent="space-between" alignItems="center">
             <IconButton
@@ -19,14 +18,13 @@ const HomeScreenHeader = ({ startDate, isFirstWeek, isCurrentWeek, prevWeek, nex
                 _icon={{
                     as: FontAwesome5,
                     name: 'chevron-left',
-                    color: isFirstWeek ? 'white:alpha.10' : 'white',
+                    color: 'white',
                     textAlign: 'center'
                 }}
                 _pressed={{
                     bg: 'white:alpha.10'
                 }}
                 onPress={prevWeek}
-                disabled={isFirstWeek}
             />
             <Heading>Week of {startDate.format('MMM DD')}</Heading>
             <IconButton

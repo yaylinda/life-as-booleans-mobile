@@ -2,7 +2,6 @@ import moment from 'moment';
 
 import React from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper';
-import useUserStore from '../../stores/userStore';
 import { getWeekStart } from '../../utilities';
 import HomeScreenHeader from './HomeScreenHeader';
 import WeekDataList from './WeekDataList';
@@ -14,10 +13,8 @@ const HomeScreen = () => {
     //     safeAreaBottom: true
     // });
 
-    const { user } = useUserStore();
     const [weekStartDate, setWeekStartDate] = React.useState<moment.Moment>(getWeekStart());
 
-    const isFirstWeek = user ? weekStartDate.isSameOrBefore(moment(user.createdDateEpoch), 'week') : true;
     const isCurrentWeek = weekStartDate.isSame(moment(), 'week');
 
     const prevWeek = () => {
@@ -25,7 +22,7 @@ const HomeScreen = () => {
             date
                 .clone()
                 .subtract(1, 'week')
-                .startOf('day')
+                .startOf('day'),
         );
     };
 
@@ -34,7 +31,7 @@ const HomeScreen = () => {
             date
                 .clone()
                 .add(1, 'week')
-                .startOf('day')
+                .startOf('day'),
         );
     };
 
@@ -43,7 +40,6 @@ const HomeScreen = () => {
             <ScreenWrapper>
                 <HomeScreenHeader
                     startDate={weekStartDate}
-                    isFirstWeek={isFirstWeek}
                     isCurrentWeek={isCurrentWeek}
                     prevWeek={prevWeek}
                     nextWeek={nextWeek}

@@ -14,11 +14,15 @@
 - [x] refactor to show year-view in action sheet from "options" menu
 - [ ] allow to backfill data
 - [x] refactor to use context for week tracker components
+- [ ] show old name when editing tracker name
+- [ ] use black for section backgrounds
+- [ ] fix loading of day data icons on initial load
 
-#### Summary Screen
-- [ ] remove route from bottom nav
-- [ ] gradient background color
+#### Year Data Action Sheet
+- [x] remove route from bottom nav
+- [x] gradient background color
 - [ ] show data
+- [ ] navigate between years
 
 #### Settings Screen
 - [ ] fix settings "logout" button

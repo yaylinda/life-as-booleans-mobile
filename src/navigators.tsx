@@ -4,19 +4,18 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BlurView } from 'expo-blur';
 import { Icon, Text } from 'native-base';
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import HomeScreen from './screens/home/HomeScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import SettingsScreen from './screens/settings/SettingsScreen';
-import SummaryScreen from './screens/summary/SummaryScreen';
 import useUserStore from './stores/userStore';
-import type { BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import type { NavigatorScreenParams } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type TabStackParamList = {
     Home: undefined,
-    Summary: undefined,
+    // Summary: undefined,
     Settings: undefined,
 }
 
@@ -44,8 +43,8 @@ const TabStackNavigator = () => {
                 tabBarLabel: ({ focused }) => {
                     return (
                         <Text
-                            fontSize='2xs'
-                            fontWeight='bold'
+                            fontSize="2xs"
+                            fontWeight="bold"
                             color={focused ? gradientColors[1] : 'gray.200'}
                         >
                             {route.name}
@@ -59,9 +58,9 @@ const TabStackNavigator = () => {
                     case 'Home':
                         iconName = 'server';
                         break;
-                    case 'Summary':
-                        iconName = 'table';
-                        break;
+                        // case 'Summary':
+                        //     iconName = 'table';
+                        //     break;
                     case 'Settings':
                         iconName = 'cog';
                         break;
@@ -90,11 +89,11 @@ const TabStackNavigator = () => {
                 options={{ headerShown: false }}
                 component={HomeScreen}
             />
-            <TabStack.Screen
-                name="Summary"
-                options={{ headerShown: false }}
-                component={SummaryScreen}
-            />
+            {/*<TabStack.Screen*/}
+            {/*    name="Summary"*/}
+            {/*    options={{ headerShown: false }}*/}
+            {/*    component={SummaryScreen}*/}
+            {/*/>*/}
             <TabStack.Screen
                 name="Settings"
                 options={{ headerShown: false }}
