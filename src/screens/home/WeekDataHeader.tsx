@@ -35,7 +35,7 @@ const WeekDataHeaderOptionsPopover = ({
         onClose();
         setYearViewData({
             tracker: tracker,
-            year: weekStart.year()
+            year: weekStart.year(),
         });
     };
 
@@ -47,13 +47,22 @@ const WeekDataHeaderOptionsPopover = ({
         >
             <Popover.Content>
                 <Popover.Arrow />
-                <Popover.Body padding={0}>
+                <Popover.Body padding={0} paddingTop={2} paddingBottom={1}>
                     <Button
                         size="sm"
                         variant="ghost"
                         leftIcon={<Icon as={FontAwesome5} name="table" size="sm" />}
                         justifyContent="flex-start"
                         onPress={openYearView}
+                        _pressed={{
+                            bg: 'white:alpha.10',
+                        }}
+                        _text={{
+                            color: 'white',
+                        }}
+                        _icon={{
+                            color: 'white',
+                        }}
                     >
                         Show Year View
                     </Button>
@@ -64,6 +73,15 @@ const WeekDataHeaderOptionsPopover = ({
                             leftIcon={<Icon as={FontAwesome5} name="edit" size="sm" />}
                             justifyContent="flex-start"
                             onPress={onEdit}
+                            _pressed={{
+                                bg: 'white:alpha.10',
+                            }}
+                            _text={{
+                                color: 'white',
+                            }}
+                            _icon={{
+                                color: 'white',
+                            }}
                         >
                             Edit Name
                         </Button>
@@ -75,6 +93,15 @@ const WeekDataHeaderOptionsPopover = ({
                             leftIcon={<Icon as={FontAwesome5} name="trash" size="sm" />}
                             justifyContent="flex-start"
                             onPress={onDelete}
+                            _pressed={{
+                                bg: 'white:alpha.10',
+                            }}
+                            _text={{
+                                color: 'white',
+                            }}
+                            _icon={{
+                                color: 'white',
+                            }}
                         >
                             Delete
                         </Button>

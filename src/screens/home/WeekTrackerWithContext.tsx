@@ -45,10 +45,8 @@ const WeekTracker = ({ isNew }: WeekDataProps) => {
             mb={4}
             padding={4}
             space={2}
-            bg="white:alpha.20"
+            bg="black:alpha.20"
             borderRadius="3xl"
-            // borderColor="white"
-            // borderWidth={isNew ? 1 : 0}
         >
             <WeekDataHeader isNew={isNew} />
 

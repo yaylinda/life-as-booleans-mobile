@@ -40,9 +40,9 @@ const WeekDataList = ({ weekStart, isCurrentWeek }: WeekDataListProps) => {
     const addNewTrackerButton = (
         <IconButton
             borderRadius="full"
-            bg="white:alpha.20"
+            bg="black:alpha.20"
             _pressed={{
-                bg: 'white:alpha.30'
+                bg: 'black:alpha.25'
             }}
             _icon={{
                 as: FontAwesome5,
@@ -67,9 +67,7 @@ const WeekDataList = ({ weekStart, isCurrentWeek }: WeekDataListProps) => {
                 />
             );
         case SPACER_ITEM:
-            return (
-                <Box h={160} />
-            );
+            return (<Box h={160} />);
         default:
             return (
                 <WeekTrackerWithContext
