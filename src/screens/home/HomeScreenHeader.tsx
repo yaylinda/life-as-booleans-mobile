@@ -22,7 +22,7 @@ const HomeScreenHeader = ({ startDate, isCurrentWeek, prevWeek, nextWeek }: Head
                     textAlign: 'center'
                 }}
                 _pressed={{
-                    bg: 'white:alpha.10'
+                    bg: 'black:alpha.10'
                 }}
                 onPress={prevWeek}
             />
@@ -36,7 +36,7 @@ const HomeScreenHeader = ({ startDate, isCurrentWeek, prevWeek, nextWeek }: Head
                     textAlign: 'center'
                 }}
                 _pressed={{
-                    bg: 'white:alpha.10'
+                    bg: 'black:alpha.10'
                 }}
                 onPress={nextWeek}
                 disabled={isCurrentWeek}

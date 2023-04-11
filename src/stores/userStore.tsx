@@ -49,6 +49,8 @@ interface UserStoreStateFunctions {
     deleteTracker: (trackerId: string) => void;
     updateTracker: (trackerName: string) => void;
     setYearViewData: (setYearViewData: YearViewData | null) => void;
+    nextYear: () => void;
+    prevYear: () => void;
     _setDefaultTrackers: () => void;
     _loadFonts: () => void;
 }
@@ -255,6 +257,26 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
 
     setYearViewData: (yearViewData: YearViewData | null) => {
         set({ yearViewData });
+    },
+
+    nextYear: () => {
+        if (!get().yearViewData) {
+            return;
+        }
+
+        set((state) => produce(state, (draft) => {
+            draft.yearViewData!.year = draft.yearViewData!.year + 1;
+        }));
+    },
+
+    prevYear: () => {
+        if (!get().yearViewData) {
+            return;
+        }
+
+        set((state) => produce(state, (draft) => {
+            draft.yearViewData!.year = draft.yearViewData!.year - 1;
+        }));
     },
 
     _setDefaultTrackers: async () => {

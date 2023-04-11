@@ -1,4 +1,5 @@
 import { FontAwesome5 } from '@expo/vector-icons';
+import moment from 'moment';
 import { Actionsheet, Heading, HStack, IconButton, Text, VStack } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
@@ -6,7 +7,7 @@ import YearTrackerDataGrid from './YearTrackerDataGrid';
 
 const YearDataActionSheet = () => {
 
-    const { yearViewData, gradientColors, setYearViewData } = useUserStore();
+    const { yearViewData, gradientColors, setYearViewData, nextYear, prevYear } = useUserStore();
 
     const isOpen = !!yearViewData;
 
@@ -21,9 +22,17 @@ const YearDataActionSheet = () => {
 
         const { tracker, year } = yearViewData;
 
+        const isCurrentYear = year === moment().year();
+
         return (
             <>
-                <HStack w='100%' justifyContent='space-between' alignItems='center' marginBottom={4}>
+                <HStack
+                    w='100%'
+                    justifyContent='space-between'
+                    alignItems='center'
+                    marginBottom={4}
+                    space={2}
+                >
                     <IconButton
                         borderRadius="full"
                         _icon={{
@@ -33,11 +42,19 @@ const YearDataActionSheet = () => {
                             textAlign: 'center'
                         }}
                         _pressed={{
-                            bg: 'white:alpha.10'
+                            bg: 'black:alpha.20'
                         }}
+                        onPress={prevYear}
                         flexGrow={0}
                     />
-                    <VStack alignItems='center' space={1}>
+                    <VStack
+                        alignItems='center'
+                        space={1}
+                        bg='black:alpha.20'
+                        flex={1}
+                        borderRadius="lg"
+                        paddingY={1}
+                    >
                         <Heading>{tracker.displayName}</Heading>
                         <Text>{year}</Text>
                     </VStack>
@@ -46,12 +63,14 @@ const YearDataActionSheet = () => {
                         _icon={{
                             as: FontAwesome5,
                             name: 'chevron-right',
-                            color: 'white',
+                            color: isCurrentYear ? 'white:alpha.20' : 'white',
                             textAlign: 'center'
                         }}
                         _pressed={{
-                            bg: 'white:alpha.10'
+                            bg: 'black:alpha.20'
                         }}
+                        onPress={nextYear}
+                        disabled={isCurrentYear}
                         flexGrow={0}
                     />
                 </HStack>

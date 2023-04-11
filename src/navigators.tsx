@@ -45,7 +45,7 @@ const TabStackNavigator = () => {
                         <Text
                             fontSize="2xs"
                             fontWeight="bold"
-                            color={focused ? gradientColors[1] : 'gray.200'}
+                            color={focused ? gradientColors[1] : 'white'}
                         >
                             {route.name}
                         </Text>
@@ -71,7 +71,7 @@ const TabStackNavigator = () => {
                             as={FontAwesome5}
                             name={iconName}
                             size={size}
-                            color={focused ? gradientColors[1] : 'gray.200'}
+                            color={focused ? gradientColors[1] : 'white'}
                         />
                     );
                 },
