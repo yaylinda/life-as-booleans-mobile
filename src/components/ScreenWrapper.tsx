@@ -1,13 +1,13 @@
-import {  Center, Spinner, VStack } from 'native-base';
+import { Center, Spinner, VStack } from 'native-base';
 import React from 'react';
 import { SafeAreaView } from 'react-native';
 import useUserStore from '../stores/userStore';
 
 interface ScreenWrapperProps {
-    children?: JSX.Element | JSX.Element[];
+    children: React.ReactNode;
 }
 
-const ScreenWrapper = ({children}: ScreenWrapperProps) => {
+const ScreenWrapper = ({ children }: ScreenWrapperProps) => {
 
     // TODO - fix font loading. need to move one level higher
 
@@ -21,8 +21,8 @@ const ScreenWrapper = ({children}: ScreenWrapperProps) => {
                 linearGradient: {
                     colors: gradientColors,
                     start: [0, 0],
-                    end: [0, 1]
-                }
+                    end: [0, 1],
+                },
             }}
             flex={1}
         >
@@ -33,7 +33,7 @@ const ScreenWrapper = ({children}: ScreenWrapperProps) => {
                             <Spinner size="lg" color="white" />
                         </Center>
                     ) : (
-                        <VStack space={2} paddingX={2}>
+                        <VStack>
                             {children}
                         </VStack>
                     )

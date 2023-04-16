@@ -3,6 +3,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Box, FlatList, IconButton } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
+import { UNIT_PX } from '../../styles';
 import WeekTrackerWithContext from './WeekTrackerWithContext';
 import type moment from 'moment';
 
@@ -62,7 +63,7 @@ const WeekDataList = ({ weekStart, isCurrentWeek }: WeekDataListProps) => {
                 />
             );
         case SPACER_ITEM:
-            return (<Box h={160} />);
+            return (<Box h={170} />);
         default:
             return (
                 <WeekTrackerWithContext
@@ -76,6 +77,7 @@ const WeekDataList = ({ weekStart, isCurrentWeek }: WeekDataListProps) => {
 
     return (
         <FlatList
+            style={{ paddingHorizontal: 2 * UNIT_PX }}
             data={dataItems}
             renderItem={renderItem}
             showsVerticalScrollIndicator={false}

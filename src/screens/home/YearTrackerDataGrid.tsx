@@ -82,6 +82,10 @@ const YearTrackerDataGrid = ({ tracker, year }: YearTrackerDataGridProps) => {
 
     const [selectedCoord, setSelectedCoord] = React.useState({ row: -1, column: -1 });
 
+    React.useEffect(() => {
+        setSelectedCoord({ row: -1, column: -1 });
+    }, [year]);
+
     const onPressCell = (row: number, column: number) => {
         if (row === 0 || column === 0) {
             return;
@@ -101,7 +105,7 @@ const YearTrackerDataGrid = ({ tracker, year }: YearTrackerDataGridProps) => {
                 <HStack key={`${tracker.id}_${row}`} justifyContent="center">
                     {(new Array(NUM_MONTHS + 1).fill(0)).map((_, column) => (
                         <DayTrackerDataCell
-                            key={`r${row}_c${column}_${selectedCoord}`}
+                            key={`r${row}_c${column}`}
                             tracker={tracker}
                             year={year}
                             row={row}

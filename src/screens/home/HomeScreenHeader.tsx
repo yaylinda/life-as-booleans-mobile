@@ -12,7 +12,7 @@ interface HeaderProps {
 
 const HomeScreenHeader = ({ startDate, isCurrentWeek, prevWeek, nextWeek }: HeaderProps) => {
     return (
-        <HStack w="100%" justifyContent="space-between" alignItems="center">
+        <HStack w="100%" justifyContent="space-between" alignItems="center" padding={2}>
             <IconButton
                 borderRadius="full"
                 _icon={{
