@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { Center, HStack, Text, VStack } from 'native-base';
+import { Center, HStack, Pressable, Text, VStack } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
 
@@ -18,13 +18,16 @@ export const CELL_SIZE_PX = 16;
 interface DayTrackerDataCellProps {
     tracker: Tracker;
     year: number;
-    dIndex: number;
-    mIndex: number;
+    row: number;
+    column: number;
+    selectedCoord: { row: number, column: number },
+    onPress: () => void;
 }
 
-const DayTrackerDataCell = ({ tracker, year, dIndex, mIndex }: DayTrackerDataCellProps) => {
+const DayTrackerDataCell = ({ tracker, year, row, column, selectedCoord, onPress }: DayTrackerDataCellProps) => {
 
-    const dayEpoch = moment({ year: year, month: mIndex - 1, date: dIndex }).valueOf();
+    const dayEpoch = moment({ year: year, month: column - 1, date: row }).valueOf();
+
     const key = `${dayEpoch}_${tracker.id}`;
 
     const value: string | undefined = useUserStore((state) => state.data[key]);
@@ -33,30 +36,40 @@ const DayTrackerDataCell = ({ tracker, year, dIndex, mIndex }: DayTrackerDataCel
 
     const bg = color ? `${color}` : 'black:alpha.20';
 
+    const isSelectedRow = selectedCoord.row === row;
+
+    const isSelectedColumn = selectedCoord.column === column;
+
     const renderContent = () => {
-        if (dIndex === 0 && mIndex === 0) {
+        if (row === 0 && column === 0) {
             return null;
         }
 
-        if (dIndex === 0 && mIndex > 0) {
-            return <Text fontSize="2xs" fontWeight="black">{moment().month(mIndex - 1).format('MMM')[0]}</Text>;
+        if (row === 0 && column > 0) {
+            return <Text fontSize="2xs" fontWeight="black">{moment().month(column - 1).format('MMM')[0]}</Text>;
         }
 
-        if (dIndex > 0 && mIndex === 0) {
-            return <Text fontSize="2xs" fontWeight="black">{dIndex}</Text>;
+        if (row > 0 && column === 0) {
+            return <Text fontSize="2xs" fontWeight="black">{row}</Text>;
         }
     };
 
     return (
-        <Center
-            w={`${CELL_SIZE_PX}px`} h={`${CELL_SIZE_PX}px`}
-            bg={bg}
-            borderColor={value ? 'white' : undefined}
-            borderWidth={value ? 2 : 0}
-            borderRadius={4}
+        <Pressable
+            bg={isSelectedRow || isSelectedColumn ? 'white:alpha.20' : undefined}
+            padding={CELL_GAP/2}
+            onPress={onPress}
         >
-            {renderContent()}
-        </Center>
+            <Center
+                w={`${CELL_SIZE_PX}px`} h={`${CELL_SIZE_PX}px`}
+                bg={bg}
+                borderColor={value ? 'white' : undefined}
+                borderWidth={value ? 2 : 0}
+                borderRadius={4}
+            >
+                {renderContent()}
+            </Center>
+        </Pressable>
     );
 };
 
@@ -66,17 +79,35 @@ interface YearTrackerDataGridProps {
 }
 
 const YearTrackerDataGrid = ({ tracker, year }: YearTrackerDataGridProps) => {
+
+    const [selectedCoord, setSelectedCoord] = React.useState({ row: -1, column: -1 });
+
+    const onPressCell = (row: number, column: number) => {
+        if (row === 0 || column === 0) {
+            return;
+        }
+
+        setSelectedCoord((state) => {
+            if (state.row === row && state.column === column) {
+                return { row: -1, column: -1 };
+            }
+            return { row, column };
+        });
+    };
+
     return (
-        <VStack space={CELL_GAP}>
-            {(new Array(MAX_DAYS_IN_MONTH + 1).fill(0)).map((_, d) => (
-                <HStack key={`${tracker.id}_${d}`} space={CELL_GAP} justifyContent="center">
-                    {(new Array(NUM_MONTHS + 1).fill(0)).map((_, m) => (
+        <VStack>
+            {(new Array(MAX_DAYS_IN_MONTH + 1).fill(0)).map((_, row) => (
+                <HStack key={`${tracker.id}_${row}`} justifyContent="center">
+                    {(new Array(NUM_MONTHS + 1).fill(0)).map((_, column) => (
                         <DayTrackerDataCell
-                            key={`d${d}_m${m}`}
+                            key={`r${row}_c${column}_${selectedCoord}`}
                             tracker={tracker}
                             year={year}
-                            dIndex={d}
-                            mIndex={m}
+                            row={row}
+                            column={column}
+                            selectedCoord={selectedCoord}
+                            onPress={() => onPressCell(row, column)}
                         />
                     ))}
                 </HStack>
