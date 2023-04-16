@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Actionsheet, Heading, HStack, IconButton, Text, VStack } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
-import YearTrackerDataGrid from './YearTrackerDataGrid';
+import YearTrackerDataGrid, { CELL_GAP_PX, CELL_SIZE_PX, NUM_MONTHS } from './YearTrackerDataGrid';
 
 const YearDataActionSheet = () => {
 
@@ -51,9 +51,9 @@ const YearDataActionSheet = () => {
                         alignItems='center'
                         space={1}
                         bg='black:alpha.20'
-                        flex={1}
                         borderRadius="lg"
                         paddingY={1}
+                        width={(NUM_MONTHS + 1) * CELL_SIZE_PX + NUM_MONTHS * CELL_GAP_PX}
                     >
                         <Heading>{tracker.displayName}</Heading>
                         <Text>{year}</Text>

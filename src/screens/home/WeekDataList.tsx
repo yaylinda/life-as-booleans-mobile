@@ -1,9 +1,9 @@
 import { FontAwesome5 } from '@expo/vector-icons';
+
 import { Box, FlatList, IconButton } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
 import WeekTrackerWithContext from './WeekTrackerWithContext';
-
 import type moment from 'moment';
 
 interface WeekDataListProps {
@@ -26,31 +26,26 @@ const WeekDataList = ({ weekStart, isCurrentWeek }: WeekDataListProps) => {
                 items.push(NEW_TRACKER_ITEM);
             }
 
-            if (!isAddingTracker && !editingTrackerId) {
-                items.push(ADD_BUTTON_ITEM);
-            }
-
-            items.push(SPACER_ITEM);
-
-            return items;
+            return [...items, ADD_BUTTON_ITEM, SPACER_ITEM];
         }
         return [...Object.keys(trackers), SPACER_ITEM];
-    }, [trackers, isCurrentWeek, isAddingTracker, editingTrackerId]);
+    }, [trackers, isCurrentWeek, isAddingTracker]);
 
     const addNewTrackerButton = (
         <IconButton
             borderRadius="full"
             bg="black:alpha.20"
             _pressed={{
-                bg: 'black:alpha.25'
+                bg: 'black:alpha.25',
             }}
             _icon={{
                 as: FontAwesome5,
                 name: 'plus',
                 color: 'white',
-                textAlign: 'center'
+                textAlign: 'center',
             }}
             onPress={() => setIsAddingTracker(true)}
+            disabled={isAddingTracker || !!editingTrackerId || !isCurrentWeek}
         />
     );
 

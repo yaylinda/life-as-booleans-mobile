@@ -4,9 +4,50 @@ import moment from 'moment';
 import { HStack, IconButton, Popover, Text, VStack } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
-import TrackerOption from './TrackerOption';
 import { useWeekTracker } from './useWeekTracker';
 import type { TrackerValueOption } from '../../types';
+
+interface TrackerOptionProps {
+    option: TrackerValueOption;
+    selectedValue: string | undefined;
+    onSelect: (value: string) => void;
+}
+
+const TrackerOption = ({
+    option,
+    selectedValue,
+    onSelect,
+}: TrackerOptionProps) => {
+
+    const isSelected = option.value === selectedValue;
+
+    return (
+        <VStack
+            justifyContent="center"
+            alignItems="center"
+            bg={isSelected ? 'white:alpha.20' : undefined}
+            paddingBottom={1}
+            paddingX={1}
+            borderRadius="md"
+        >
+            <IconButton
+                size="sm"
+                borderRadius="full"
+                _icon={{
+                    as: FontAwesome5,
+                    name: option.icon,
+                    color: option.color,
+                    textAlign: 'center',
+                }}
+                _pressed={{
+                    bg: undefined,
+                }}
+                onPress={() => onSelect(option.value)}
+            />
+            <Text fontSize="2xs" fontWeight="bold">{option.label}</Text>
+        </VStack>
+    );
+};
 
 interface DayDataProps {
     date: moment.Moment,
@@ -93,6 +134,7 @@ const DayData = ({ date, isNew }: DayDataProps) => {
 
     const dayTrackerButton = (triggerProps: { _props: never, state: { open: boolean } }) => (
         <IconButton
+            size='sm'
             {...triggerProps}
             disabled={isAfter || isNew}
             borderRadius="full"
@@ -127,7 +169,7 @@ const DayData = ({ date, isNew }: DayDataProps) => {
             </HStack>
             {!isToday && (
                 <Text fontSize="2xs" fontStyle="italic">
-                    Editing tracker data for a previous day
+                    Editing historical tracker data
                 </Text>
             )}
         </VStack>

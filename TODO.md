@@ -5,6 +5,9 @@
 #### General
 - [ ] fix loading of font on app init
 - [ ] vertically center loading icon
+- [ ] (ADVICE) View #167 of type ABI48_0_0ExpoLinearGradient.LinearGradientView has a shadow set but cannot calculate shadow efficiently
+- [ ] make year view initial load faster
+- [ ] transparent header maybe?
 
 #### Home Screen
 - [ ] maybe add back "today" button on HomeScreen
@@ -17,6 +20,9 @@
 - [ ] show old name when editing tracker name
 - [ ] use black for section backgrounds
 - [ ] fix loading of day data icons on initial load
+- [ ] toast when renamed tracker
+- [ ] toast when tracker created
+- [ ] toast when tracker deleted
 
 #### Year Data Action Sheet
 - [x] remove route from bottom nav

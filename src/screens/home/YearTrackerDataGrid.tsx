@@ -4,13 +4,15 @@ import React from 'react';
 
 import type { Tracker } from '../../types';
 
-const MAX_DAYS_IN_MONTH = 31;
+export const MAX_DAYS_IN_MONTH = 31;
 
-const NUM_MONTHS = 12;
+export const NUM_MONTHS = 12;
 
-const CELL_GAP = 1;
+export const CELL_GAP = 1;
 
-const CELL_SIZE = 16;
+export const CELL_GAP_PX = 4;
+
+export const CELL_SIZE_PX = 16;
 
 interface DayTrackerDataCellProps {
     dIndex: number;
@@ -34,7 +36,7 @@ const DayTrackerDataCell = ({ dIndex, mIndex }: DayTrackerDataCellProps) => {
     };
 
     return (
-        <Center w={`${CELL_SIZE}px`} h={`${CELL_SIZE}px`} bg='black:alpha.20' borderRadius={4}>
+        <Center w={`${CELL_SIZE_PX}px`} h={`${CELL_SIZE_PX}px`} bg='black:alpha.20' borderRadius={4}>
             {renderContent()}
         </Center>
     );
