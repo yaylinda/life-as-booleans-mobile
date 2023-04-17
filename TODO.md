@@ -6,7 +6,6 @@
 - [ ] fix loading of font on app init
 - [ ] vertically center loading icon
 - [ ] (ADVICE) View #167 of type ABI48_0_0ExpoLinearGradient.LinearGradientView has a shadow set but cannot calculate shadow efficiently
-- [ ] transparent header maybe?
 
 #### Home Screen
 - [ ] maybe add back "today" button on HomeScreen
@@ -22,6 +21,7 @@
 - [ ] toast when renamed tracker
 - [ ] toast when tracker created
 - [ ] toast when tracker deleted
+- [ ] use dialog to add/edit tracker name
 
 #### Year Data Action Sheet
 - [x] remove route from bottom nav
@@ -31,7 +31,7 @@
 - [ ] fix performance on load and on year change
 
 #### Settings Screen
-- [ ] fix settings "logout" button
+- [x] fix settings "logout" button
 
 ### Go To Market
 - [ ] generate logo / icon

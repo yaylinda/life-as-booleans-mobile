@@ -141,14 +141,11 @@ const WeekDataHeader = ({ isNew }: WeekDataHeaderProps) => {
         'isNew and isEditing cannot both be true',
     );
 
-    const trackerName = tracker?.displayName || '';
-
-    const [newTrackerName, setNewTrackerName] = React.useState<string>(trackerName);
+    const [newTrackerName, setNewTrackerName] = React.useState<string>(tracker?.displayName || '');
 
     const [openPopover, setOpenPopover] = React.useState<boolean>(false);
 
     const onEditName = () => {
-        setNewTrackerName('');
         setEditingTrackerId(tracker!.id);
         setOpenPopover(false);
     };
@@ -197,7 +194,7 @@ const WeekDataHeader = ({ isNew }: WeekDataHeaderProps) => {
                 }}
                 _icon={{
                     as: FontAwesome5,
-                    name: 'trash',
+                    name: 'ban',
                     color: 'white',
                     textAlign: 'center',
                 }}
@@ -271,7 +268,7 @@ const WeekDataHeader = ({ isNew }: WeekDataHeaderProps) => {
                 fontWeight="bold"
                 fontSize="lg"
             >
-                {trackerName}
+                {tracker?.displayName}
             </Text>
             {trackerOptionsButton}
             <WeekDataHeaderOptionsPopover
