@@ -1,10 +1,9 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import { HStack, IconButton, Pressable, Text } from 'native-base';
 import React from 'react';
-import useUserStore from '../../stores/userStore';
 import { SELECTED_BG } from '../../styles';
-import type { TrackerValueOption } from '../../types';
 import { useTracker } from './useTracker';
+import type { TrackerValueOption } from '../../types';
 
 interface TrackerOptionProps {
     option: TrackerValueOption;
@@ -47,41 +46,25 @@ const TrackerOption = ({
     );
 };
 
-const TrackerValueSelection = () => {
 
-    const { tracker, date } = useTracker();
+interface TrackerValueSelectionProps {
+    selectedValue: string | undefined;
+    onSelect: (value: string) => void;
+}
 
-    const dayEpoch = `${date.valueOf()}`;
+const TrackerValueSelection = ({ selectedValue, onSelect }: TrackerValueSelectionProps) => {
 
-    const { getTrackerData, setTrackerData } = useUserStore();
-
-    const [value, setValue] = React.useState<string | undefined>();
-
-    React.useEffect(() => {
-        const get = async () => {
-            const data = await getTrackerData(dayEpoch, tracker.id);
-            setValue(data);
-        };
-
-        if (tracker?.id) {
-            get();
-        }
-    }, [dayEpoch, getTrackerData, tracker]);
-
-    const onSelectOption = (value: string) => {
-        setTrackerData(dayEpoch, tracker!.id, value);
-        setValue(value);
-    };
+    const { tracker, dayEpoch } = useTracker();
 
     return (
         <HStack justifyContent="space-evenly" space={2} flex={1}>
             {Object.values(tracker.valueOptionsMap || [])
                 .map((option: TrackerValueOption) => (
                     <TrackerOption
-                        key={`options_${option.value}_${tracker!.id}_${dayEpoch}`}
+                        key={`options_${option.value}_${tracker.id}_${dayEpoch}`}
                         option={option}
-                        selectedValue={value}
-                        onSelect={onSelectOption}
+                        selectedValue={selectedValue}
+                        onSelect={onSelect}
                     />
                 ))
             }

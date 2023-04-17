@@ -65,7 +65,7 @@ const TrackerHeader = () => {
 
     return (
         <HStack justifyContent="space-between">
-            <Heading>{tracker.emoji} {tracker.displayName}</Heading>
+            <Heading>{tracker.displayName}</Heading>
             {trackerOptionsButton}
             <TrackerHeaderOptionsPopover
                 isOpen={openPopover}

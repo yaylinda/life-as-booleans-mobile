@@ -8,16 +8,17 @@ import type { Tracker } from '../../types';
 export interface TrackerContextBase {
     date: moment.Moment;
     trackerId: string;
-    // tracker: Tracker;
 }
 
 interface TrackerContextData {
     date: moment.Moment;
+    dayEpoch: string;
     tracker: Tracker;
 }
 
 export const TrackerContext = React.createContext<TrackerContextData>({
     date: moment(),
+    dayEpoch: '',
     tracker: EMPTY_TRACKER(''),
 });
 
@@ -33,7 +34,7 @@ export const TrackerProvider: React.FC<TrackerProviderProps> = ({ value, childre
     const tracker: Tracker = useUserStore((state) => state.trackers[trackerId]);
 
     return (
-        <TrackerContext.Provider value={{ date, tracker }}>
+        <TrackerContext.Provider value={{ date, tracker, dayEpoch: `${date.valueOf()}` }}>
             {children}
         </TrackerContext.Provider>
     );
