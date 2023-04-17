@@ -8,6 +8,7 @@
 - [ ] (ADVICE) View #167 of type ABI48_0_0ExpoLinearGradient.LinearGradientView has a shadow set but cannot calculate shadow efficiently
 
 #### Home Screen
+- [ ] redo ui
 - [ ] maybe add back "today" button on HomeScreen
 - [ ] indicate "today" on week view
 - [ ] consider a better a header for HomeScreen

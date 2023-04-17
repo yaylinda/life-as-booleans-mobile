@@ -30,10 +30,6 @@ const SettingsScreen = () => {
             },
         ]);
 
-    if (!user) {
-        return;
-    }
-
     return (
         <ScreenWrapper>
             <VStack space={5} alignItems="center" justifyContent="center" mb={10}>

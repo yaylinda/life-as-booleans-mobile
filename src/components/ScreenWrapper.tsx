@@ -1,19 +1,21 @@
-import { Center, Spinner, VStack } from 'native-base';
+import { BlurView } from 'expo-blur';
+import { HStack, useSafeArea, VStack } from 'native-base';
 import React from 'react';
-import { SafeAreaView } from 'react-native';
 import useUserStore from '../stores/userStore';
+import { UNIT_PX } from '../styles';
 
 interface ScreenWrapperProps {
-    children: React.ReactNode;
+    header: React.ReactNode;
+    content: React.ReactNode;
 }
 
-const ScreenWrapper = ({ children }: ScreenWrapperProps) => {
+const ScreenWrapper = ({ header, content }: ScreenWrapperProps) => {
 
-    // TODO - fix font loading. need to move one level higher
+    const safeAreaProps = useSafeArea({
+        safeAreaTop: true,
+    });
 
-    const { loadingData, loadingFonts, gradientColors } = useUserStore();
-
-    const loading = loadingData || loadingFonts;
+    const { gradientColors } = useUserStore();
 
     return (
         <VStack
@@ -24,21 +26,15 @@ const ScreenWrapper = ({ children }: ScreenWrapperProps) => {
                     end: [0, 1],
                 },
             }}
-            flex={1}
+            h="full"
+            w="full"
         >
-            <SafeAreaView>
-                {
-                    loading ? (
-                        <Center>
-                            <Spinner size="lg" color="white" />
-                        </Center>
-                    ) : (
-                        <VStack>
-                            {children}
-                        </VStack>
-                    )
-                }
-            </SafeAreaView>
+            <BlurView tint="dark" intensity={50} style={{ padding: 2 * UNIT_PX }}>
+                <HStack {...safeAreaProps} justifyContent="space-between" alignItems="center">
+                    {header}
+                </HStack>
+            </BlurView>
+            {content}
         </VStack>
     );
 };
