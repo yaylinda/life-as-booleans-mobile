@@ -1,8 +1,6 @@
-import { BlurView } from 'expo-blur';
 import { HStack, useSafeArea, VStack } from 'native-base';
 import React from 'react';
 import useUserStore from '../stores/userStore';
-import { UNIT_PX } from '../styles';
 
 interface ScreenWrapperProps {
     header: React.ReactNode;
@@ -29,11 +27,14 @@ const ScreenWrapper = ({ header, content }: ScreenWrapperProps) => {
             h="full"
             w="full"
         >
-            <BlurView tint="dark" intensity={50} style={{ padding: 2 * UNIT_PX }}>
-                <HStack {...safeAreaProps} justifyContent="space-between" alignItems="center">
-                    {header}
-                </HStack>
-            </BlurView>
+            <HStack
+                justifyContent="space-between"
+                alignItems="center"
+                padding={2}
+                {...safeAreaProps}
+            >
+                {header}
+            </HStack>
             {content}
         </VStack>
     );

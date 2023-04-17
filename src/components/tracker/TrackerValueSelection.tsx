@@ -1,9 +1,10 @@
 import { FontAwesome5 } from '@expo/vector-icons';
-import { HStack, IconButton, Text, VStack } from 'native-base';
+import { HStack, IconButton, Pressable, Text } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
-import { useTracker } from './useTracker';
+import { SELECTED_BG } from '../../styles';
 import type { TrackerValueOption } from '../../types';
+import { useTracker } from './useTracker';
 
 interface TrackerOptionProps {
     option: TrackerValueOption;
@@ -20,13 +21,14 @@ const TrackerOption = ({
     const isSelected = option.value === selectedValue;
 
     return (
-        <VStack
+        <Pressable
             justifyContent="center"
             alignItems="center"
-            bg={isSelected ? 'white:alpha.20' : undefined}
+            bg={isSelected ? SELECTED_BG : undefined}
             paddingBottom={1}
-            paddingX={1}
             borderRadius="md"
+            flex={1}
+            onPress={() => onSelect(option.value)}
         >
             <IconButton
                 size="sm"
@@ -37,13 +39,11 @@ const TrackerOption = ({
                     color: option.color,
                     textAlign: 'center',
                 }}
-                _pressed={{
-                    bg: undefined,
-                }}
+                _pressed={{ bg: undefined }}
                 onPress={() => onSelect(option.value)}
             />
             <Text fontSize="2xs" fontWeight="bold">{option.label}</Text>
-        </VStack>
+        </Pressable>
     );
 };
 
@@ -74,20 +74,18 @@ const TrackerValueSelection = () => {
     };
 
     return (
-        <VStack space={2}>
-            <HStack justifyContent="space-evenly" space={2}>
-                {Object.values(tracker.valueOptionsMap || [])
-                    .map((option: TrackerValueOption) => (
-                        <TrackerOption
-                            key={`options_${option.value}_${tracker!.id}_${dayEpoch}`}
-                            option={option}
-                            selectedValue={value}
-                            onSelect={onSelectOption}
-                        />
-                    ))
-                }
-            </HStack>
-        </VStack>
+        <HStack justifyContent="space-evenly" space={2} flex={1}>
+            {Object.values(tracker.valueOptionsMap || [])
+                .map((option: TrackerValueOption) => (
+                    <TrackerOption
+                        key={`options_${option.value}_${tracker!.id}_${dayEpoch}`}
+                        option={option}
+                        selectedValue={value}
+                        onSelect={onSelectOption}
+                    />
+                ))
+            }
+        </HStack>
     );
 };
 

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { ScrollView } from 'native-base';
 import React from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import TrackerFullWidth from '../../components/tracker/TrackerFullWidth';
@@ -8,7 +9,7 @@ import TodayScreenHeader from './TodayScreenHeader';
 
 const TodayScreen = () => {
 
-    const {  } = useUserStore();
+    const { trackers } = useUserStore();
 
     const [date, setDate] = React.useState<moment.Moment>(moment());
 
@@ -40,12 +41,12 @@ const TodayScreen = () => {
                 />
             }
             content={
-                <>
+                <ScrollView showsVerticalScrollIndicator={false} paddingX={2}>
                     <TrackerFullWidth value={{
-                        tracker: DEFAULT_TRACKERS['overall_mood'],
+                        trackerId: DEFAULT_TRACKERS['overall_mood'].id,
                         date,
                     }} />
-                </>
+                </ScrollView>
             }
         />
     );

@@ -3,6 +3,7 @@ import invariant from 'invariant';
 import { Button, Icon, Popover } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
+import { PRESSED_BG } from '../../styles';
 import { useTracker } from './useTracker';
 import type { PopoverTriggerProps } from '../../types';
 
@@ -54,7 +55,7 @@ const TrackerHeaderOptionsPopover = ({
                         justifyContent="flex-start"
                         onPress={openYearView}
                         _pressed={{
-                            bg: 'white:alpha.10',
+                            bg: PRESSED_BG,
                         }}
                         _text={{
                             color: 'white',
@@ -73,7 +74,7 @@ const TrackerHeaderOptionsPopover = ({
                             justifyContent="flex-start"
                             onPress={onEdit}
                             _pressed={{
-                                bg: 'white:alpha.10',
+                                bg: PRESSED_BG,
                             }}
                             _text={{
                                 color: 'white',
@@ -93,7 +94,7 @@ const TrackerHeaderOptionsPopover = ({
                             justifyContent="flex-start"
                             onPress={onDelete}
                             _pressed={{
-                                bg: 'white:alpha.10',
+                                bg: PRESSED_BG,
                             }}
                             _text={{
                                 color: 'white',

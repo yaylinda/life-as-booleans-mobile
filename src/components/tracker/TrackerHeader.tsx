@@ -3,6 +3,7 @@ import { Heading, HStack, IconButton } from 'native-base';
 import React from 'react';
 import { Alert } from 'react-native';
 import useUserStore from '../../stores/userStore';
+import { PRESSED_BG } from '../../styles';
 import TrackerHeaderOptionsPopover from './TrackerHeaderOptionsPopover';
 import { useTracker } from './useTracker';
 import type { PopoverTriggerProps } from '../../types';
@@ -50,7 +51,7 @@ const TrackerHeader = () => {
             borderRadius="full"
             padding={1.5}
             _pressed={{
-                bg: 'white:alpha.10',
+                bg: PRESSED_BG,
             }}
             _icon={{
                 as: FontAwesome5,
@@ -63,7 +64,7 @@ const TrackerHeader = () => {
     );
 
     return (
-        <HStack>
+        <HStack justifyContent="space-between">
             <Heading>{tracker.emoji} {tracker.displayName}</Heading>
             {trackerOptionsButton}
             <TrackerHeaderOptionsPopover
