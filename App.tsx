@@ -8,9 +8,7 @@ import useUserStore from './src/stores/userStore';
 import { theme } from './src/theme';
 
 const App = () => {
-    const { init, loadingFonts, loadingData  } = useUserStore();
-
-    const loading = loadingFonts || loadingData;
+    const { init } = useUserStore();
 
     React.useEffect(() => {
         init();

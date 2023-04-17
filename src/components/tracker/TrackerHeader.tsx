@@ -1,5 +1,5 @@
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Heading, HStack, IconButton } from 'native-base';
+import { HStack, IconButton, Text } from 'native-base';
 import React from 'react';
 import { Alert } from 'react-native';
 import useUserStore from '../../stores/userStore';
@@ -64,8 +64,8 @@ const TrackerHeader = () => {
     );
 
     return (
-        <HStack justifyContent="space-between">
-            <Heading>{tracker.displayName}</Heading>
+        <HStack alignItems="center" justifyContent="space-between">
+            <Text isTruncated w="80%" fontSize="lg" fontWeight="bold">{tracker.displayName}</Text>
             {trackerOptionsButton}
             <TrackerHeaderOptionsPopover
                 isOpen={openPopover}
