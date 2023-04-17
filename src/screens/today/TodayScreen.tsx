@@ -1,58 +1,14 @@
-import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
-import { Heading, IconButton } from 'native-base';
 import React from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import TrackerFullWidth from '../../components/tracker/TrackerFullWidth';
 import useUserStore, { DEFAULT_TRACKERS } from '../../stores/userStore';
+import TodayScreenHeader from './TodayScreenHeader';
 
-interface TodayScreenHeader {
-    date: moment.Moment;
-    prevDay: () => void;
-    nextDay: () => void;
-}
-
-const TodayScreenHeader = ({ date, prevDay, nextDay }: TodayScreenHeader) => {
-
-    const isToday = moment().isSame(date, 'day');
-
-    return (
-        <>
-            <IconButton
-                borderRadius="full"
-                _icon={{
-                    as: FontAwesome5,
-                    name: 'chevron-left',
-                    color: 'white',
-                    textAlign: 'center',
-                }}
-                _pressed={{
-                    bg: 'black:alpha.10',
-                }}
-                onPress={prevDay}
-            />
-            <Heading>{date.format('MMM Do, YYYY')}</Heading>
-            <IconButton
-                borderRadius="full"
-                _icon={{
-                    as: FontAwesome5,
-                    name: 'chevron-right',
-                    color: isToday ? 'white:alpha.10' : 'white',
-                    textAlign: 'center',
-                }}
-                _pressed={{
-                    bg: 'black:alpha.10',
-                }}
-                onPress={nextDay}
-                disabled={isToday}
-            />
-        </>
-    );
-};
 
 const TodayScreen = () => {
 
-    const { trackers  } = useUserStore();
+    const {  } = useUserStore();
 
     const [date, setDate] = React.useState<moment.Moment>(moment());
 
@@ -88,7 +44,7 @@ const TodayScreen = () => {
                     <TrackerFullWidth value={{
                         tracker: DEFAULT_TRACKERS['overall_mood'],
                         date,
-                    }}/>
+                    }} />
                 </>
             }
         />

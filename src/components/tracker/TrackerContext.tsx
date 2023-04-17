@@ -1,8 +1,8 @@
 import moment from 'moment';
 import React from 'react';
-import useUserStore from '../../stores/userStore';
-import type { Tracker } from '../../types';
+
 import { EMPTY_TRACKER } from '../../utilities';
+import type { Tracker } from '../../types';
 
 export interface TrackerContextBase {
     date: moment.Moment;

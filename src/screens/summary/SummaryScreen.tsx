@@ -2,8 +2,8 @@ import moment from 'moment';
 import { Heading, HStack, IconButton, ScrollView } from 'native-base';
 import React from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper';
+import YearTrackerDataGrid from '../../components/year/YearTrackerDataGrid';
 import { EMPTY_TRACKER } from '../../utilities';
-import YearTrackerDataGrid from '../home/YearTrackerDataGrid';
 import type { Tracker } from '../../types';
 
 const HEADER_SPACER = (

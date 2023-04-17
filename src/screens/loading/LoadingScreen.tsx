@@ -1,6 +1,6 @@
 import { Spinner, VStack } from 'native-base';
 import React from 'react';
-import useUserStore from '../stores/userStore';
+import useUserStore from '../../stores/userStore';
 
 const LoadingScreen = () => {
 

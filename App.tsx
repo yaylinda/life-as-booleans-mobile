@@ -1,14 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { NativeBaseProvider, Spinner, VStack } from 'native-base';
+import { NativeBaseProvider } from 'native-base';
 import React from 'react';
 import config from './nativebase.config';
 import { AppStackNavigator } from './src/navigators';
-import LoadingScreen from './src/screens/LoadingScreen';
+
 import useUserStore from './src/stores/userStore';
 import { theme } from './src/theme';
 
 const App = () => {
-    const { init, loadingFonts, loadingData, gradientColors } = useUserStore();
+    const { init, loadingFonts, loadingData  } = useUserStore();
 
     const loading = loadingFonts || loadingData;
 

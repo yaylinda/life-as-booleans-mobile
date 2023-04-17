@@ -1,18 +1,18 @@
 import { FontAwesome5 } from '@expo/vector-icons';
-import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import type { NavigatorScreenParams } from '@react-navigation/native';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BlurView } from 'expo-blur';
 import { Icon, Text } from 'native-base';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import LoadingScreen from './screens/LoadingScreen';
+import LoadingScreen from './screens/loading/LoadingScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import SettingsScreen from './screens/settings/SettingsScreen';
 import TodayScreen from './screens/today/TodayScreen';
 import useUserStore from './stores/userStore';
+import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import type { NavigatorScreenParams } from '@react-navigation/native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type TabStackParamList = {
     // Home: undefined,
