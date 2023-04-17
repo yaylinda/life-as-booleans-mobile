@@ -1,10 +1,7 @@
 import moment from 'moment';
 
 import React from 'react';
-import ScreenWrapper from '../../components/ScreenWrapper';
 import { getWeekStart } from '../../utilities';
-import HomeScreenHeader from './HomeScreenHeader';
-import WeekDataList from './WeekDataList';
 import YearDataActionSheet from './YearDataActionSheet';
 
 const HomeScreen = () => {
@@ -37,18 +34,18 @@ const HomeScreen = () => {
 
     return (
         <>
-            <ScreenWrapper>
-                <HomeScreenHeader
-                    startDate={weekStartDate}
-                    isCurrentWeek={isCurrentWeek}
-                    prevWeek={prevWeek}
-                    nextWeek={nextWeek}
-                />
-                <WeekDataList
-                    weekStart={weekStartDate}
-                    isCurrentWeek={isCurrentWeek}
-                />
-            </ScreenWrapper>
+            {/*<ScreenWrapper>*/}
+            {/*    <HomeScreenHeader*/}
+            {/*        startDate={weekStartDate}*/}
+            {/*        isCurrentWeek={isCurrentWeek}*/}
+            {/*        prevWeek={prevWeek}*/}
+            {/*        nextWeek={nextWeek}*/}
+            {/*    />*/}
+            {/*    <WeekDataList*/}
+            {/*        weekStart={weekStartDate}*/}
+            {/*        isCurrentWeek={isCurrentWeek}*/}
+            {/*    />*/}
+            {/*</ScreenWrapper>*/}
             <YearDataActionSheet />
             {/*<Slide in={!isCurrentWeek} placement="bottom" position="absolute">*/}
             {/*    <Center w="100%" position="absolute" bottom={0} {...safeAreaProps}>*/}

@@ -1,8 +1,10 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
-import { Heading, HStack, IconButton } from 'native-base';
+import { Heading, IconButton } from 'native-base';
 import React from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper';
+import TrackerFullWidth from '../../components/tracker/TrackerFullWidth';
+import useUserStore, { DEFAULT_TRACKERS } from '../../stores/userStore';
 
 interface TodayScreenHeader {
     date: moment.Moment;
@@ -50,13 +52,15 @@ const TodayScreenHeader = ({ date, prevDay, nextDay }: TodayScreenHeader) => {
 
 const TodayScreen = () => {
 
+    const { trackers  } = useUserStore();
+
     const [date, setDate] = React.useState<moment.Moment>(moment());
 
     const prevDay = () => {
         setDate((date) =>
             date
                 .clone()
-                .subtract(1, 'week')
+                .subtract(1, 'day')
                 .startOf('day'),
         );
     };
@@ -65,7 +69,7 @@ const TodayScreen = () => {
         setDate((date) =>
             date
                 .clone()
-                .add(1, 'week')
+                .add(1, 'day')
                 .startOf('day'),
         );
     };
@@ -80,7 +84,12 @@ const TodayScreen = () => {
                 />
             }
             content={
-                <></>
+                <>
+                    <TrackerFullWidth value={{
+                        tracker: DEFAULT_TRACKERS['overall_mood'],
+                        date,
+                    }}/>
+                </>
             }
         />
     );

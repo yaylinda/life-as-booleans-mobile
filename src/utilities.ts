@@ -18,7 +18,7 @@ export const getWeekStart = () => {
 export const EMPTY_TRACKER = (name: string): Tracker => ({
     id: uuid.v4() as string,
     displayName: name,
-    emoji: '',
+    emoji: '🫥',
     valueOptionsMap: {
         yes: {
             value: 'yes',

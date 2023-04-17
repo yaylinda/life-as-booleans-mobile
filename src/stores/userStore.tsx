@@ -35,6 +35,7 @@ interface UserStoreStateData {
     isAddingTracker: boolean;
     editingTrackerId: string;
     yearViewData: YearViewData | null;
+    todayScreenDate: moment.Moment;
 }
 
 interface UserStoreStateFunctions {
@@ -51,6 +52,8 @@ interface UserStoreStateFunctions {
     setYearViewData: (setYearViewData: YearViewData | null) => void;
     nextYear: () => void;
     prevYear: () => void;
+    nextTodayScreenDate: () => void;
+    prevTodayScreenDate: () => void;
     _setDefaultTrackers: () => void;
     _loadFonts: () => void;
 }
@@ -110,6 +113,7 @@ const DEFAULT_DATA: UserStoreStateData = {
     isAddingTracker: false,
     editingTrackerId: '',
     yearViewData: null,
+    todayScreenDate: moment(),
 };
 
 const useUserStore = create<UserStoreState>()((set, get) => ({
@@ -257,6 +261,24 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
 
     setYearViewData: (yearViewData: YearViewData | null) => {
         set({ yearViewData });
+    },
+
+    nextTodayScreenDate: () => {
+        set((state) => ({
+            todayScreenDate: state.todayScreenDate
+                .clone()
+                .add(1, 'day')
+                .startOf('day')
+        }));
+    },
+
+    prevTodayScreenDate: () => {
+        set((state) => ({
+            todayScreenDate: state.todayScreenDate
+                .clone()
+                .subtract(1, 'day')
+                .startOf('day')
+        }));
     },
 
     nextYear: () => {

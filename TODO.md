@@ -3,8 +3,8 @@
 ### Core Functionalities
 
 #### General
-- [ ] fix loading of font on app init
-- [ ] vertically center loading icon
+- [x] fix loading of font on app init
+- [x] vertically center loading icon
 - [ ] (ADVICE) View #167 of type ABI48_0_0ExpoLinearGradient.LinearGradientView has a shadow set but cannot calculate shadow efficiently
 
 #### Home Screen
