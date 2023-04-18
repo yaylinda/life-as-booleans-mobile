@@ -175,10 +175,12 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         const key = `${dayEpoch}_${trackerId}`;
 
         if (get().data[key] !== undefined) {
+            console.log(`[userStore][getTrackerData] cacheHit! trackerId=${trackerId}, value=${get().data[key]}`);
             return get().data[key];
         }
 
         const value = await getItem<string>(key);
+        console.log(`[userStore][getTrackerData] cacheMiss! trackerId=${trackerId}, value=${value}`);
 
         if (value) {
             set({
@@ -189,6 +191,8 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
             });
             return value;
         }
+
+        console.log(`[userStore][getTrackerData] value not set! trackerId=${trackerId}`);
 
         return undefined;
     },

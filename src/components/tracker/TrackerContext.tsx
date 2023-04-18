@@ -17,7 +17,7 @@ interface TrackerContextData {
 }
 
 export const TrackerContext = React.createContext<TrackerContextData>({
-    date: moment(),
+    date: moment().startOf('day'),
     dayEpoch: '',
     tracker: EMPTY_TRACKER(''),
 });

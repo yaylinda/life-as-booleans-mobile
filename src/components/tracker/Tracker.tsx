@@ -19,6 +19,7 @@ const Tracker = () => {
 
     React.useEffect(() => {
         const get = async () => {
+            console.log(`[Tracker][useEffect][get] calling getTrackerData: dayEpoch=${dayEpoch}, trackerId=${tracker.id}`);
             const data = await getTrackerData(dayEpoch, tracker.id);
             setValue(data);
         };
@@ -43,7 +44,7 @@ const Tracker = () => {
             flex={1}
         >
             <TrackerHeader />
-            <Divider />
+            <Divider bg='white:alpha.50'/>
             <TrackerValueSelection
                 selectedValue={value}
                 onSelect={onSelectOption}

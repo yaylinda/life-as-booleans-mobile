@@ -12,7 +12,7 @@ const TodayScreen = () => {
 
     const { trackers } = useUserStore();
 
-    const [date, setDate] = React.useState<moment.Moment>(moment());
+    const [date, setDate] = React.useState<moment.Moment>(moment().startOf('day'));
 
     const trackerIdRows: string[][] = React.useMemo(() => {
         const nonDefaultTrackerIds = Object.keys(trackers)
