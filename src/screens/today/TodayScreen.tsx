@@ -2,7 +2,8 @@ import { chunk } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper';
-import useUserStore, { DEFAULT_TRACKERS } from '../../stores/userStore';
+import { DEFAULT_TRACKERS } from '../../defaultTrackers';
+import useUserStore from '../../stores/userStore';
 import TodayScreenContent from './TodayScreenContent';
 import TodayScreenHeader from './TodayScreenHeader';
 
@@ -20,9 +21,10 @@ const TodayScreen = () => {
         const nonDefaultTrackerIds = Object.keys(trackers)
             .filter((trackerId) => !DEFAULT_TRACKERS[trackerId]);
 
-        const chunkSize = nonDefaultTrackerIds.length / NUM_COLUMNS;
+        // const chunkSize = nonDefaultTrackerIds.length / NUM_COLUMNS;
 
-        return chunk(nonDefaultTrackerIds, chunkSize);
+        const chunked = chunk(nonDefaultTrackerIds, NUM_COLUMNS);
+        return [[...Object.keys(DEFAULT_TRACKERS)] , ...chunked];
     }, [trackers]);
 
     const prevDay = () => {

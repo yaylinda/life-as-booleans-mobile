@@ -13,7 +13,7 @@ const StaggerWrapper = ({children}: StaggerWrapperProps) => {
             initial={{
                 opacity: 0,
                 scale: 0,
-                translateY: 10,
+                translateY: 0,
             }}
             animate={{
                 translateY: 0,
@@ -23,7 +23,7 @@ const StaggerWrapper = ({children}: StaggerWrapperProps) => {
                     type: 'spring',
                     mass: 0.5,
                     stagger: {
-                        offset: 10,
+                        offset: 100,
                     },
                 },
             }}
