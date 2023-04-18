@@ -15,7 +15,7 @@ const Tracker = () => {
 
     const { getTrackerData, setTrackerData } = useUserStore();
 
-    const [value, setValue] = React.useState<string | undefined>();
+    const [value, setValue] = React.useState<string | undefined>('');
 
     React.useEffect(() => {
         const get = async () => {
@@ -33,6 +33,8 @@ const Tracker = () => {
         setTrackerData(dayEpoch, tracker.id, value);
         setValue(value);
     };
+
+    console.log(`[Tracker] renderinggg trackerId=${tracker.id} value=${value}`);
 
     return (
         <VStack

@@ -183,12 +183,12 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         console.log(`[userStore][getTrackerData] cacheMiss! trackerId=${trackerId}, value=${value}`);
 
         if (value) {
-            set({
-                data: {
-                    ...get().data,
-                    [key]: value
-                }
-            });
+            // set({
+            //     data: {
+            //         ...get().data,
+            //         [key]: value
+            //     }
+            // });
             return value;
         }
 
@@ -224,12 +224,12 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
 
         await setItem<string>(key, value);
 
-        set({
-            data: {
-                ...get().data,
-                [key]: value
-            }
-        });
+        // set({
+        //     data: {
+        //         ...get().data,
+        //         [key]: value
+        //     }
+        // });
     },
 
     clearData: async () => {
