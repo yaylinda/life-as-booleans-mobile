@@ -6,7 +6,9 @@ import useUserStore, { DEFAULT_TRACKERS } from '../../stores/userStore';
 import TodayScreenContent from './TodayScreenContent';
 import TodayScreenHeader from './TodayScreenHeader';
 
-const NUM_TRACKERS_PER_ROW = 2;
+
+
+const NUM_COLUMNS = 2;
 
 const TodayScreen = () => {
 
@@ -17,7 +19,10 @@ const TodayScreen = () => {
     const trackerIdRows: string[][] = React.useMemo(() => {
         const nonDefaultTrackerIds = Object.keys(trackers)
             .filter((trackerId) => !DEFAULT_TRACKERS[trackerId]);
-        return chunk(nonDefaultTrackerIds, NUM_TRACKERS_PER_ROW);
+
+        const chunkSize = nonDefaultTrackerIds.length / NUM_COLUMNS;
+
+        return chunk(nonDefaultTrackerIds, chunkSize);
     }, [trackers]);
 
     const prevDay = () => {

@@ -40,6 +40,7 @@ const Tracker = () => {
         <VStack
             padding={2}
             paddingTop={3}
+            marginBottom={2}
             space={2}
             bg={BG}
             borderRadius="xl"
