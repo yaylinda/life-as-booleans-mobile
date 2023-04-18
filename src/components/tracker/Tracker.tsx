@@ -6,12 +6,12 @@ import { withContext } from '../../withContext';
 import { TrackerProvider } from './TrackerContext';
 import TrackerHeader from './TrackerHeader';
 import TrackerValueSelection from './TrackerValueSelection';
-import { useTracker } from './useTracker';
+import { useTrackerContext } from './useTrackerContext';
 
 
 const Tracker = () => {
 
-    const { tracker, dayEpoch } = useTracker();
+    const { tracker, dayEpoch } = useTrackerContext();
 
     const { getTrackerData, setTrackerData } = useUserStore();
 

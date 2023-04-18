@@ -4,7 +4,7 @@ import { Button, Icon, Popover } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
 import { PRESSED_BG } from '../../styles';
-import { useTracker } from './useTracker';
+import { useTrackerContext } from './useTrackerContext';
 import type { PopoverTriggerProps } from '../../types';
 
 interface TrackerOptionsPopoverProps {
@@ -23,7 +23,7 @@ const TrackerHeaderOptionsPopover = ({
     onEdit,
 }: TrackerOptionsPopoverProps) => {
 
-    const { tracker, date } = useTracker();
+    const { tracker, date } = useTrackerContext();
 
     invariant(tracker, 'Tracker must not be null to have options');
 

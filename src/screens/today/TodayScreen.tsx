@@ -1,10 +1,9 @@
 import { chunk } from 'lodash';
 import moment from 'moment';
-import { ScrollView } from 'native-base';
 import React from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper';
-import TrackerRow from '../../components/tracker/TrackerRow';
 import useUserStore, { DEFAULT_TRACKERS } from '../../stores/userStore';
+import TodayScreenContent from './TodayScreenContent';
 import TodayScreenHeader from './TodayScreenHeader';
 
 const NUM_TRACKERS_PER_ROW = 2;
@@ -49,22 +48,10 @@ const TodayScreen = () => {
                 />
             }
             content={
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    paddingX={2}
-                >
-                    <TrackerRow
-                        date={date}
-                        trackerIds={[DEFAULT_TRACKERS['overall_mood'].id]}
-                    />
-                    {trackerIdRows.map((trackerIds) => (
-                        <TrackerRow
-                            key={`${trackerIds}_${date.valueOf()}`}
-                            date={date}
-                            trackerIds={trackerIds}
-                        />
-                    ))}
-                </ScrollView>
+                <TodayScreenContent
+                    date={date}
+                    trackerIdRows={trackerIdRows}
+                />
             }
         />
     );

@@ -36,12 +36,14 @@ interface UserStoreStateData {
     editingTrackerId: string;
     yearViewData: YearViewData | null;
     todayScreenDate: moment.Moment;
+    loadingDataForDay: boolean;
 }
 
 interface UserStoreStateFunctions {
     init: () => void;
     createUser: (username: string) => void;
     addTracker: (trackerName: string) => void;
+    getTrackerDataForDay: (dayEpoch: string) => Promise<{[key in string]: string | undefined}>;
     getTrackerData: (dayEpoch: string, trackerId: string) => Promise<string | undefined>;
     setTrackerData: (dayEpoch: string, trackerId: string, value: string) => void;
     clearData: () => void;
@@ -114,6 +116,7 @@ const DEFAULT_DATA: UserStoreStateData = {
     editingTrackerId: '',
     yearViewData: null,
     todayScreenDate: moment(),
+    loadingDataForDay: false,
 };
 
 const useUserStore = create<UserStoreState>()((set, get) => ({
@@ -188,6 +191,28 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         }
 
         return undefined;
+    },
+
+    getTrackerDataForDay: async (dayEpoch: string) => {
+        set({ loadingDataForDay: true });
+
+        const trackerIds = Object.keys(get().trackers);
+
+        // Map the trackerIds to an array of promises
+        const promises = trackerIds.map((trackerId) => get().getTrackerData(dayEpoch, trackerId));
+
+        // Wait for all promises to resolve using Promise.all()
+        const results = await Promise.all(promises);
+
+        // Create an object mapping trackerId to the corresponding result
+        const trackerData = trackerIds.reduce<{[key in string]: string | undefined}>((accumulator, trackerId, index) => {
+            accumulator[trackerId] = results[index];
+            return accumulator;
+        }, {});
+
+        set({ loadingDataForDay: false });
+
+        return trackerData;
     },
 
     setTrackerData: async (dayEpoch: string, trackerId: string, value: string) => {

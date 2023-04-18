@@ -34,7 +34,7 @@ export const TrackerProvider: React.FC<TrackerProviderProps> = ({ value, childre
     const tracker: Tracker = useUserStore((state) => state.trackers[trackerId]);
 
     return (
-        <TrackerContext.Provider value={{ date, tracker, dayEpoch: `${date.valueOf()}` }}>
+        <TrackerContext.Provider value={{ date, tracker, dayEpoch: `${date.valueOf()}`}}>
             {children}
         </TrackerContext.Provider>
     );

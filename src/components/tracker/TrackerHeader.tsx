@@ -5,12 +5,12 @@ import { Alert } from 'react-native';
 import useUserStore from '../../stores/userStore';
 import { PRESSED_BG } from '../../styles';
 import TrackerHeaderOptionsPopover from './TrackerHeaderOptionsPopover';
-import { useTracker } from './useTracker';
+import { useTrackerContext } from './useTrackerContext';
 import type { PopoverTriggerProps } from '../../types';
 
 const TrackerHeader = () => {
 
-    const { tracker } = useTracker();
+    const { tracker } = useTrackerContext();
 
     const {
         deleteTracker,
@@ -65,8 +65,16 @@ const TrackerHeader = () => {
 
     return (
         <HStack alignItems="center" justifyContent="space-between">
-            <Text isTruncated w="80%" fontSize="lg" fontWeight="bold">{tracker.displayName}</Text>
+            <Text
+                isTruncated w="80%"
+                fontSize="lg"
+                fontWeight="bold"
+            >
+                {tracker.displayName}
+            </Text>
+
             {trackerOptionsButton}
+
             <TrackerHeaderOptionsPopover
                 isOpen={openPopover}
                 trigger={trackerOptionsButton}

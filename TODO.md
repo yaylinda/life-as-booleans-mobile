@@ -8,21 +8,21 @@
 - [ ] (ADVICE) View #167 of type ABI48_0_0ExpoLinearGradient.LinearGradientView has a shadow set but cannot calculate shadow efficiently
 
 #### Home Screen
-- [ ] redo ui
-- [ ] maybe add back "today" button on HomeScreen
-- [ ] indicate "today" on week view
-- [ ] consider a better a header for HomeScreen
+- [x] redo ui
+- [ ] add back "today" button on HomeScreen
 - [x] fix colors of "options" menu
 - [x] refactor to show year-view in action sheet from "options" menu
 - [x] allow to backfill data
 - [x] refactor to use context for week tracker components
-- [ ] show old name when editing tracker name
 - [x] use black for section backgrounds
-- [ ] fix loading of day data icons on initial load
+- [x] fix loading of day data icons on initial load
 - [ ] toast when renamed tracker
 - [ ] toast when tracker created
 - [ ] toast when tracker deleted
-- [ ] use dialog to add/edit tracker name
+- [ ] show old name when editing tracker name
+- [ ] add/edit tracker dialog
+- [ ] fix today values on initial load
+- [ ] today screen animations
 
 #### Year Data Action Sheet
 - [x] remove route from bottom nav

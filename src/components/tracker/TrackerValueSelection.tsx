@@ -2,7 +2,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { HStack, IconButton, Pressable, Text } from 'native-base';
 import React from 'react';
 import { SELECTED_BG } from '../../styles';
-import { useTracker } from './useTracker';
+import { useTrackerContext } from './useTrackerContext';
 import type { TrackerValueOption } from '../../types';
 
 interface TrackerOptionProps {
@@ -54,7 +54,7 @@ interface TrackerValueSelectionProps {
 
 const TrackerValueSelection = ({ selectedValue, onSelect }: TrackerValueSelectionProps) => {
 
-    const { tracker, dayEpoch } = useTracker();
+    const { tracker, dayEpoch } = useTrackerContext();
 
     return (
         <HStack justifyContent="space-evenly" space={2} flex={1}>
