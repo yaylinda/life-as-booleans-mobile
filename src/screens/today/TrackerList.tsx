@@ -4,12 +4,13 @@ import StaggerWrapper from '../../components/animations/StaggerWrapper';
 import Tracker from '../../components/tracker/Tracker';
 import type moment from 'moment';
 
-interface TodayScreenContentProps {
+interface TrackerListProps {
     date: moment.Moment;
     trackerIdRows: string[][];
 }
 
-const TodayScreenContent = ({ date, trackerIdRows }: TodayScreenContentProps) => {
+const TrackerList = ({ date, trackerIdRows }: TrackerListProps) => {
+
     return (
         <ScrollView
             showsVerticalScrollIndicator={false}
@@ -31,4 +32,4 @@ const TodayScreenContent = ({ date, trackerIdRows }: TodayScreenContentProps) =>
     );
 };
 
-export default TodayScreenContent;
+export default TrackerList;

@@ -14,17 +14,16 @@ import {
     Nunito_800ExtraBold,
     Nunito_800ExtraBold_Italic,
     Nunito_900Black,
-    Nunito_900Black_Italic
+    Nunito_900Black_Italic,
 } from '@expo-google-fonts/nunito';
 import { loadAsync } from 'expo-font';
 import { produce } from 'immer';
 import moment from 'moment';
 import { create } from 'zustand';
-import { DEFAULT_TRACKERS } from '../defaultTrackers';
+import { DEFAULT_TRACKERS, EMPTY_TRACKER } from '../defaultTrackers';
 import { getRandomGradient } from '../gradients';
 import { clearAll, getItem, LocalStorageKey, multiGet, multiSet, removeItem, setItem } from '../localStorage';
-import { EMPTY_TRACKER } from '../utilities';
-import type { Tracker, User, YearViewData } from '../types';
+import type { AddOrEditTrackerDialogProps , Tracker, User, YearViewData } from '../types';
 
 interface UserStoreStateData {
     loadingData: boolean;
@@ -33,30 +32,30 @@ interface UserStoreStateData {
     user: User | null;
     trackers: { [key in string]: Tracker };
     data: { [key in string]: string };
-    isAddingTracker: boolean;
-    editingTrackerId: string;
     yearViewData: YearViewData | null;
     todayScreenDate: moment.Moment;
     loadingDataForDay: boolean;
+    addOrEditTrackerDialog: AddOrEditTrackerDialogProps;
 }
 
 interface UserStoreStateFunctions {
     init: () => void;
     createUser: (username: string) => void;
     addTracker: (trackerName: string) => void;
-    getTrackerDataForDay: (dayEpoch: string) => Promise<{[key in string]: string | undefined}>;
+    getTrackerDataForDay: (dayEpoch: string) => Promise<{ [key in string]: string | undefined }>;
     getTrackerData: (dayEpoch: string, trackerId: string) => Promise<string | undefined>;
     setTrackerData: (dayEpoch: string, trackerId: string, value: string) => void;
     clearData: () => void;
-    setIsAddingTracker: (value: boolean) => void;
-    setEditingTrackerId: (trackerId: string) => void;
     deleteTracker: (trackerId: string) => void;
-    updateTracker: (trackerName: string) => void;
+    updateTracker: (trackerId: string, trackerName: string) => void;
     setYearViewData: (setYearViewData: YearViewData | null) => void;
     nextYear: () => void;
     prevYear: () => void;
     nextTodayScreenDate: () => void;
     prevTodayScreenDate: () => void;
+    openAddTrackerDialog: () => void;
+    openEditTrackerDialog: (trackerId: string, trackerName: string) => void;
+    closeAddOrEditTrackerDialog: () => void;
     _setDefaultTrackers: () => void;
     _loadFonts: () => void;
 }
@@ -72,11 +71,10 @@ const DEFAULT_DATA: UserStoreStateData = {
     user: null,
     trackers: {},
     data: {},
-    isAddingTracker: false,
-    editingTrackerId: '',
     yearViewData: null,
     todayScreenDate: moment(),
     loadingDataForDay: false,
+    addOrEditTrackerDialog: { isOpen: false, trackerId: undefined, trackerName: '' },
 };
 
 const useUserStore = create<UserStoreState>()((set, get) => ({
@@ -107,7 +105,7 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         const user: User = {
             ...get().user,
             username,
-            createdDateEpoch: moment().valueOf()
+            createdDateEpoch: moment().valueOf(),
         };
         await setItem<User>(LocalStorageKey.USER_INFO, user);
         set({ user });
@@ -118,16 +116,15 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
 
         await setItem<string[]>(LocalStorageKey.TRACKER_IDS, [
             ...Object.keys(get().trackers),
-            newTracker.id
+            newTracker.id,
         ]);
         await setItem<Tracker>(newTracker.id, newTracker);
 
         set({
             trackers: {
                 ...get().trackers,
-                [newTracker.id]: newTracker
+                [newTracker.id]: newTracker,
             },
-            isAddingTracker: false,
         });
     },
 
@@ -135,12 +132,12 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         const key = `${dayEpoch}_${trackerId}`;
 
         if (get().data[key] !== undefined) {
-            console.log(`[userStore][getTrackerData] cacheHit! trackerId=${trackerId}, value=${get().data[key]}`);
+            // console.log(`[userStore][getTrackerData] cacheHit! trackerId=${trackerId}, value=${get().data[key]}`);
             return get().data[key];
         }
 
         const value = await getItem<string>(key);
-        console.log(`[userStore][getTrackerData] cacheMiss! trackerId=${trackerId}, value=${value}`);
+        // console.log(`[userStore][getTrackerData] cacheMiss! trackerId=${trackerId}, value=${value}`);
 
         if (value) {
             // set({
@@ -152,7 +149,7 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
             return value;
         }
 
-        console.log(`[userStore][getTrackerData] value not set! trackerId=${trackerId}`);
+        // console.log(`[userStore][getTrackerData] value not set! trackerId=${trackerId}`);
 
         return undefined;
     },
@@ -169,7 +166,7 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         const results = await Promise.all(promises);
 
         // Create an object mapping trackerId to the corresponding result
-        const trackerData = trackerIds.reduce<{[key in string]: string | undefined}>((accumulator, trackerId, index) => {
+        const trackerData = trackerIds.reduce<{ [key in string]: string | undefined }>((accumulator, trackerId, index) => {
             accumulator[trackerId] = results[index];
             return accumulator;
         }, {});
@@ -197,23 +194,45 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         set({
             user: null,
             trackers: {},
-            data: {}
+            data: {},
         });
         get()._setDefaultTrackers();
     },
 
-    setIsAddingTracker: (value: boolean) => {
-        set({ isAddingTracker: value });
+    openAddTrackerDialog: () => {
+        set({
+            addOrEditTrackerDialog: {
+                isOpen: true,
+                trackerId: undefined,
+                trackerName: '',
+            },
+        });
     },
 
-    setEditingTrackerId: (trackerId: string) => {
-        set({ editingTrackerId: trackerId });
+    openEditTrackerDialog: (trackerId: string, trackerName: string) => {
+        set({
+            addOrEditTrackerDialog: {
+                isOpen: true,
+                trackerId,
+                trackerName,
+            },
+        });
+    },
+
+    closeAddOrEditTrackerDialog: () => {
+        set({
+            addOrEditTrackerDialog: {
+                isOpen: false,
+                trackerId: undefined,
+                trackerName: '',
+            },
+        });
     },
 
     deleteTracker: async (trackerId: string) => {
         await setItem<string[]>(
             LocalStorageKey.TRACKER_IDS,
-            Object.keys(get().trackers).filter(t => t !== trackerId)
+            Object.keys(get().trackers).filter(t => t !== trackerId),
         );
         await removeItem(trackerId);
 
@@ -224,12 +243,8 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         });
     },
 
-    updateTracker: async (trackerName: string) => {
-        if (!get().editingTrackerId) {
-            return;
-        }
-
-        const trackerToUpdate = get().trackers[get().editingTrackerId];
+    updateTracker: async (trackerId: string, trackerName: string) => {
+        const trackerToUpdate = get().trackers[trackerId];
 
         if (!trackerToUpdate) {
             return;
@@ -237,15 +252,16 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
 
         trackerToUpdate.displayName = trackerName;
 
-        await setItem<Tracker>(get().editingTrackerId, trackerToUpdate);
+        await setItem<Tracker>(trackerId, trackerToUpdate);
 
         set({
             trackers: {
                 ...get().trackers,
                 [trackerToUpdate.id]: trackerToUpdate,
             },
-            editingTrackerId: '',
         });
+
+        get().closeAddOrEditTrackerDialog;
     },
 
     setYearViewData: (yearViewData: YearViewData | null) => {
@@ -257,7 +273,7 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
             todayScreenDate: state.todayScreenDate
                 .clone()
                 .add(1, 'day')
-                .startOf('day')
+                .startOf('day'),
         }));
     },
 
@@ -266,7 +282,7 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
             todayScreenDate: state.todayScreenDate
                 .clone()
                 .subtract(1, 'day')
-                .startOf('day')
+                .startOf('day'),
         }));
     },
 
@@ -313,10 +329,10 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
             Nunito_600SemiBold_Italic,
             Nunito_700Bold_Italic,
             Nunito_800ExtraBold_Italic,
-            Nunito_900Black_Italic
+            Nunito_900Black_Italic,
         });
         set({ loadingFonts: false });
-    }
+    },
 }));
 
 export default useUserStore;

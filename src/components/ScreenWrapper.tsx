@@ -1,3 +1,4 @@
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { HStack, useSafeArea, VStack } from 'native-base';
 import React from 'react';
 import useUserStore from '../stores/userStore';
@@ -13,6 +14,8 @@ const ScreenWrapper = ({ header, content }: ScreenWrapperProps) => {
         safeAreaTop: true,
     });
 
+    const tabBarHeight = useBottomTabBarHeight();
+
     const { gradientColors } = useUserStore();
 
     return (
@@ -26,6 +29,7 @@ const ScreenWrapper = ({ header, content }: ScreenWrapperProps) => {
             }}
             h="full"
             w="full"
+            paddingBottom={tabBarHeight}
         >
             <HStack
                 justifyContent="space-between"

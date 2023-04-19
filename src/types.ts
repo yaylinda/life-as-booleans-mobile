@@ -32,3 +32,9 @@ export interface YearViewData {
     tracker: Tracker,
     year: number,
 }
+
+export interface AddOrEditTrackerDialogProps {
+    isOpen: boolean;
+    trackerId: string | undefined;
+    trackerName: string;
+}

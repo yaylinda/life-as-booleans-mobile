@@ -6,7 +6,6 @@ interface StaggerWrapperProps {
 }
 
 const StaggerWrapper = ({children}: StaggerWrapperProps) => {
-
     return (
         <Stagger
             visible={true}
@@ -23,7 +22,7 @@ const StaggerWrapper = ({children}: StaggerWrapperProps) => {
                     type: 'spring',
                     mass: 0.5,
                     stagger: {
-                        offset: 100,
+                        offset: 0,
                     },
                 },
             }}

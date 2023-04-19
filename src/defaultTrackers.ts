@@ -1,3 +1,4 @@
+import uuid from 'react-native-uuid';
 import type { Tracker } from './types';
 
 export const OVERALL_MOOD_DEFAULT_TRACKER: Tracker = {
@@ -42,3 +43,24 @@ export const OVERALL_MOOD_DEFAULT_TRACKER: Tracker = {
 export const DEFAULT_TRACKERS: { [key in string]: Tracker } = {
     [OVERALL_MOOD_DEFAULT_TRACKER.id]: OVERALL_MOOD_DEFAULT_TRACKER,
 };
+
+export const EMPTY_TRACKER = (name: string): Tracker => ({
+    id: uuid.v4() as string,
+    displayName: name,
+    emoji: '🫥',
+    valueOptionsMap: {
+        yes: {
+            value: 'yes',
+            label: 'Yes',
+            icon: 'check',
+            color: 'green.500'
+        },
+        no: {
+            value: 'no',
+            label: 'No',
+            icon: 'times',
+            color: 'red.500'
+        }
+    },
+    isDefaultTracker: false,
+});
