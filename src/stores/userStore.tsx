@@ -23,7 +23,8 @@ import { create } from 'zustand';
 import { DEFAULT_TRACKERS, EMPTY_TRACKER } from '../defaultTrackers';
 import { getRandomGradient } from '../gradients';
 import { clearAll, getItem, LocalStorageKey, multiGet, multiSet, removeItem, setItem } from '../localStorage';
-import type { AddOrEditTrackerDialogProps , Tracker, User, YearViewData } from '../types';
+import { DayNavigation } from '../types';
+import type { AddOrEditTrackerDialogProps, Tracker, User, YearViewData } from '../types';
 
 interface UserStoreStateData {
     loadingData: boolean;
@@ -36,6 +37,7 @@ interface UserStoreStateData {
     todayScreenDate: moment.Moment;
     loadingDataForDay: boolean;
     addOrEditTrackerDialog: AddOrEditTrackerDialogProps;
+    dayNavigation: DayNavigation;
 }
 
 interface UserStoreStateFunctions {
@@ -56,6 +58,7 @@ interface UserStoreStateFunctions {
     openAddTrackerDialog: () => void;
     openEditTrackerDialog: (trackerId: string, trackerName: string) => void;
     closeAddOrEditTrackerDialog: () => void;
+    setDayNavigation: (dayNavigation: DayNavigation) => void;
     _setDefaultTrackers: () => void;
     _loadFonts: () => void;
 }
@@ -75,6 +78,7 @@ const DEFAULT_DATA: UserStoreStateData = {
     todayScreenDate: moment(),
     loadingDataForDay: false,
     addOrEditTrackerDialog: { isOpen: false, trackerId: undefined, trackerName: '' },
+    dayNavigation: DayNavigation.TODAY,
 };
 
 const useUserStore = create<UserStoreState>()((set, get) => ({
@@ -306,6 +310,10 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         set((state) => produce(state, (draft) => {
             draft.yearViewData!.year = draft.yearViewData!.year - 1;
         }));
+    },
+
+    setDayNavigation: (dayNavigation: DayNavigation) => {
+        set({ dayNavigation });
     },
 
     _setDefaultTrackers: async () => {

@@ -1,19 +1,47 @@
 import { Divider, VStack } from 'native-base';
 import React from 'react';
+import Animated, {
+    FadeIn,
+    
+    
+    FadeOut,
+    SlideInLeft,
+    SlideInRight, SlideOutLeft,
+    SlideOutRight,
+} from 'react-native-reanimated';
 import useUserStore from '../../stores/userStore';
 import { BG } from '../../styles';
+import { DayNavigation } from '../../types';
 import { withContext } from '../../withContext';
 import { TrackerProvider } from './TrackerContext';
 import TrackerHeader from './TrackerHeader';
 import TrackerValueSelection from './TrackerValueSelection';
 import { useTrackerContext } from './useTrackerContext';
 
+const ANIMATION = {
+    [DayNavigation.TODAY]: {
+        entering: FadeIn,
+        exiting: FadeOut,
+    },
+    [DayNavigation.PREV]: {
+        entering: SlideInLeft,
+        exiting: SlideOutRight,
+    },
+    [DayNavigation.NEXT]: {
+        entering: SlideInRight,
+        exiting: SlideOutLeft,
+    },
+};
 
-const Tracker = () => {
+interface TrackerProps {
+    index: number;
+}
+
+const Tracker = ({  }: TrackerProps) => {
 
     const { tracker, dayEpoch } = useTrackerContext();
 
-    const { getTrackerData, setTrackerData } = useUserStore();
+    const { getTrackerData, setTrackerData, dayNavigation } = useUserStore();
 
     const [value, setValue] = React.useState<string | undefined>('');
 
@@ -34,25 +62,28 @@ const Tracker = () => {
         setValue(value);
     };
 
-    console.log(`[Tracker] renderinggg trackerId=${tracker.id} value=${value}`);
-
     return (
-        <VStack
-            padding={2}
-            paddingTop={3}
-            marginBottom={2}
-            space={2}
-            bg={BG}
-            borderRadius="xl"
-            flex={1}
+        <Animated.View
+            entering={ANIMATION[dayNavigation].entering}
+            exiting={ANIMATION[dayNavigation].exiting}
         >
-            <TrackerHeader />
-            <Divider bg='white:alpha.50'/>
-            <TrackerValueSelection
-                selectedValue={value}
-                onSelect={onSelectOption}
-            />
-        </VStack>
+            <VStack
+                padding={2}
+                paddingTop={3}
+                marginBottom={2}
+                space={2}
+                bg={BG}
+                borderRadius="xl"
+                flex={1}
+            >
+                <TrackerHeader />
+                <Divider bg="white:alpha.50" />
+                <TrackerValueSelection
+                    selectedValue={value}
+                    onSelect={onSelectOption}
+                />
+            </VStack>
+        </Animated.View>
     );
 };
 

@@ -38,3 +38,9 @@ export interface AddOrEditTrackerDialogProps {
     trackerId: string | undefined;
     trackerName: string;
 }
+
+export enum DayNavigation {
+    TODAY = 'TODAY',
+    PREV = 'PREV',
+    NEXT = 'NEXT',
+}

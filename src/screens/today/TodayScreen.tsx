@@ -1,34 +1,27 @@
 import { FontAwesome5 } from '@expo/vector-icons';
-import { chunk } from 'lodash';
 import moment from 'moment';
-import {  IconButton } from 'native-base';
+import { IconButton } from 'native-base';
 import React from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import AddOrEditTrackerDialog from '../../components/tracker/AddOrEditTrackerDialog';
-import { DEFAULT_TRACKERS } from '../../defaultTrackers';
 import useUserStore from '../../stores/userStore';
 import { BG, PRESSED_BUTTON_BG } from '../../styles';
+import { DayNavigation } from '../../types';
 import TodayScreenHeader from './TodayScreenHeader';
 import TrackerList from './TrackerList';
 
-const NUM_COLUMNS = 2;
+
 
 const TodayScreen = () => {
 
-    const { trackers, openAddTrackerDialog} = useUserStore();
+    const { openAddTrackerDialog, setDayNavigation } = useUserStore();
 
     const [date, setDate] = React.useState<moment.Moment>(moment().startOf('day'));
 
     const isToday = moment().isSame(date, 'day');
 
-    const trackerIdRows: string[][] = React.useMemo(() => {
-        const nonDefaultTrackerIds = Object.keys(trackers)
-            .filter((trackerId) => !DEFAULT_TRACKERS[trackerId]);
-        const chunked = chunk(nonDefaultTrackerIds, NUM_COLUMNS);
-        return [[...Object.keys(DEFAULT_TRACKERS)], ...chunked];
-    }, [trackers]);
-
     const prevDay = () => {
+        setDayNavigation(DayNavigation.PREV);
         setDate((date) =>
             date
                 .clone()
@@ -38,6 +31,7 @@ const TodayScreen = () => {
     };
 
     const nextDay = () => {
+        setDayNavigation(DayNavigation.NEXT);
         setDate((date) =>
             date
                 .clone()
@@ -91,11 +85,8 @@ const TodayScreen = () => {
             }
             content={
                 <>
-                    <TrackerList
-                        date={date}
-                        trackerIdRows={trackerIdRows}
-                    />
-                    {isToday ? addTrackerButton : goToTodayButton}
+                    <TrackerList date={date} />
+                    {/*{isToday ? addTrackerButton : goToTodayButton}*/}
                 </>
             }
             dialogs={

@@ -1,13 +1,14 @@
 import moment from 'moment';
 import React from 'react';
 import { EMPTY_TRACKER } from '../../defaultTrackers';
-import useUserStore from '../../stores/userStore';
+
 
 import type { Tracker } from '../../types';
 
 export interface TrackerContextBase {
     date: moment.Moment;
-    trackerId: string;
+    // trackerId: string;
+    tracker: Tracker;
 }
 
 interface TrackerContextData {
@@ -29,9 +30,9 @@ interface TrackerProviderProps {
 
 export const TrackerProvider: React.FC<TrackerProviderProps> = ({ value, children }) => {
 
-    const {date, trackerId} = value;
+    const {date, tracker} = value;
 
-    const tracker: Tracker = useUserStore((state) => state.trackers[trackerId]);
+    // const tracker: Tracker = useUserStore((state) => state.trackers[trackerId]);
 
     return (
         <TrackerContext.Provider value={{ date, tracker, dayEpoch: `${date.valueOf()}`}}>
