@@ -6,9 +6,10 @@ import useUserStore from '../stores/userStore';
 interface ScreenWrapperProps {
     header: React.ReactNode;
     content: React.ReactNode;
+    dialogs?: React.ReactNode;
 }
 
-const ScreenWrapper = ({ header, content }: ScreenWrapperProps) => {
+const ScreenWrapper = ({ header, content, dialogs }: ScreenWrapperProps) => {
 
     const safeAreaProps = useSafeArea({
         safeAreaTop: true,
@@ -40,6 +41,7 @@ const ScreenWrapper = ({ header, content }: ScreenWrapperProps) => {
                 {header}
             </HStack>
             {content}
+            {dialogs}
         </VStack>
     );
 };

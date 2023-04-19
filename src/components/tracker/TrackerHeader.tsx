@@ -14,13 +14,13 @@ const TrackerHeader = () => {
 
     const {
         deleteTracker,
-        setEditingTrackerId,
+        openEditTrackerDialog
     } = useUserStore();
 
     const [openPopover, setOpenPopover] = React.useState<boolean>(false);
 
     const onEditName = () => {
-        setEditingTrackerId(tracker!.id);
+        openEditTrackerDialog(tracker.id, tracker.displayName);
         setOpenPopover(false);
     };
 

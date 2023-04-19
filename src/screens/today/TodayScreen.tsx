@@ -1,16 +1,15 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import { chunk } from 'lodash';
 import moment from 'moment';
-import { Center, IconButton } from 'native-base';
+import {  IconButton } from 'native-base';
 import React from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import AddOrEditTrackerDialog from '../../components/tracker/AddOrEditTrackerDialog';
 import { DEFAULT_TRACKERS } from '../../defaultTrackers';
 import useUserStore from '../../stores/userStore';
 import { BG, PRESSED_BUTTON_BG } from '../../styles';
-import TrackerList from './TrackerList';
 import TodayScreenHeader from './TodayScreenHeader';
-
+import TrackerList from './TrackerList';
 
 const NUM_COLUMNS = 2;
 
@@ -25,9 +24,6 @@ const TodayScreen = () => {
     const trackerIdRows: string[][] = React.useMemo(() => {
         const nonDefaultTrackerIds = Object.keys(trackers)
             .filter((trackerId) => !DEFAULT_TRACKERS[trackerId]);
-
-        // const chunkSize = nonDefaultTrackerIds.length / NUM_COLUMNS;
-
         const chunked = chunk(nonDefaultTrackerIds, NUM_COLUMNS);
         return [[...Object.keys(DEFAULT_TRACKERS)], ...chunked];
     }, [trackers]);
@@ -50,50 +46,39 @@ const TodayScreen = () => {
         );
     };
 
-    const renderContent = () => {
-        return (
-            <>
-                <TrackerList
-                    date={date}
-                    trackerIdRows={trackerIdRows}
-                />
-                <Center key={`btn_${date.valueOf()}`}>
-                    {isToday ? (
-                        <IconButton
-                            bg={BG}
-                            borderRadius="full"
-                            _icon={{
-                                as: FontAwesome5,
-                                name: 'plus',
-                                color: 'white',
-                                textAlign: 'center',
-                            }}
-                            _pressed={{
-                                bg: PRESSED_BUTTON_BG,
-                            }}
-                            onPress={openAddTrackerDialog}
-                        />
-                    ) : (
-                        <IconButton
-                            bg={BG}
-                            borderRadius="full"
-                            _icon={{
-                                as: FontAwesome5,
-                                name: 'calendar-day',
-                                color: 'white',
-                                textAlign: 'center',
-                            }}
-                            _pressed={{
-                                bg: PRESSED_BUTTON_BG,
-                            }}
-                            onPress={() => setDate(moment().startOf('day'))}
-                        />
-                    )}
-                </Center>
-                <AddOrEditTrackerDialog />
-            </>
-        );
-    };
+    const goToTodayButton = (
+        <IconButton
+            bg={BG}
+            borderRadius="full"
+            _icon={{
+                as: FontAwesome5,
+                name: 'calendar-day',
+                color: 'white',
+                textAlign: 'center',
+            }}
+            _pressed={{
+                bg: PRESSED_BUTTON_BG,
+            }}
+            onPress={() => setDate(moment().startOf('day'))}
+        />
+    );
+
+    const addTrackerButton = (
+        <IconButton
+            bg={BG}
+            borderRadius="full"
+            _icon={{
+                as: FontAwesome5,
+                name: 'plus',
+                color: 'white',
+                textAlign: 'center',
+            }}
+            _pressed={{
+                bg: PRESSED_BUTTON_BG,
+            }}
+            onPress={openAddTrackerDialog}
+        />
+    );
 
     return (
         <ScreenWrapper
@@ -104,7 +89,18 @@ const TodayScreen = () => {
                     nextDay={nextDay}
                 />
             }
-            content={renderContent()}
+            content={
+                <>
+                    <TrackerList
+                        date={date}
+                        trackerIdRows={trackerIdRows}
+                    />
+                    {isToday ? addTrackerButton : goToTodayButton}
+                </>
+            }
+            dialogs={
+                <AddOrEditTrackerDialog />
+            }
         />
     );
 };

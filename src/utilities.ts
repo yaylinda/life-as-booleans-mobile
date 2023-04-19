@@ -1,6 +1,6 @@
 import moment from 'moment';
-import uuid from 'react-native-uuid';
-import type { Tracker } from './types';
+
+
 
 export const getWeekStart = () => {
     const momentDate = moment();

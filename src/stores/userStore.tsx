@@ -126,6 +126,8 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
                 [newTracker.id]: newTracker,
             },
         });
+
+        get().closeAddOrEditTrackerDialog();
     },
 
     getTrackerData: async (dayEpoch: string, trackerId: string) => {
@@ -261,7 +263,7 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
             },
         });
 
-        get().closeAddOrEditTrackerDialog;
+        get().closeAddOrEditTrackerDialog();
     },
 
     setYearViewData: (yearViewData: YearViewData | null) => {

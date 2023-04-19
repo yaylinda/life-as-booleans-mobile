@@ -1,8 +1,8 @@
 import moment from 'moment';
 import React from 'react';
+import { EMPTY_TRACKER } from '../../defaultTrackers';
 import useUserStore from '../../stores/userStore';
 
-import { EMPTY_TRACKER } from '../../utilities';
 import type { Tracker } from '../../types';
 
 export interface TrackerContextBase {
