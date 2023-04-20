@@ -57,7 +57,7 @@ const TrackerValueSelection = ({ selectedValue, onSelect }: TrackerValueSelectio
     const { tracker, dayEpoch } = useTrackerContext();
 
     return (
-        <HStack justifyContent="space-evenly" space={2} flex={1}>
+        <HStack justifyContent="space-evenly" space={2} flex={1} flexShrink={0}>
             {Object.values(tracker.valueOptionsMap || [])
                 .map((option: TrackerValueOption) => (
                     <TrackerOption

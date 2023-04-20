@@ -45,11 +45,23 @@ const TrackerSingleLine = ({ index }: TrackerSingleLineProps) => {
                 space={2}
                 bg={BG}
                 borderRadius="xl"
-                flex={1}
+                alignItems='center'
             >
-                <Text flexGrow={1}>
-                    {tracker.displayName}
-                </Text>
+                <HStack flex={2.5} space={2}>
+                    <Text
+                        fontSize="md"
+                        fontWeight="bold"
+                    >
+                        {tracker.emoji}
+                    </Text>
+                    <Text
+                        fontSize="md"
+                        fontWeight="bold"
+                        isTruncated
+                    >
+                        {tracker.displayName}
+                    </Text>
+                </HStack>
 
                 <TrackerValueSelection
                     selectedValue={value}

@@ -6,14 +6,14 @@ import ScreenWrapper from '../../components/ScreenWrapper';
 import AddOrEditTrackerDialog from '../../components/tracker/AddOrEditTrackerDialog';
 import useUserStore from '../../stores/userStore';
 import { BG, PRESSED_BUTTON_BG } from '../../styles';
-import { DayNavigation } from '../../types';
+
 import TodayScreenHeader from './TodayScreenHeader';
 import TrackerList from './TrackerList';
 
 
 const TodayScreen = () => {
 
-    const { openAddTrackerDialog, setDayNavigation } = useUserStore();
+    const { openAddTrackerDialog  } = useUserStore();
 
     const [date, setDate] = React.useState<moment.Moment>(moment().startOf('day'));
 

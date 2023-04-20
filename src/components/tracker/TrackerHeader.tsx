@@ -10,8 +10,9 @@ const TrackerHeader = () => {
     return (
         <HStack alignItems="center" justifyContent="space-between">
             <Text
-                isTruncated w="80%"
-                fontSize="lg"
+                isTruncated
+                w="80%"
+                fontSize="md"
                 fontWeight="bold"
             >
                 {tracker.displayName}
