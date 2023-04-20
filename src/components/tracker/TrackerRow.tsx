@@ -1,20 +1,23 @@
 import { HStack } from 'native-base';
 import React from 'react';
 import Tracker from './Tracker';
+import type { Tracker as TrackerType } from '../../types';
 import type moment from 'moment';
 
 interface TrackerRow {
+    rowIndex: number;
     date: moment.Moment;
-    trackerIds: string[];
+    trackers: TrackerType[];
 }
 
-const TrackerRow = ({ date, trackerIds }: TrackerRow) => {
+const TrackerRow = ({ rowIndex, date, trackers }: TrackerRow) => {
     return (
         <HStack space={2} flex={1} mb={2}>
-            {trackerIds.map((trackerId) => (
+            {trackers.map((tracker) => (
                 <Tracker
-                    key={`${trackerId}_${date.valueOf()}`}
-                    value={{ trackerId, date }}
+                    key={`${tracker.id}_${date.valueOf()}`}
+                    index={rowIndex}
+                    value={{ tracker, date }}
                 />
             ))}
         </HStack>

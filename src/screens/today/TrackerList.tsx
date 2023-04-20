@@ -1,6 +1,7 @@
 import React from 'react';
 import Animated from 'react-native-reanimated';
 import Tracker from '../../components/tracker/Tracker';
+import TrackerSingleLine from '../../components/tracker/TrackerSingleLine';
 import useUserStore from '../../stores/userStore';
 import { UNIT_PX } from '../../styles';
 import type { Tracker as TrackerType } from '../../types';
@@ -29,8 +30,19 @@ const TrackerList = ({ date }: TrackerListProps) => {
 
     const renderItem = ({ item }: ({ item: IndexedTracker })) => {
         const { index, tracker } = item;
+
+        if (tracker.isDefaultTracker) {
+            return (
+                <Tracker
+                    key={`${tracker.id}_${date.valueOf()}`}
+                    index={index}
+                    value={{ tracker, date }}
+                />
+            );
+        }
+
         return (
-            <Tracker
+            <TrackerSingleLine
                 key={`${tracker.id}_${date.valueOf()}`}
                 index={index}
                 value={{ tracker, date }}
