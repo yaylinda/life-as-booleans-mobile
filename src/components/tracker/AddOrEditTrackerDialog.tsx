@@ -62,9 +62,9 @@ const AddOrEditTrackerDialog = () => {
                     <FormControl isInvalid={!!validationError}>
                         <Input
                             ref={initialRef}
-                            variant='rounded'
+                            variant="rounded"
                             placeholder="New Tracker Name"
-                            size='lg'
+                            size="md"
                             value={newTrackerName}
                             onChangeText={onInputChange}
                             color="white"
@@ -74,7 +74,8 @@ const AddOrEditTrackerDialog = () => {
                                 borderColor: 'white',
                             }}
                         />
-                        <FormControl.ErrorMessage leftIcon={<Icon as={FontAwesome5} name='exclamation-circle' size="xs" />}>
+                        <FormControl.ErrorMessage
+                            leftIcon={<Icon as={FontAwesome5} name="exclamation-circle" size="xs" />}>
                             {validationError}
                         </FormControl.ErrorMessage>
                     </FormControl>

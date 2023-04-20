@@ -5,7 +5,7 @@
 #### General
 - [x] fix loading of font on app init
 - [x] vertically center loading icon
-- [ ] (ADVICE) View #167 of type ABI48_0_0ExpoLinearGradient.LinearGradientView has a shadow set but cannot calculate shadow efficiently
+- [x] (ADVICE) View #167 of type ABI48_0_0ExpoLinearGradient.LinearGradientView has a shadow set but cannot calculate shadow efficiently
 
 #### Home Screen
 - [x] redo ui
@@ -19,10 +19,15 @@
 - [ ] toast when renamed tracker
 - [ ] toast when tracker created
 - [ ] toast when tracker deleted
-- [ ] show old name when editing tracker name
-- [ ] add/edit tracker dialog
-- [ ] fix today values on initial load
-- [ ] today screen animations
+- [x] show old name when editing tracker name
+- [x] add/edit tracker dialog
+- [x] fix today values on initial load
+- [x] today screen animations
+- [x] single-line tracker component
+- [ ] set emoji when add/edit tracker
+- [ ] slide tracker to delete/rename
+- [ ] yearview button on single-ling tracker
+- [ ] fix welcome screen bottombar hook
 
 #### Year Data Action Sheet
 - [x] remove route from bottom nav
