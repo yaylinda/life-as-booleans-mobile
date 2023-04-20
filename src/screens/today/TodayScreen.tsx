@@ -11,7 +11,6 @@ import TodayScreenHeader from './TodayScreenHeader';
 import TrackerList from './TrackerList';
 
 
-
 const TodayScreen = () => {
 
     const { openAddTrackerDialog, setDayNavigation } = useUserStore();
@@ -21,7 +20,6 @@ const TodayScreen = () => {
     const isToday = moment().isSame(date, 'day');
 
     const prevDay = () => {
-        setDayNavigation(DayNavigation.PREV);
         setDate((date) =>
             date
                 .clone()
@@ -31,7 +29,6 @@ const TodayScreen = () => {
     };
 
     const nextDay = () => {
-        setDayNavigation(DayNavigation.NEXT);
         setDate((date) =>
             date
                 .clone()

@@ -33,11 +33,28 @@ const ANIMATION = {
     },
 };
 
+const INDEX_DELAY_THRESHOLD = 5;
+const DELAY_INTERVAL = 50;
+
+const getEnteringDelay = (index: number) => {
+    if (index < INDEX_DELAY_THRESHOLD) {
+        return index * DELAY_INTERVAL;
+    }
+    return INDEX_DELAY_THRESHOLD * DELAY_INTERVAL;
+};
+
+const getExitingDelay = (index: number) => {
+    if (index < INDEX_DELAY_THRESHOLD) {
+        return (INDEX_DELAY_THRESHOLD - index) * DELAY_INTERVAL;
+    }
+    return INDEX_DELAY_THRESHOLD * DELAY_INTERVAL;
+};
+
 interface TrackerProps {
     index: number;
 }
 
-const Tracker = ({  }: TrackerProps) => {
+const Tracker = ({ index }: TrackerProps) => {
 
     const { tracker, dayEpoch } = useTrackerContext();
 
@@ -64,8 +81,8 @@ const Tracker = ({  }: TrackerProps) => {
 
     return (
         <Animated.View
-            entering={ANIMATION[dayNavigation].entering}
-            exiting={ANIMATION[dayNavigation].exiting}
+            entering={ANIMATION[dayNavigation].entering.delay(getEnteringDelay(index))}
+            // exiting={ANIMATION[dayNavigation].exiting.delay(getExitingDelay(index))}
         >
             <VStack
                 padding={2}
