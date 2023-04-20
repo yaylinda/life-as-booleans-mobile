@@ -9,6 +9,10 @@ import useUserStore from '../../stores/userStore';
 const SettingsScreen = () => {
     const { user, gradientColors, clearData } = useUserStore();
 
+    if (!user) {
+        return null;
+    }
+
     const doClearData = () => {
         clearData();
     };
@@ -30,35 +34,43 @@ const SettingsScreen = () => {
             },
         ]);
 
-    return (
-        <ScreenWrapper>
-            <VStack space={5} alignItems="center" justifyContent="center" mb={10}>
-                <Avatar bg={gradientColors[1]} textAlign="center" size="lg" mt={5}>
-                    <Heading size="xl">{user.username[0]}</Heading>
-                </Avatar>
-                <VStack space={2} alignItems="center" justifyContent="center">
-                    <Heading>{user.username}</Heading>
-                    <Text>Tracking since {moment(user.createdDateEpoch).format('MMM Do, YYYY')}</Text>
-                </VStack>
+    const settingsHeader = (
+        <VStack space={5} alignItems="center" justifyContent="center" mb={10} w='full'>
+            <Avatar bg={gradientColors[1]} textAlign="center" size="lg" mt={5}>
+                <Heading size="xl">{user.username[0]}</Heading>
+            </Avatar>
+            <VStack space={2} alignItems="center" justifyContent="center">
+                <Heading>{user.username}</Heading>
+                <Text>Tracking since {moment(user.createdDateEpoch).format('MMM Do, YYYY')}</Text>
             </VStack>
-            <Center>
-                <IconButton
-                    size="lg"
-                    borderRadius="full"
-                    padding={5}
-                    _icon={{
-                        as: FontAwesome5,
-                        name: 'trash',
-                        color: 'white',
-                        textAlign: 'center',
-                    }}
-                    _pressed={{
-                        bg: 'black:alpha.10',
-                    }}
-                    onPress={confirmClearData}
-                />
-            </Center>
-        </ScreenWrapper>
+        </VStack>
+    );
+
+    const settingsContent = (
+        <Center>
+            <IconButton
+                size="lg"
+                borderRadius="full"
+                padding={5}
+                _icon={{
+                    as: FontAwesome5,
+                    name: 'trash',
+                    color: 'white',
+                    textAlign: 'center',
+                }}
+                _pressed={{
+                    bg: 'black:alpha.10',
+                }}
+                onPress={confirmClearData}
+            />
+        </Center>
+    );
+
+    return (
+        <ScreenWrapper
+            header={settingsHeader}
+            content={settingsContent}
+        />
     );
 };
 

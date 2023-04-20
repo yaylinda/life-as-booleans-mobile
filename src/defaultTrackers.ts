@@ -4,7 +4,7 @@ import type { Tracker } from './types';
 export const OVERALL_MOOD_DEFAULT_TRACKER: Tracker = {
     id: 'overall_mood',
     displayName: 'Overall Mood',
-    emoji: '🙂',
+    emoji: '🫥',
     valueOptionsMap: {
         veryBad: {
             value: 'veryBad',
@@ -47,7 +47,7 @@ export const DEFAULT_TRACKERS: { [key in string]: Tracker } = {
 export const EMPTY_TRACKER = (name: string): Tracker => ({
     id: uuid.v4() as string,
     displayName: name,
-    emoji: '🫥',
+    emoji: '⭐️',
     valueOptionsMap: {
         yes: {
             value: 'yes',
