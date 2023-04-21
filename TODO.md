@@ -9,7 +9,7 @@
 
 #### Home Screen
 - [x] redo ui
-- [ ] add back "today" button on HomeScreen
+- [x] add back "today" button on HomeScreen
 - [x] fix colors of "options" menu
 - [x] refactor to show year-view in action sheet from "options" menu
 - [x] allow to backfill data
