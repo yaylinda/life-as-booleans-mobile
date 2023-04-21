@@ -2,6 +2,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment/moment';
 import { Heading, IconButton } from 'native-base';
 import React from 'react';
+import { PRESSED_BG_BLACK } from '../../styles';
 
 interface TodayScreenHeader {
     date: moment.Moment;
@@ -24,7 +25,7 @@ const TodayScreenHeader = ({ date, prevDay, nextDay }: TodayScreenHeader) => {
                     textAlign: 'center',
                 }}
                 _pressed={{
-                    bg: 'black:alpha.10',
+                    bg: PRESSED_BG_BLACK,
                 }}
                 onPress={prevDay}
             />
@@ -38,7 +39,7 @@ const TodayScreenHeader = ({ date, prevDay, nextDay }: TodayScreenHeader) => {
                     textAlign: 'center',
                 }}
                 _pressed={{
-                    bg: 'black:alpha.10',
+                    bg: PRESSED_BG_BLACK,
                 }}
                 onPress={nextDay}
                 disabled={isToday}

@@ -1,17 +1,18 @@
+import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
-import { Button } from 'native-base';
+import { IconButton } from 'native-base';
 import React from 'react';
 import Animated from 'react-native-reanimated';
 import Tracker from '../../components/tracker/Tracker';
 import TrackerSingleLine from '../../components/tracker/TrackerSingleLine';
 import { EMPTY_TRACKER } from '../../defaultTrackers';
 import useUserStore from '../../stores/userStore';
-import { UNIT_PX } from '../../styles';
+import { BG, PRESSED_BG_BLACK, UNIT_PX } from '../../styles';
 import type { Tracker as TrackerType } from '../../types';
 
 interface TrackerListProps {
     date: moment.Moment;
-    // trackerIdRows: string[][];
+    goToToday: () => void;
 }
 
 interface IndexedTracker {
@@ -19,11 +20,11 @@ interface IndexedTracker {
     tracker: TrackerType;
 }
 
-const TrackerList = ({ date }: TrackerListProps) => {
+const TrackerList = ({ date, goToToday }: TrackerListProps) => {
+
+    const { openAddTrackerDialog, trackers } = useUserStore();
 
     const isToday = moment().isSame(date, 'day');
-
-    const { trackers } = useUserStore();
 
     const indexedTrackers: IndexedTracker[] = React.useMemo(() => {
         const indexTrackers = Object.values(trackers)
@@ -55,11 +56,37 @@ const TrackerList = ({ date }: TrackerListProps) => {
         // render buttons - add, and today
         if ((index < 0) && (isToday)) {
             return (
-                <Button>Add</Button>
+                <IconButton
+                    bg={BG}
+                    borderRadius="full"
+                    _icon={{
+                        as: FontAwesome5,
+                        name: 'plus',
+                        color: 'white',
+                        textAlign: 'center',
+                    }}
+                    _pressed={{
+                        bg: PRESSED_BG_BLACK,
+                    }}
+                    onPress={openAddTrackerDialog}
+                />
             );
         } else if ((index < 0) && (!isToday)) {
             return (
-                <Button>To to Day</Button>
+                <IconButton
+                    bg={BG}
+                    borderRadius="full"
+                    _icon={{
+                        as: FontAwesome5,
+                        name: 'calendar-day',
+                        color: 'white',
+                        textAlign: 'center',
+                    }}
+                    _pressed={{
+                        bg: PRESSED_BG_BLACK,
+                    }}
+                    onPress={goToToday}
+                />
             );
         }
 

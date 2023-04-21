@@ -13,11 +13,7 @@ import TrackerList from './TrackerList';
 
 const TodayScreen = () => {
 
-    const { openAddTrackerDialog  } = useUserStore();
-
     const [date, setDate] = React.useState<moment.Moment>(moment().startOf('day'));
-
-    const isToday = moment().isSame(date, 'day');
 
     const prevDay = () => {
         setDate((date) =>
@@ -37,39 +33,9 @@ const TodayScreen = () => {
         );
     };
 
-    const goToTodayButton = (
-        <IconButton
-            bg={BG}
-            borderRadius="full"
-            _icon={{
-                as: FontAwesome5,
-                name: 'calendar-day',
-                color: 'white',
-                textAlign: 'center',
-            }}
-            _pressed={{
-                bg: PRESSED_BUTTON_BG,
-            }}
-            onPress={() => setDate(moment().startOf('day'))}
-        />
-    );
-
-    const addTrackerButton = (
-        <IconButton
-            bg={BG}
-            borderRadius="full"
-            _icon={{
-                as: FontAwesome5,
-                name: 'plus',
-                color: 'white',
-                textAlign: 'center',
-            }}
-            _pressed={{
-                bg: PRESSED_BUTTON_BG,
-            }}
-            onPress={openAddTrackerDialog}
-        />
-    );
+    const goToToday = () => {
+        setDate(moment().startOf('day'));
+    };
 
     return (
         <ScreenWrapper
@@ -81,10 +47,7 @@ const TodayScreen = () => {
                 />
             }
             content={
-                <>
-                    <TrackerList date={date} />
-                    {/*{isToday ? addTrackerButton : goToTodayButton}*/}
-                </>
+                <TrackerList date={date} goToToday={goToToday}/>
             }
             dialogs={
                 <AddOrEditTrackerDialog />
