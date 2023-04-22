@@ -3,6 +3,7 @@ import { NativeBaseProvider } from 'native-base';
 import React from 'react';
 import config from './nativebase.config';
 import { AppStackNavigator } from './src/navigators';
+
 import useUserStore from './src/stores/userStore';
 import { theme } from './src/theme';
 

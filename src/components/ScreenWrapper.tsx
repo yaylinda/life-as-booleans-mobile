@@ -1,19 +1,23 @@
-import { Center, Spinner, VStack } from 'native-base';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { HStack, useSafeArea, VStack } from 'native-base';
 import React from 'react';
-import { SafeAreaView } from 'react-native';
 import useUserStore from '../stores/userStore';
 
 interface ScreenWrapperProps {
-    children: React.ReactNode;
+    header: React.ReactNode;
+    content: React.ReactNode;
+    dialogs?: React.ReactNode;
 }
 
-const ScreenWrapper = ({ children }: ScreenWrapperProps) => {
+const ScreenWrapper = ({ header, content, dialogs }: ScreenWrapperProps) => {
 
-    // TODO - fix font loading. need to move one level higher
+    const safeAreaProps = useSafeArea({
+        safeAreaTop: true,
+    });
 
-    const { loadingData, loadingFonts, gradientColors } = useUserStore();
+    const tabBarHeight = useBottomTabBarHeight();
 
-    const loading = loadingData || loadingFonts;
+    const { gradientColors } = useUserStore();
 
     return (
         <VStack
@@ -24,21 +28,20 @@ const ScreenWrapper = ({ children }: ScreenWrapperProps) => {
                     end: [0, 1],
                 },
             }}
-            flex={1}
+            h="full"
+            w="full"
+            paddingBottom={tabBarHeight}
         >
-            <SafeAreaView>
-                {
-                    loading ? (
-                        <Center>
-                            <Spinner size="lg" color="white" />
-                        </Center>
-                    ) : (
-                        <VStack>
-                            {children}
-                        </VStack>
-                    )
-                }
-            </SafeAreaView>
+            <HStack
+                justifyContent="space-between"
+                alignItems="center"
+                padding={2}
+                {...safeAreaProps}
+            >
+                {header}
+            </HStack>
+            {content}
+            {dialogs}
         </VStack>
     );
 };

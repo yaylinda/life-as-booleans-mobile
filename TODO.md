@@ -3,25 +3,33 @@
 ### Core Functionalities
 
 #### General
-- [ ] fix loading of font on app init
-- [ ] vertically center loading icon
-- [ ] (ADVICE) View #167 of type ABI48_0_0ExpoLinearGradient.LinearGradientView has a shadow set but cannot calculate shadow efficiently
+- [x] fix loading of font on app init
+- [x] vertically center loading icon
+- [x] (ADVICE) View #167 of type ABI48_0_0ExpoLinearGradient.LinearGradientView has a shadow set but cannot calculate shadow efficiently
+- [x] Fix warning about "Functions are not valid as React child"
 
 #### Home Screen
-- [ ] maybe add back "today" button on HomeScreen
-- [ ] indicate "today" on week view
-- [ ] consider a better a header for HomeScreen
+- [x] redo ui
+- [x] add back "today" button on HomeScreen
 - [x] fix colors of "options" menu
 - [x] refactor to show year-view in action sheet from "options" menu
 - [x] allow to backfill data
 - [x] refactor to use context for week tracker components
-- [ ] show old name when editing tracker name
 - [x] use black for section backgrounds
-- [ ] fix loading of day data icons on initial load
+- [x] fix loading of day data icons on initial load
 - [ ] toast when renamed tracker
 - [ ] toast when tracker created
 - [ ] toast when tracker deleted
-- [ ] use dialog to add/edit tracker name
+- [x] show old name when editing tracker name
+- [x] add/edit tracker dialog
+- [x] fix today values on initial load
+- [x] today screen animations
+- [x] single-line tracker component
+- [ ] set emoji when add/edit tracker
+- [x] slide tracker to delete/rename
+- [ ] yearview button on single-ling tracker
+- [x] fix welcome screen bottombar hook
+- [ ] slide back trackersingleline when click outside
 
 #### Year Data Action Sheet
 - [x] remove route from bottom nav

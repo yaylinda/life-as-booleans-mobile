@@ -5,21 +5,24 @@ import { BlurView } from 'expo-blur';
 import { Icon, Text } from 'native-base';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import HomeScreen from './screens/home/HomeScreen';
+import LoadingScreen from './screens/loading/LoadingScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import SettingsScreen from './screens/settings/SettingsScreen';
+import TodayScreen from './screens/today/TodayScreen';
 import useUserStore from './stores/userStore';
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import type { NavigatorScreenParams } from '@react-navigation/native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 export type TabStackParamList = {
-    Home: undefined,
+    // Home: undefined,
+    Today: undefined,
     // Summary: undefined,
     Settings: undefined,
 }
 
 export type AppStackParamList = {
+    Loading: undefined,
     Tab: NavigatorScreenParams<TabStackParamList>,
     Login: undefined,
 }
@@ -55,9 +58,12 @@ const TabStackNavigator = () => {
                     let iconName;
 
                     switch (route.name) {
-                    case 'Home':
+                    case 'Today':
                         iconName = 'server';
                         break;
+                        // case 'Home':
+                        //     iconName = 'server';
+                        //     break;
                         // case 'Summary':
                         //     iconName = 'table';
                         //     break;
@@ -85,9 +91,9 @@ const TabStackNavigator = () => {
             })}
         >
             <TabStack.Screen
-                name="Home"
+                name="Today"
                 options={{ headerShown: false }}
-                component={HomeScreen}
+                component={TodayScreen}
             />
             {/*<TabStack.Screen*/}
             {/*    name="Summary"*/}
@@ -104,12 +110,20 @@ const TabStackNavigator = () => {
 };
 
 export const AppStackNavigator = () => {
-    const { user } = useUserStore();
+    const { user, loadingFonts, loadingData } = useUserStore();
+
+    const loading = loadingFonts || loadingData;
 
     return (
         <AppStack.Navigator>
             {
-                user ? (
+                loading ? (
+                    <AppStack.Screen
+                        name="Loading"
+                        options={{ headerShown: false }}
+                        component={LoadingScreen}
+                    />
+                ) : user ? (
                     <AppStack.Screen
                         name="Tab"
                         options={{ headerShown: false }}
