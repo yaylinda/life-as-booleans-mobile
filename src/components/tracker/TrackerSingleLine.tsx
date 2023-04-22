@@ -1,5 +1,4 @@
-
-import { HStack,  Text } from 'native-base';
+import { HStack } from 'native-base';
 import React from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
@@ -11,9 +10,10 @@ import Animated, {
     withTiming,
 } from 'react-native-reanimated';
 import useUserStore from '../../stores/userStore';
-import { BG,  UNIT_PX } from '../../styles';
+import { BG, UNIT_PX } from '../../styles';
 import { withContext } from '../../withContext';
 import { TrackerProvider } from './TrackerContext';
+import TrackerHeader from './TrackerHeader';
 
 import TrackerOptionsRow from './TrackerOptionsRow';
 import TrackerValueSelection from './TrackerValueSelection';
@@ -109,21 +109,7 @@ const TrackerSingleLine = ({ index }: TrackerSingleLineProps) => {
                         borderRadius="xl"
                         alignItems="center"
                     >
-                        <HStack flex={2.5} space={2}>
-                            <Text
-                                fontSize="md"
-                                fontWeight="bold"
-                            >
-                                {tracker.emoji}
-                            </Text>
-                            <Text
-                                fontSize="md"
-                                fontWeight="bold"
-                                isTruncated
-                            >
-                                {tracker.displayName}
-                            </Text>
-                        </HStack>
+                        <TrackerHeader />
 
                         <TrackerValueSelection
                             selectedValue={value}

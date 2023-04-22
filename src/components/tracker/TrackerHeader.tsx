@@ -8,16 +8,20 @@ const TrackerHeader = () => {
     const { tracker } = useTrackerContext();
 
     return (
-        <HStack alignItems="center" justifyContent="space-between">
+        <HStack flex={2.5} space={2} alignItems="center">
             <Text
-                isTruncated
-                w="80%"
                 fontSize="md"
                 fontWeight="bold"
             >
+                {tracker.emoji}
+            </Text>
+            <Text
+                fontSize="md"
+                fontWeight="bold"
+                isTruncated
+            >
                 {tracker.displayName}
             </Text>
-            {/*<TrackerHeaderOptionsButton />*/}
         </HStack>
     );
 };
