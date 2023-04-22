@@ -12,10 +12,7 @@ const TrackerHeaderOptionsButton = () => {
 
     const { tracker } = useTrackerContext();
 
-    const {
-        deleteTracker,
-        openEditTrackerDialog,
-    } = useUserStore();
+    const { deleteTracker, openEditTrackerDialog } = useUserStore();
 
     const [openPopover, setOpenPopover] = React.useState<boolean>(false);
 

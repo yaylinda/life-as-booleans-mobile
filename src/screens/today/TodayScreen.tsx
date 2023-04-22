@@ -1,11 +1,8 @@
-import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
-import { IconButton } from 'native-base';
 import React from 'react';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import AddOrEditTrackerDialog from '../../components/tracker/AddOrEditTrackerDialog';
-import useUserStore from '../../stores/userStore';
-import { BG, PRESSED_BUTTON_BG } from '../../styles';
+import YearDataActionSheet from '../../components/year/YearDataActionSheet';
 
 import TodayScreenHeader from './TodayScreenHeader';
 import TrackerList from './TrackerList';
@@ -47,10 +44,13 @@ const TodayScreen = () => {
                 />
             }
             content={
-                <TrackerList date={date} goToToday={goToToday}/>
+                <TrackerList date={date} goToToday={goToToday} />
             }
             dialogs={
-                <AddOrEditTrackerDialog />
+                <>
+                    <AddOrEditTrackerDialog />
+                    <YearDataActionSheet />
+                </>
             }
         />
     );

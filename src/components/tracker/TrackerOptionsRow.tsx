@@ -43,7 +43,7 @@ const TrackerOptionsRow = ({ closeOptions }: TrackerOptionsRowProps) => {
     };
 
     return (
-        <HStack space={2}>
+        <HStack space={2} alignItems='center' height='full'>
             <IconButton
                 borderRadius="full"
                 _icon={{

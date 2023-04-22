@@ -1,6 +1,6 @@
 import { HStack, Text } from 'native-base';
 import React from 'react';
-import TrackerHeaderOptionsButton from './TrackerHeaderOptionsButton';
+
 import { useTrackerContext } from './useTrackerContext';
 
 const TrackerHeader = () => {
@@ -17,8 +17,7 @@ const TrackerHeader = () => {
             >
                 {tracker.displayName}
             </Text>
-
-            <TrackerHeaderOptionsButton />
+            {/*<TrackerHeaderOptionsButton />*/}
         </HStack>
     );
 };

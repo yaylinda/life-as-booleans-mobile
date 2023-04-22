@@ -1,4 +1,5 @@
-import { HStack, Text } from 'native-base';
+
+import { HStack,  Text } from 'native-base';
 import React from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
@@ -10,12 +11,13 @@ import Animated, {
     withTiming,
 } from 'react-native-reanimated';
 import useUserStore from '../../stores/userStore';
-import { BG, UNIT_PX } from '../../styles';
+import { BG,  UNIT_PX } from '../../styles';
 import { withContext } from '../../withContext';
 import { TrackerProvider } from './TrackerContext';
-import TrackerHeaderOptionsButton from './TrackerHeaderOptionsButton';
+
 import TrackerOptionsRow from './TrackerOptionsRow';
 import TrackerValueSelection from './TrackerValueSelection';
+
 import { useTrackerContext } from './useTrackerContext';
 
 const deviceWidth = Dimensions.get('window').width;
@@ -33,7 +35,8 @@ const TrackerSingleLine = ({ index }: TrackerSingleLineProps) => {
     const [value, setValue] = React.useState<string | undefined>('');
 
     const dragX = useSharedValue(0);
-    const threshold = -deviceWidth * 0.25;
+
+    const threshold = -deviceWidth * 0.3;
 
     React.useEffect(() => {
         const get = async () => {
@@ -95,7 +98,10 @@ const TrackerSingleLine = ({ index }: TrackerSingleLineProps) => {
     return (
         <PanGestureHandler onGestureEvent={gestureHander}>
             <Animated.View style={styles.row}>
-                <Animated.View style={[{}, itemContainerStyle]} entering={FadeIn.delay(index * 75)}>
+                <Animated.View
+                    style={[{}, itemContainerStyle]}
+                    entering={FadeIn.delay(index * 75)}
+                >
                     <HStack
                         padding={2}
                         space={2}
@@ -123,8 +129,6 @@ const TrackerSingleLine = ({ index }: TrackerSingleLineProps) => {
                             selectedValue={value}
                             onSelect={onSelectOption}
                         />
-
-                        <TrackerHeaderOptionsButton />
                     </HStack>
                 </Animated.View>
                 <Animated.View style={[styles.options, buttonContainerStyle]}>
@@ -137,15 +141,13 @@ const TrackerSingleLine = ({ index }: TrackerSingleLineProps) => {
 
 const styles = StyleSheet.create({
     row: {
-        // display: 'flex',
-        // flexDirection: 'row',
         position: 'relative',
         marginBottom: 2 * UNIT_PX,
     },
     options: {
-        // width: 0,
         x: deviceWidth,
         position: 'absolute',
+        height: '100%',
     },
 });
 
