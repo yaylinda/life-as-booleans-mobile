@@ -1,6 +1,6 @@
 import { HStack, Text } from 'native-base';
 import React from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
     FadeIn,
@@ -10,12 +10,15 @@ import Animated, {
     withTiming,
 } from 'react-native-reanimated';
 import useUserStore from '../../stores/userStore';
-import { BG } from '../../styles';
+import { BG, UNIT_PX } from '../../styles';
 import { withContext } from '../../withContext';
 import { TrackerProvider } from './TrackerContext';
 import TrackerHeaderOptionsButton from './TrackerHeaderOptionsButton';
+import TrackerOptionsRow from './TrackerOptionsRow';
 import TrackerValueSelection from './TrackerValueSelection';
 import { useTrackerContext } from './useTrackerContext';
+
+const deviceWidth = Dimensions.get('window').width;
 
 interface TrackerSingleLineProps {
     index: number;
@@ -25,9 +28,12 @@ const TrackerSingleLine = ({ index }: TrackerSingleLineProps) => {
 
     const { tracker, dayEpoch } = useTrackerContext();
 
-    const { getTrackerData, setTrackerData } = useUserStore();
+    const { getTrackerData, setTrackerData, addOrEditTrackerDialog } = useUserStore();
 
     const [value, setValue] = React.useState<string | undefined>('');
+
+    const dragX = useSharedValue(0);
+    const threshold = -deviceWidth * 0.25;
 
     React.useEffect(() => {
         const get = async () => {
@@ -40,82 +46,107 @@ const TrackerSingleLine = ({ index }: TrackerSingleLineProps) => {
         }
     }, [dayEpoch, getTrackerData, tracker]);
 
+    React.useEffect(() => {
+        if (!addOrEditTrackerDialog.isOpen) {
+            dragX.value = withTiming(0);
+        }
+    }, [addOrEditTrackerDialog.isOpen, dragX]);
+
     const onSelectOption = (value: string) => {
         setTrackerData(dayEpoch, tracker.id, value);
         setValue(value);
     };
 
-    const dragX = useSharedValue(0);
-
-    const height = useSharedValue(65);
-
-    const opacity = useSharedValue(1);
-
-    const deviceWidth = Dimensions.get('window').width;
-
-    const threshold = -deviceWidth * 0.25;
-
     const gestureHander = useAnimatedGestureHandler({
         onActive: (e) => {
-            dragX.value = e.translationX;
+            if (e.translationX > 0) {
+                dragX.value = withTiming(0);
+            }
+            dragX.value = Math.max(threshold, e.translationX);
         },
         onEnd: (e) => {
-            if (threshold < e.translationX) {
+            if (e.translationX > threshold) {
                 dragX.value = withTiming(0);
-            } else {
-                dragX.value = withTiming(-deviceWidth);
-                height.value = withTiming(0);
-                opacity.value = withTiming(0);
             }
         },
     });
 
+    const onCloseOptions = () => {
+        dragX.value = withTiming(0);
+    };
+
     const itemContainerStyle = useAnimatedStyle(() => ({
         transform: [
-            { translateX: dragX.value,},
+            { translateX: dragX.value },
         ],
-        height: height.value,
-        opacity: opacity.value,
-        marginTop: opacity.value === 1 ? 10 : 0,
     }));
+
+    const buttonContainerStyle = useAnimatedStyle(() => {
+        const buttonOpacity = Math.abs(dragX.value / threshold);
+
+        return {
+            opacity: buttonOpacity,
+            transform: [
+                { translateX: deviceWidth + dragX.value },
+            ],
+        };
+    });
 
     return (
         <PanGestureHandler onGestureEvent={gestureHander}>
-            <Animated.View style={itemContainerStyle} entering={FadeIn.delay(index * 75)}>
-                <HStack
-                    padding={2}
-                    marginBottom={2}
-                    space={2}
-                    bg={BG}
-                    borderRadius="xl"
-                    alignItems="center"
-                >
-                    <HStack flex={2.5} space={2}>
-                        <Text
-                            fontSize="md"
-                            fontWeight="bold"
-                        >
-                            {tracker.emoji}
-                        </Text>
-                        <Text
-                            fontSize="md"
-                            fontWeight="bold"
-                            isTruncated
-                        >
-                            {tracker.displayName}
-                        </Text>
+            <Animated.View style={styles.row}>
+                <Animated.View style={[{}, itemContainerStyle]} entering={FadeIn.delay(index * 75)}>
+                    <HStack
+                        padding={2}
+                        space={2}
+                        bg={BG}
+                        borderRadius="xl"
+                        alignItems="center"
+                    >
+                        <HStack flex={2.5} space={2}>
+                            <Text
+                                fontSize="md"
+                                fontWeight="bold"
+                            >
+                                {tracker.emoji}
+                            </Text>
+                            <Text
+                                fontSize="md"
+                                fontWeight="bold"
+                                isTruncated
+                            >
+                                {tracker.displayName}
+                            </Text>
+                        </HStack>
+
+                        <TrackerValueSelection
+                            selectedValue={value}
+                            onSelect={onSelectOption}
+                        />
+
+                        <TrackerHeaderOptionsButton />
                     </HStack>
-
-                    <TrackerValueSelection
-                        selectedValue={value}
-                        onSelect={onSelectOption}
-                    />
-
-                    <TrackerHeaderOptionsButton />
-                </HStack>
+                </Animated.View>
+                <Animated.View style={[styles.options, buttonContainerStyle]}>
+                    <TrackerOptionsRow closeOptions={onCloseOptions} />
+                </Animated.View>
             </Animated.View>
         </PanGestureHandler>
     );
 };
+
+const styles = StyleSheet.create({
+    row: {
+        // display: 'flex',
+        // flexDirection: 'row',
+        position: 'relative',
+        marginBottom: 2 * UNIT_PX,
+    },
+    options: {
+        // width: 0,
+        x: deviceWidth,
+        position: 'absolute',
+    },
+});
 
 export default withContext(TrackerSingleLine, TrackerProvider);

@@ -6,6 +6,7 @@
 - [x] fix loading of font on app init
 - [x] vertically center loading icon
 - [x] (ADVICE) View #167 of type ABI48_0_0ExpoLinearGradient.LinearGradientView has a shadow set but cannot calculate shadow efficiently
+- [x] Fix warning about "Functions are not valid as React child"
 
 #### Home Screen
 - [x] redo ui
@@ -25,9 +26,10 @@
 - [x] today screen animations
 - [x] single-line tracker component
 - [ ] set emoji when add/edit tracker
-- [ ] slide tracker to delete/rename
+- [x] slide tracker to delete/rename
 - [ ] yearview button on single-ling tracker
-- [ ] fix welcome screen bottombar hook
+- [x] fix welcome screen bottombar hook
+- [ ] slide back trackersingleline when click outside
 
 #### Year Data Action Sheet
 - [x] remove route from bottom nav
