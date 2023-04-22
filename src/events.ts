@@ -1,0 +1,3 @@
+export enum Events {
+    CLOSE_TRACKER_OPTIONS = 'CLOSE_TRACKER_OPTIONS',
+}

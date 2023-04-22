@@ -1,8 +1,10 @@
 import moment from 'moment';
+import { Pressable } from 'native-base';
 import React from 'react';
+import { EventRegister } from 'react-native-event-listeners';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import AddOrEditTrackerDialog from '../../components/tracker/AddOrEditTrackerDialog';
-import YearDataActionSheet from '../../components/year/YearDataActionSheet';
+import { Events } from '../../events';
 
 import TodayScreenHeader from './TodayScreenHeader';
 import TrackerList from './TrackerList';
@@ -35,24 +37,27 @@ const TodayScreen = () => {
     };
 
     return (
-        <ScreenWrapper
-            header={
-                <TodayScreenHeader
-                    date={date}
-                    prevDay={prevDay}
-                    nextDay={nextDay}
-                />
-            }
-            content={
-                <TrackerList date={date} goToToday={goToToday} />
-            }
-            dialogs={
-                <>
+        <Pressable
+            onPress={() => {
+                EventRegister.emit(Events.CLOSE_TRACKER_OPTIONS);
+            }}
+        >
+            <ScreenWrapper
+                header={
+                    <TodayScreenHeader
+                        date={date}
+                        prevDay={prevDay}
+                        nextDay={nextDay}
+                    />
+                }
+                content={
+                    <TrackerList date={date} goToToday={goToToday} />
+                }
+                dialogs={
                     <AddOrEditTrackerDialog />
-                    <YearDataActionSheet />
-                </>
-            }
-        />
+                }
+            />
+        </Pressable>
     );
 };
 

@@ -47,7 +47,6 @@ const TrackerList = ({ date, goToToday }: TrackerListProps) => {
             return (
                 <Tracker
                     key={`${tracker.id}_${date.valueOf()}`}
-                    index={index}
                     value={{ tracker, date }}
                 />
             );

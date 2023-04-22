@@ -19,8 +19,10 @@ import {
 import { loadAsync } from 'expo-font';
 import { produce } from 'immer';
 import moment from 'moment';
+import { EventRegister } from 'react-native-event-listeners';
 import { create } from 'zustand';
 import { DEFAULT_TRACKERS, EMPTY_TRACKER } from '../defaultTrackers';
+import { Events } from '../events';
 import { getRandomGradient } from '../gradients';
 import { clearAll, getItem, LocalStorageKey, multiGet, multiSet, removeItem, setItem } from '../localStorage';
 import { DayNavigation } from '../types';
@@ -233,6 +235,8 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
                 trackerName: '',
             },
         });
+
+        EventRegister.emit(Events.CLOSE_TRACKER_OPTIONS);
     },
 
     deleteTracker: async (trackerId: string) => {

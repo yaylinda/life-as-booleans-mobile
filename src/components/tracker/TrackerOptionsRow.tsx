@@ -2,15 +2,13 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { HStack, IconButton } from 'native-base';
 import React from 'react';
 import { Alert } from 'react-native';
+import { EventRegister } from 'react-native-event-listeners';
+import { Events } from '../../events';
 import useUserStore from '../../stores/userStore';
 import { PRESSED_BG_BLACK } from '../../styles';
 import { useTrackerContext } from './useTrackerContext';
 
-interface TrackerOptionsRowProps {
-    closeOptions: () => void;
-}
-
-const TrackerOptionsRow = ({ closeOptions }: TrackerOptionsRowProps) => {
+const TrackerOptionsRow = () => {
 
     const { tracker } = useTrackerContext();
 
@@ -27,7 +25,7 @@ const TrackerOptionsRow = ({ closeOptions }: TrackerOptionsRowProps) => {
                 {
                     text: 'Cancel',
                     onPress: () => {
-                        closeOptions();
+                        EventRegister.emit(Events.CLOSE_TRACKER_OPTIONS);
                     },
                     style: 'cancel',
                 },
@@ -35,7 +33,7 @@ const TrackerOptionsRow = ({ closeOptions }: TrackerOptionsRowProps) => {
                     text: 'Delete',
                     onPress: () => {
                         deleteTracker(tracker.id);
-                        // closeOptions();
+                        EventRegister.emit(Events.CLOSE_TRACKER_OPTIONS);
                     },
                     style: 'destructive',
                 },

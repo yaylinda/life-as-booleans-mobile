@@ -1,6 +1,7 @@
 import { HStack } from 'native-base';
 import React from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
+import { EventRegister } from 'react-native-event-listeners';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
     FadeIn,
@@ -9,6 +10,7 @@ import Animated, {
     useSharedValue,
     withTiming,
 } from 'react-native-reanimated';
+import { Events } from '../../events';
 import useUserStore from '../../stores/userStore';
 import { BG, UNIT_PX } from '../../styles';
 import { withContext } from '../../withContext';
@@ -30,7 +32,7 @@ const TrackerSingleLine = ({ index }: TrackerSingleLineProps) => {
 
     const { tracker, dayEpoch } = useTrackerContext();
 
-    const { getTrackerData, setTrackerData, addOrEditTrackerDialog } = useUserStore();
+    const { getTrackerData, setTrackerData } = useUserStore();
 
     const [value, setValue] = React.useState<string | undefined>('');
 
@@ -50,10 +52,15 @@ const TrackerSingleLine = ({ index }: TrackerSingleLineProps) => {
     }, [dayEpoch, getTrackerData, tracker]);
 
     React.useEffect(() => {
-        if (!addOrEditTrackerDialog.isOpen) {
-            dragX.value = withTiming(0);
-        }
-    }, [addOrEditTrackerDialog.isOpen, dragX]);
+        const closeOptionsSubscriber = EventRegister.addEventListener(
+            Events.CLOSE_TRACKER_OPTIONS, () => {
+                dragX.value = withTiming(0);
+            });
+
+        return () => {
+            EventRegister.removeEventListener(closeOptionsSubscriber as string);
+        };
+    }, [dragX]);
 
     const onSelectOption = (value: string) => {
         setTrackerData(dayEpoch, tracker.id, value);
