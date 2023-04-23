@@ -5,6 +5,7 @@ import { BlurView } from 'expo-blur';
 import { Icon, Text } from 'native-base';
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import DataScreen from './screens/DataScreen';
 import LoadingScreen from './screens/loading/LoadingScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import SettingsScreen from './screens/settings/SettingsScreen';
@@ -17,7 +18,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 export type TabStackParamList = {
     // Home: undefined,
     Today: undefined,
-    // Summary: undefined,
+    Data: undefined,
     Settings: undefined,
 }
 
@@ -61,12 +62,9 @@ const TabStackNavigator = () => {
                     case 'Today':
                         iconName = 'server';
                         break;
-                        // case 'Home':
-                        //     iconName = 'server';
-                        //     break;
-                        // case 'Summary':
-                        //     iconName = 'table';
-                        //     break;
+                    case 'Data':
+                        iconName = 'chart-area';
+                        break;
                     case 'Settings':
                         iconName = 'cog';
                         break;
@@ -95,11 +93,11 @@ const TabStackNavigator = () => {
                 options={{ headerShown: false }}
                 component={TodayScreen}
             />
-            {/*<TabStack.Screen*/}
-            {/*    name="Summary"*/}
-            {/*    options={{ headerShown: false }}*/}
-            {/*    component={SummaryScreen}*/}
-            {/*/>*/}
+            <TabStack.Screen
+                name="Data"
+                options={{ headerShown: false }}
+                component={DataScreen}
+            />
             <TabStack.Screen
                 name="Settings"
                 options={{ headerShown: false }}

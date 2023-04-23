@@ -38,9 +38,11 @@ const TodayScreen = () => {
 
     return (
         <Pressable
-            onPress={() => {
-                EventRegister.emit(Events.CLOSE_TRACKER_OPTIONS);
-            }}
+            onPressIn={
+                () => {
+                    EventRegister.emit(Events.CLOSE_TRACKER_OPTIONS);
+                }
+            }
         >
             <ScreenWrapper
                 header={

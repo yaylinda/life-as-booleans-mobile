@@ -81,10 +81,6 @@ const TrackerSingleLine = ({ index }: TrackerSingleLineProps) => {
         },
     });
 
-    const onCloseOptions = () => {
-        dragX.value = withTiming(0);
-    };
-
     const itemContainerStyle = useAnimatedStyle(() => ({
         transform: [
             { translateX: dragX.value },
@@ -125,7 +121,7 @@ const TrackerSingleLine = ({ index }: TrackerSingleLineProps) => {
                     </HStack>
                 </Animated.View>
                 <Animated.View style={[styles.options, buttonContainerStyle]}>
-                    <TrackerOptionsRow closeOptions={onCloseOptions} />
+                    <TrackerOptionsRow />
                 </Animated.View>
             </Animated.View>
         </PanGestureHandler>

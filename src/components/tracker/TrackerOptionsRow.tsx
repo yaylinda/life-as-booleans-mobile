@@ -12,7 +12,7 @@ const TrackerOptionsRow = () => {
 
     const { tracker } = useTrackerContext();
 
-    const {deleteTracker, openEditTrackerDialog} = useUserStore();
+    const { deleteTracker, openEditTrackerDialog } = useUserStore();
 
     const onEditName = () => {
         openEditTrackerDialog(tracker.id, tracker.displayName);
@@ -41,9 +41,10 @@ const TrackerOptionsRow = () => {
     };
 
     return (
-        <HStack space={2} alignItems='center' height='full'>
+        <HStack space={2} alignItems="center" height="full">
             <IconButton
                 borderRadius="full"
+                padding={4}
                 _icon={{
                     as: FontAwesome5,
                     name: 'edit',
@@ -57,6 +58,7 @@ const TrackerOptionsRow = () => {
             />
             <IconButton
                 borderRadius="full"
+                padding={4}
                 _icon={{
                     as: FontAwesome5,
                     name: 'trash',
