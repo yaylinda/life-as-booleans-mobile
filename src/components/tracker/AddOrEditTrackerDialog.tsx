@@ -1,8 +1,8 @@
 import { FontAwesome5 } from '@expo/vector-icons';
-import { FormControl, Icon, IconButton, Input, Modal } from 'native-base';
+import { Button, FormControl, Icon, Input, Modal } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
-import { BG, PRESSED_BUTTON_BG } from '../../styles';
+import { BG } from '../../styles';
 
 const AddOrEditTrackerDialog = () => {
     const { addOrEditTrackerDialog, closeAddOrEditTrackerDialog, addTracker, updateTracker } = useUserStore();
@@ -75,40 +75,56 @@ const AddOrEditTrackerDialog = () => {
                             }}
                         />
                         <FormControl.ErrorMessage
-                            leftIcon={<Icon as={FontAwesome5} name="exclamation-circle" size="xs" />}>
+                            leftIcon={
+                                <Icon
+                                    as={FontAwesome5}
+                                    name="exclamation-circle"
+                                    size="xs"
+                                />
+                            }
+                        >
                             {validationError}
                         </FormControl.ErrorMessage>
                     </FormControl>
                 </Modal.Body>
-                <Modal.Footer>
-                    <IconButton
+                <Modal.Footer justifyContent="space-between">
+                    <Button
                         bg={BG}
                         borderRadius="full"
-                        _icon={{
-                            as: FontAwesome5,
-                            name: 'times',
-                            color: 'red.500',
-                            textAlign: 'center',
-                        }}
                         _pressed={{
-                            bg: PRESSED_BUTTON_BG,
+                            bg: 'black:alpha.20',
                         }}
                         onPress={closeAddOrEditTrackerDialog}
-                    />
-                    <IconButton
+                        leftIcon={
+                            <Icon
+                                as={FontAwesome5}
+                                name="times"
+                                color="red.500"
+                                textAlign="center"
+                            />
+                        }
+                    >
+                        Cancel
+                    </Button>
+
+                    <Button
                         bg={BG}
                         borderRadius="full"
-                        _icon={{
-                            as: FontAwesome5,
-                            name: 'check',
-                            color: 'green.500',
-                            textAlign: 'center',
-                        }}
                         _pressed={{
-                            bg: PRESSED_BUTTON_BG,
+                            bg: 'black:alpha.40',
                         }}
                         onPress={onSave}
-                    />
+                        leftIcon={
+                            <Icon
+                                as={FontAwesome5}
+                                name="check"
+                                color="green.500"
+                                textAlign="center"
+                            />
+                        }
+                    >
+                        Save
+                    </Button>
                 </Modal.Footer>
             </Modal.Content>
         </Modal>

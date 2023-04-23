@@ -7,7 +7,7 @@ import Tracker from '../../components/tracker/Tracker';
 import TrackerSingleLine from '../../components/tracker/TrackerSingleLine';
 import { EMPTY_TRACKER } from '../../defaultTrackers';
 import useUserStore from '../../stores/userStore';
-import { BG, PRESSED_BG_BLACK, UNIT_PX } from '../../styles';
+import { BG, PRESSED_BG_BLACK_60, UNIT_PX } from '../../styles';
 import type { Tracker as TrackerType } from '../../types';
 
 interface TrackerListProps {
@@ -65,7 +65,7 @@ const TrackerList = ({ date, goToToday }: TrackerListProps) => {
                         textAlign: 'center',
                     }}
                     _pressed={{
-                        bg: PRESSED_BG_BLACK,
+                        bg: PRESSED_BG_BLACK_60,
                     }}
                     onPress={openAddTrackerDialog}
                 />
@@ -82,7 +82,7 @@ const TrackerList = ({ date, goToToday }: TrackerListProps) => {
                         textAlign: 'center',
                     }}
                     _pressed={{
-                        bg: PRESSED_BG_BLACK,
+                        bg: PRESSED_BG_BLACK_60,
                     }}
                     onPress={goToToday}
                 />

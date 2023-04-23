@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 import { EventRegister } from 'react-native-event-listeners';
 import { Events } from '../../events';
 import useUserStore from '../../stores/userStore';
-import { PRESSED_BG_BLACK } from '../../styles';
+import { PRESSED_BG_BLACK_20 } from '../../styles';
 import { useTrackerContext } from './useTrackerContext';
 
 const TrackerOptionsRow = () => {
@@ -52,7 +52,7 @@ const TrackerOptionsRow = () => {
                     textAlign: 'center',
                 }}
                 _pressed={{
-                    bg: PRESSED_BG_BLACK,
+                    bg: PRESSED_BG_BLACK_20,
                 }}
                 onPress={onEditName}
             />
@@ -66,7 +66,7 @@ const TrackerOptionsRow = () => {
                     textAlign: 'center',
                 }}
                 _pressed={{
-                    bg: PRESSED_BG_BLACK,
+                    bg: PRESSED_BG_BLACK_20,
                 }}
                 onPress={onDeleteTracker}
             />
