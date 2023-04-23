@@ -1,5 +1,8 @@
-import { Select } from 'native-base';
+import { HStack, Select } from 'native-base';
 import React from 'react';
+import useUserStore from '../../stores/userStore';
+import { BG, PRESSED_BG_BLACK_60 } from '../../styles';
+import useDataScreenStore from './dataScreenStore';
 
 interface DataScreenHeaderProps {
 
@@ -7,25 +10,27 @@ interface DataScreenHeaderProps {
 
 const DataScreenHeader = () => {
 
+    const { selectedTrackerId, setSelectedTrackerId } = useDataScreenStore();
 
+    const { trackers } = useUserStore();
 
     return (
         <Select
-            selectedValue={service}
-            accessibilityLabel="Choose Service"
-            placeholder="Choose Service"
+            minW="full"
+            selectedValue={selectedTrackerId}
             _selectedItem={{
-                bg: 'teal.600',
-                // endIcon: <CheckIcon size="5" />,
+                bg: PRESSED_BG_BLACK_60,
+                borderRadius: 'md',
             }}
-            mt={1}
-            onValueChange={itemValue => setService(itemValue)}
+            onValueChange={trackerId => setSelectedTrackerId(trackerId)}
         >
-            <Select.Item label="UX Research" value="ux" />
-            <Select.Item label="Web Development" value="web" />
-            <Select.Item label="Cross Platform Development" value="cross" />
-            <Select.Item label="UI Designing" value="ui" />
-            <Select.Item label="Backend Development" value="backend" />
+            {Object.values(trackers).map((tracker) =>
+                <Select.Item
+                    key={tracker.id}
+                    label={`${tracker.emoji} ${tracker.displayName}`}
+                    value={tracker.id}
+                />,
+            )}
         </Select>
     );
 };
