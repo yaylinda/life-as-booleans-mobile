@@ -8,23 +8,64 @@ import TrackerSingleLine from '../../components/tracker/TrackerSingleLine';
 import { EMPTY_TRACKER } from '../../defaultTrackers';
 import useUserStore from '../../stores/userStore';
 import { BG, PRESSED_BG_BLACK_60, UNIT_PX } from '../../styles';
+import useTodayScreenStore from './todayScreenStore';
 import type { Tracker as TrackerType } from '../../types';
 
-interface TrackerListProps {
-    date: moment.Moment;
-    goToToday: () => void;
-}
+const TrackerListButton = () => {
+
+    const { date, goToToday } = useTodayScreenStore();
+
+    const { openAddTrackerDialog } = useUserStore();
+
+    const isToday = moment().isSame(date, 'day');
+
+    if (isToday) {
+        return (
+            <IconButton
+                bg={BG}
+                borderRadius="full"
+                _icon={{
+                    as: FontAwesome5,
+                    name: 'plus',
+                    color: 'white',
+                    textAlign: 'center',
+                }}
+                _pressed={{
+                    bg: PRESSED_BG_BLACK_60,
+                }}
+                onPress={openAddTrackerDialog}
+            />
+        );
+    }
+
+    return (
+        <IconButton
+            bg={BG}
+            borderRadius="full"
+            _icon={{
+                as: FontAwesome5,
+                name: 'calendar-day',
+                color: 'white',
+                textAlign: 'center',
+            }}
+            _pressed={{
+                bg: PRESSED_BG_BLACK_60,
+            }}
+            onPress={goToToday}
+        />
+    );
+};
 
 interface IndexedTracker {
     index: number;
     tracker: TrackerType;
 }
 
-const TrackerList = ({ date, goToToday }: TrackerListProps) => {
+const TodayScreenContent = () => {
 
-    const { openAddTrackerDialog, trackers } = useUserStore();
+    const { date } = useTodayScreenStore();
 
-    const isToday = moment().isSame(date, 'day');
+    const { trackers } = useUserStore();
 
     const indexedTrackers: IndexedTracker[] = React.useMemo(() => {
         const indexTrackers = Object.values(trackers)
@@ -35,6 +76,7 @@ const TrackerList = ({ date, goToToday }: TrackerListProps) => {
 
         return [
             ...indexTrackers,
+            // To signify the "add tracker" or "go to today" button
             { tracker: EMPTY_TRACKER(''), index: -1 },
         ];
     }, [trackers]);
@@ -53,40 +95,8 @@ const TrackerList = ({ date, goToToday }: TrackerListProps) => {
         }
 
         // render buttons - add, and today
-        if ((index < 0) && (isToday)) {
-            return (
-                <IconButton
-                    bg={BG}
-                    borderRadius="full"
-                    _icon={{
-                        as: FontAwesome5,
-                        name: 'plus',
-                        color: 'white',
-                        textAlign: 'center',
-                    }}
-                    _pressed={{
-                        bg: PRESSED_BG_BLACK_60,
-                    }}
-                    onPress={openAddTrackerDialog}
-                />
-            );
-        } else if ((index < 0) && (!isToday)) {
-            return (
-                <IconButton
-                    bg={BG}
-                    borderRadius="full"
-                    _icon={{
-                        as: FontAwesome5,
-                        name: 'calendar-day',
-                        color: 'white',
-                        textAlign: 'center',
-                    }}
-                    _pressed={{
-                        bg: PRESSED_BG_BLACK_60,
-                    }}
-                    onPress={goToToday}
-                />
-            );
+        if (index < 0) {
+            return <TrackerListButton />;
         }
 
         // render the other non-default trackers
@@ -99,6 +109,8 @@ const TrackerList = ({ date, goToToday }: TrackerListProps) => {
         );
     };
 
+    console.log('************* RE-RENDERING TRACKER LIST');
+
     return (
         <Animated.FlatList
             style={{ paddingHorizontal: 2 * UNIT_PX }}
@@ -109,4 +121,4 @@ const TrackerList = ({ date, goToToday }: TrackerListProps) => {
     );
 };
 
-export default TrackerList;
+export default TodayScreenContent;

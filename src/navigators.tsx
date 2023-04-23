@@ -5,7 +5,7 @@ import { BlurView } from 'expo-blur';
 import { Icon, Text } from 'native-base';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import DataScreen from './screens/DataScreen';
+import DataScreen from './screens/data/DataScreen';
 import LoadingScreen from './screens/loading/LoadingScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import SettingsScreen from './screens/settings/SettingsScreen';

@@ -27,16 +27,19 @@
 - [x] single-line tracker component
 - [ ] set emoji when add/edit tracker
 - [x] slide tracker to delete/rename
-- [ ] yearview button on single-ling tracker
 - [x] fix welcome screen bottombar hook
-- [ ] slide back trackersingleline when click outside
+- [x] slide back trackersingleline when click outside
+- [ ] think about better animation/transition when tracker is deleted
+
+#### Data Screen
+- [ ] tracker dropdown
+- [ ] show year data grid when tracker is selected
 
 #### Year Data Action Sheet
 - [x] remove route from bottom nav
 - [x] gradient background color
 - [x] show data
 - [x] navigate between years
-- [ ] fix performance on load and on year change
 
 #### Settings Screen
 - [x] fix settings "logout" button
