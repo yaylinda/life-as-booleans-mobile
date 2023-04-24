@@ -1,6 +1,6 @@
 import { HStack, VStack } from 'native-base';
 import React from 'react';
-import DayDataCell from './DayDataCell';
+import YearViewDay from './YearViewDay';
 
 export const MAX_DAYS_IN_MONTH = 31;
 
@@ -8,16 +8,16 @@ export const NUM_MONTHS = 12;
 
 export const CELL_GAP_PX = 4;
 
-const YearDataGrid = () => {
+const YearView = () => {
 
-    console.log('RENDER YearDataGrid');
+    console.log('RENDER YearView');
 
     return (
         <VStack>
             {(new Array(MAX_DAYS_IN_MONTH + 1).fill(0)).map((_, row) => (
-                <HStack key={`${row}`} justifyContent="center">
+                <HStack key={`r_${row}`} justifyContent="center">
                     {(new Array(NUM_MONTHS + 1).fill(0)).map((_, column) => (
-                        <DayDataCell
+                        <YearViewDay
                             key={`r${row}_c${column}`}
                             row={row}
                             column={column}
@@ -29,4 +29,4 @@ const YearDataGrid = () => {
     );
 };
 
-export default YearDataGrid;
+export default YearView;

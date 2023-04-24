@@ -13,7 +13,7 @@ interface DayDataCellProps {
     column: number;
 }
 
-const DayDataCell = ({ row, column }: DayDataCellProps) => {
+const YearViewDay = ({ row, column }: DayDataCellProps) => {
 
     const { selectedCoord, setSelectedCoord, selectedTracker: tracker, year } = useDataScreenStore();
 
@@ -47,6 +47,7 @@ const DayDataCell = ({ row, column }: DayDataCellProps) => {
 
     return (
         <Pressable
+            key={tracker.id}
             bg={isSelectedRow || isSelectedColumn ? 'white:alpha.20' : undefined}
             padding={CELL_GAP / 2}
             onPress={() => setSelectedCoord(row, column)}
@@ -64,4 +65,4 @@ const DayDataCell = ({ row, column }: DayDataCellProps) => {
     );
 };
 
-export default DayDataCell;
+export default YearViewDay;

@@ -1,6 +1,17 @@
 import moment from 'moment';
 
-
+export const getDatesBetween = (
+    start: moment.Moment,
+    end: moment.Moment
+): moment.Moment[] => {
+    const dates: moment.Moment[] = [];
+    const startClone = start.clone();
+    while (startClone.isBefore(end)) {
+        dates.push(startClone.clone());
+        startClone.add(1, 'day');
+    }
+    return dates;
+};
 
 export const getWeekStart = () => {
     const momentDate = moment();

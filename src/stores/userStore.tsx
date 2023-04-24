@@ -27,6 +27,7 @@ import { getRandomGradient } from '../gradients';
 import { clearAll, getItem, LocalStorageKey, multiGet, multiSet, removeItem, setItem } from '../localStorage';
 import { DayNavigation } from '../types';
 import type { AddOrEditTrackerDialogProps, Tracker, User, YearViewData } from '../types';
+import { getDatesBetween } from '../utilities';
 
 interface UserStoreStateData {
     loadingData: boolean;
@@ -47,6 +48,7 @@ interface UserStoreStateFunctions {
     createUser: (username: string) => void;
     addTracker: (trackerName: string) => void;
     getTrackerDataForDay: (dayEpoch: string) => Promise<{ [key in string]: string | undefined }>;
+    getTrackerDataForInterval: (trackerId: string, start: moment.Moment, end: moment.Moment) => Promise<{ [key in string]: string | undefined }>;
     getTrackerData: (dayEpoch: string, trackerId: string) => Promise<string | undefined>;
     setTrackerData: (dayEpoch: string, trackerId: string, value: string) => void;
     clearData: () => void;
@@ -184,17 +186,22 @@ const useUserStore = create<UserStoreState>()((set, get) => ({
         return trackerData;
     },
 
+    getTrackerDataForInterval: async (trackerId: string, start: moment.Moment, end: moment.Moment) => {
+        const dateEpochs = getDatesBetween(start, end).map(d => `${d.valueOf()}`);
+
+        const promises = dateEpochs.map((dayEpoch) => get().getTrackerData(dayEpoch, trackerId));
+
+        const results = await Promise.all(promises);
+
+        return dateEpochs.reduce<{ [key in string]: string | undefined }>((accumulator, trackerId, index) => {
+            accumulator[trackerId] = results[index];
+            return accumulator;
+        }, {});
+    },
+
     setTrackerData: async (dayEpoch: string, trackerId: string, value: string) => {
         const key = `${dayEpoch}_${trackerId}`;
-
         await setItem<string>(key, value);
-
-        // set({
-        //     data: {
-        //         ...get().data,
-        //         [key]: value
-        //     }
-        // });
     },
 
     clearData: async () => {
