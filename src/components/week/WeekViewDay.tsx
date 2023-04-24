@@ -3,7 +3,7 @@ import moment from 'moment';
 import { IconButton, VStack, Text } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
-import { Tracker } from '../../types';
+import type { Tracker } from '../../types';
 
 interface WeekViewDayProps {
     tracker: Tracker;
@@ -37,7 +37,7 @@ const WeekViewDay = ({tracker, date}: WeekViewDayProps) => {
             return tracker!.valueOptionsMap[value].icon;
         }
 
-        if (isBefore) {
+        if (isToday || isBefore) {
             return 'circle';
         }
 
@@ -51,7 +51,7 @@ const WeekViewDay = ({tracker, date}: WeekViewDayProps) => {
             return tracker!.valueOptionsMap[value].color;
         }
 
-        if (isBefore) {
+        if (isToday || isBefore) {
             return 'white:alpha.50';
         }
     };

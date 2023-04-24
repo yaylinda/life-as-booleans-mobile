@@ -1,7 +1,7 @@
-import moment from 'moment';
 import { Divider, HStack, Text, VStack } from 'native-base';
 import React from 'react';
 import useDataScreenStore from '../../screens/data/dataScreenStore';
+import { BG } from '../../styles';
 import { getDatesBetween } from '../../utilities';
 import WeekViewDay from './WeekViewDay';
 
@@ -13,12 +13,18 @@ const WeekView = () => {
     const dates = getDatesBetween(start, end);
 
     return (
-        <VStack>
-            <HStack justifyContent='space-between'>
-                <Text>This Week</Text>
-                <Text>{start.format('M/D')} - {end.format('M/D')}</Text>
+        <VStack
+            padding={4}
+            space={2}
+            bg={BG}
+            borderRadius="xl"
+        >
+            <HStack justifyContent="space-between">
+                <Text fontSize="md" fontWeight="bold">This Week</Text>
+                <Text fontSize="sm">{start.format('M/D')} - {end.format('M/D')}</Text>
             </HStack>
-            <Divider />
+
+            <Divider bg="white:alpha.50" />
 
             <HStack justifyContent="space-between">
                 {dates.map((date) => (

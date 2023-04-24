@@ -26,8 +26,8 @@ import { Events } from '../events';
 import { getRandomGradient } from '../gradients';
 import { clearAll, getItem, LocalStorageKey, multiGet, multiSet, removeItem, setItem } from '../localStorage';
 import { DayNavigation } from '../types';
-import type { AddOrEditTrackerDialogProps, Tracker, User, YearViewData } from '../types';
 import { getDatesBetween } from '../utilities';
+import type { AddOrEditTrackerDialogProps, Tracker, User, YearViewData } from '../types';
 
 interface UserStoreStateData {
     loadingData: boolean;
