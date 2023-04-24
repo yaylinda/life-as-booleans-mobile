@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Actionsheet, Heading, HStack, IconButton, Text, VStack } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
-import YearTrackerDataGrid, { CELL_GAP_PX, CELL_SIZE_PX, NUM_MONTHS } from './YearTrackerDataGrid';
+import YearDataGrid, { CELL_GAP_PX, CELL_SIZE_PX, NUM_MONTHS } from '../yearDataGrid/YearDataGrid';
 import type { Tracker } from '../../types';
 
 interface YearDataActionSheetHeaderProps {
@@ -92,7 +92,7 @@ const YearDataActionSheet = () => {
                     tracker={tracker}
                     year={year}
                 />
-                <YearTrackerDataGrid
+                <YearDataGrid
                     tracker={tracker}
                     year={year}
                 />

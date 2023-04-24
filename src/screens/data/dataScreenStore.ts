@@ -1,27 +1,38 @@
+import moment from 'moment';
 import { create } from 'zustand';
 import { OVERALL_MOOD_DEFAULT_TRACKER } from '../../defaultTrackers';
 import useUserStore from '../../stores/userStore';
-import { Tracker } from '../../types';
+import type { Tracker } from '../../types';
 
 interface DataScreenStoreData {
-    selectedTrackerId: string;
+    selectedTracker: Tracker;
+    year: number;
+    selectedCoord: { row: number, column: number };
 }
 
 interface DataScreenStoreFunctions {
-    setSelectedTrackerId: (trackerId: string) => void;
+    setSelectedTracker: (trackerId: string) => void;
+    setSelectedCoord: (row: number, column: number) => void;
 }
 
 type DataScreenStoreState = DataScreenStoreData & DataScreenStoreFunctions;
 
 const DEFAULT_DATA: DataScreenStoreData = {
-    selectedTrackerId: OVERALL_MOOD_DEFAULT_TRACKER.id,
+    selectedTracker: OVERALL_MOOD_DEFAULT_TRACKER,
+    year: moment().year(),
+    selectedCoord: { row: -1, column: -1 },
 };
 
 const useDataScreenStore = create<DataScreenStoreState>()((set ) => ({
     ...DEFAULT_DATA,
-    setSelectedTrackerId: (trackerId: string) => {
+    setSelectedTracker: (trackerId: string) => {
         set({
-            selectedTrackerId: useUserStore.getState().trackers[trackerId].id,
+            selectedTracker: useUserStore.getState().trackers[trackerId],
+        });
+    },
+    setSelectedCoord: (row: number, column: number) => {
+        set({
+            selectedCoord: { row, column },
         });
     },
 }));
