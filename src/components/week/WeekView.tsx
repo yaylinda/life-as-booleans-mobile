@@ -3,7 +3,7 @@ import React from 'react';
 import useDataScreenStore from '../../screens/data/dataScreenStore';
 import { BG } from '../../styles';
 import { getDatesBetween } from '../../utilities';
-import WeekViewDay from './WeekViewDay';
+import WeekViewDay, { DayType } from './WeekViewDay';
 
 const WeekView = () => {
 
@@ -32,6 +32,7 @@ const WeekView = () => {
                         key={`day_${date.valueOf()}_${tracker.id}`}
                         date={date}
                         tracker={tracker}
+                        dayType={DayType.WEEK}
                     />
                 ))}
             </HStack>

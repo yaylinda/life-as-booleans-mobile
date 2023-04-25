@@ -1,15 +1,22 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
-import { IconButton, VStack, Text } from 'native-base';
+import { IconButton, Text, VStack } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
 import type { Tracker } from '../../types';
 
+export enum DayType {
+    WEEK = 'WEEK',
+    MONTH = 'MONTH',
+}
+
 interface WeekViewDayProps {
     tracker: Tracker;
     date: moment.Moment;
+    dayType: DayType;
 }
-const WeekViewDay = ({tracker, date}: WeekViewDayProps) => {
+
+const WeekViewDay = ({ tracker, date, dayType }: WeekViewDayProps) => {
     const dayEpoch = `${date.valueOf()}`;
 
     const { getTrackerData } = useUserStore();
@@ -56,23 +63,39 @@ const WeekViewDay = ({tracker, date}: WeekViewDayProps) => {
         }
     };
 
+    const getContent = () => {
+        switch (dayType) {
+        case DayType.WEEK:
+            return (
+                <>
+                    <Text fontSize="2xs" fontWeight="black">{dayOfWeekLabel}</Text>
+                    <IconButton
+                        size="sm"
+                        disabled
+                        borderRadius="full"
+                        bg={hasValue ? 'gray.50' : undefined}
+                        padding={1}
+                        _icon={{
+                            as: FontAwesome5,
+                            name: getIcon(),
+                            color: getIconColor(),
+                            textAlign: 'center',
+                        }}
+                    />
+                    <Text fontSize="2xs" fontWeight="black">{dayOfMonthLabel}</Text>
+                </>
+            );
+        case DayType.MONTH:
+            return (
+                <Text>{date.date()}</Text>
+            );
+        }
+
+    };
+
     return (
         <VStack alignItems="center" space={1}>
-            <Text fontSize="2xs" fontWeight="black">{dayOfWeekLabel}</Text>
-            <IconButton
-                size='sm'
-                disabled
-                borderRadius="full"
-                bg={hasValue ? 'gray.50' : undefined}
-                padding={1}
-                _icon={{
-                    as: FontAwesome5,
-                    name: getIcon(),
-                    color: getIconColor(),
-                    textAlign: 'center',
-                }}
-            />
-            <Text fontSize="2xs" fontWeight="black">{dayOfMonthLabel}</Text>
+            {getContent()}
         </VStack>
     );
 };

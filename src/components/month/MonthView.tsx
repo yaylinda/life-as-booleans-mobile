@@ -1,15 +1,16 @@
+import { Moment } from 'moment';
 import { Divider, HStack, Text, VStack } from 'native-base';
 import React from 'react';
 import useDataScreenStore from '../../screens/data/dataScreenStore';
 import { BG } from '../../styles';
-import { getDatesBetween } from '../../utilities';
+import { getWeekChunksForMonth } from '../../utilities';
+import WeekViewDay, { DayType } from '../week/WeekViewDay';
 
 const MonthView = () => {
 
-    const { month: start  } = useDataScreenStore();
-    const end = start.clone().endOf('month').startOf('day');
+    const { month: start, selectedTracker: tracker } = useDataScreenStore();
 
-    const dates = getDatesBetween(start, end);
+    const dates = getWeekChunksForMonth();
 
     return (
         <VStack
@@ -24,6 +25,21 @@ const MonthView = () => {
             </HStack>
 
             <Divider bg="white:alpha.50" />
+
+            <VStack>
+                {dates.map((week: Moment[], rIndex: number) => (
+                    <HStack key={`r_${rIndex}`} justifyContent="space-between">
+                        {week.map((date: Moment, cIndex: number) => (
+                            <WeekViewDay
+                                key={`r_${rIndex}_c_${cIndex}`}
+                                tracker={tracker}
+                                date={date}
+                                dayType={DayType.MONTH}
+                            />
+                        ))}
+                    </HStack>
+                ))}
+            </VStack>
         </VStack>
     );
 };
