@@ -26,8 +26,8 @@ const MonthView = () => {
 
             <Divider bg="white:alpha.50" />
 
-            <VStack marginX={-4} space={1.5}>
-                <HStack key="dow_label" justifyContent="space-between">
+            <VStack marginX={-2}>
+                <HStack key="dow_label" justifyContent="space-between" marginBottom={1}>
                     {dates[0].map((date: Moment, index: number) => (
                         <VStack key={`dow_${index}`} alignItems='center' flex={1}>
                             <Text fontSize="2xs" fontWeight="black">

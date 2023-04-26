@@ -1,8 +1,9 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
-import { IconButton, Text, VStack } from 'native-base';
+import { IconButton, Pressable, Text, VStack } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
+import { PRESSED_BG_BLACK_20,  UNIT_PX } from '../../styles';
 import type { Tracker } from '../../types';
 
 export enum DayType {
@@ -77,7 +78,16 @@ const DayCell = ({ tracker, date, dayType }: DayCellProps) => {
 
     const getContent = () => {
         return (
-            <>
+            <Pressable
+                alignItems="center"
+                style={{ gap: 0.5 * UNIT_PX }}
+                borderRadius='lg'
+                paddingY={1}
+                disabled={isAfter}
+                _pressed={{
+                    bg: PRESSED_BG_BLACK_20,
+                }}
+            >
                 {dayType === DayType.WEEK && (
                     <Text fontSize="2xs" fontWeight="black">
                         {dayOfWeekLabel}
@@ -88,7 +98,7 @@ const DayCell = ({ tracker, date, dayType }: DayCellProps) => {
                     disabled
                     borderRadius="full"
                     bg={hasValue ? 'gray.50' : undefined}
-                    padding={1}
+                    padding={0.5}
                     _icon={{
                         as: FontAwesome5,
                         name: getIcon(),
@@ -97,12 +107,12 @@ const DayCell = ({ tracker, date, dayType }: DayCellProps) => {
                     }}
                 />
                 <Text fontSize="2xs" fontWeight="black">{dayOfMonthLabel}</Text>
-            </>
+            </Pressable>
         );
     };
 
     return (
-        <VStack flex={1} alignItems="center" space={0.5}>
+        <VStack flex={1}>
             {isSameMonth && getContent()}
         </VStack>
     );
