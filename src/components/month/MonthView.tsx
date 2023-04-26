@@ -14,7 +14,7 @@ const MonthView = () => {
     const dates = getWeekChunksForMonth();
 
     return (
-        <Animated.View entering={FadeIn.delay(200)}>
+        <Animated.View entering={FadeIn}>
             <VStack
                 padding={4}
                 space={2}

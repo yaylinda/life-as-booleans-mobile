@@ -33,7 +33,6 @@ const TrackerOptionsRow = () => {
                     text: 'Delete',
                     onPress: () => {
                         deleteTracker(tracker.id);
-                        EventRegister.emit(Events.CLOSE_TRACKER_OPTIONS);
                     },
                     style: 'destructive',
                 },
@@ -41,7 +40,7 @@ const TrackerOptionsRow = () => {
     };
 
     return (
-        <HStack space={2} alignItems="center" height="full">
+        <HStack alignItems="center" height="full">
             <IconButton
                 borderRadius="full"
                 padding={4}

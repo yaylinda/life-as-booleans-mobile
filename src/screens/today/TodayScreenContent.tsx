@@ -2,7 +2,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
 import { IconButton } from 'native-base';
 import React from 'react';
-import Animated from 'react-native-reanimated';
+import Animated, { Layout } from 'react-native-reanimated';
 import Tracker from '../../components/tracker/Tracker';
 import TrackerSingleLine from '../../components/tracker/TrackerSingleLine';
 import { EMPTY_TRACKER } from '../../defaultTrackers';
@@ -115,6 +115,7 @@ const TodayScreenContent = () => {
             showsVerticalScrollIndicator={false}
             data={indexedTrackers}
             renderItem={renderItem}
+            layout={Layout}
         />
     );
 };

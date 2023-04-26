@@ -2,7 +2,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Button, FormControl, Icon, Input, Modal } from 'native-base';
 import React from 'react';
 import useUserStore from '../../stores/userStore';
-import { BG } from '../../styles';
+import { BG,  PRESSED_BG_WHITE } from '../../styles';
 
 const AddOrEditTrackerDialog = () => {
     const { addOrEditTrackerDialog, closeAddOrEditTrackerDialog, addTracker, updateTracker } = useUserStore();
@@ -92,7 +92,7 @@ const AddOrEditTrackerDialog = () => {
                         bg={BG}
                         borderRadius="full"
                         _pressed={{
-                            bg: 'black:alpha.20',
+                            bg: PRESSED_BG_WHITE,
                         }}
                         onPress={closeAddOrEditTrackerDialog}
                         leftIcon={
@@ -111,7 +111,7 @@ const AddOrEditTrackerDialog = () => {
                         bg={BG}
                         borderRadius="full"
                         _pressed={{
-                            bg: 'black:alpha.40',
+                            bg: PRESSED_BG_WHITE,
                         }}
                         onPress={onSave}
                         leftIcon={
