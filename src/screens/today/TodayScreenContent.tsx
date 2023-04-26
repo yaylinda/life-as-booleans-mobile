@@ -109,8 +109,6 @@ const TodayScreenContent = () => {
         );
     };
 
-    console.log('************* RE-RENDERING TRACKER LIST');
-
     return (
         <Animated.FlatList
             style={{ paddingHorizontal: 2 * UNIT_PX }}

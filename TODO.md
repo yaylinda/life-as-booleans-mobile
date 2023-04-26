@@ -32,7 +32,8 @@
 - [ ] think about better animation/transition when tracker is deleted
 
 #### Data Screen
-- [ ] tracker dropdown
+- [ ] animations
+- [x] tracker dropdown
 - [ ] show year data grid when tracker is selected
 
 #### Year Data Action Sheet
