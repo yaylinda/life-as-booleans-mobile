@@ -26,7 +26,7 @@ const WeekView = () => {
 
             <Divider bg="white:alpha.50" />
 
-            <HStack justifyContent="space-between">
+            <HStack marginX={-4} justifyContent="space-between">
                 {dates.map((date) => (
                     <DayCell
                         key={`day_${date.valueOf()}_${tracker.id}`}

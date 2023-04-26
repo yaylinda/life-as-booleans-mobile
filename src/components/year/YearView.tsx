@@ -6,8 +6,6 @@ export const MAX_DAYS_IN_MONTH = 31;
 
 export const NUM_MONTHS = 12;
 
-export const CELL_GAP_PX = 4;
-
 const YearView = () => {
 
     console.log('RENDER YearView');

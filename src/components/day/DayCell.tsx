@@ -39,7 +39,9 @@ const DayCell = ({ tracker, date, dayType }: DayCellProps) => {
         }
 
         get();
-    }, [dayType, date, dayEpoch, getTrackerData, tracker.id]);
+
+        /* eslint-disable react-hooks/exhaustive-deps */
+    }, [tracker.id]);
 
     const hasValue = value !== undefined;
     const dayOfWeekLabel = date.format('dd')[0];
@@ -47,10 +49,11 @@ const DayCell = ({ tracker, date, dayType }: DayCellProps) => {
     const isToday = date.isSame(moment(), 'day');
     const isBefore = date.isBefore(moment(), 'day');
     const isAfter = date.isAfter(moment(), 'day');
+    const isSameMonth = date.isSame(moment(), 'month');
 
     const getIcon = () => {
         if (hasValue) {
-            return tracker!.valueOptionsMap[value].icon;
+            return tracker.valueOptionsMap[value].icon;
         }
 
         if (isToday || isBefore) {
@@ -64,7 +67,7 @@ const DayCell = ({ tracker, date, dayType }: DayCellProps) => {
 
     const getIconColor = () => {
         if (hasValue) {
-            return tracker!.valueOptionsMap[value].color;
+            return tracker.valueOptionsMap[value].color;
         }
 
         if (isToday || isBefore) {
@@ -73,38 +76,34 @@ const DayCell = ({ tracker, date, dayType }: DayCellProps) => {
     };
 
     const getContent = () => {
-        switch (dayType) {
-        case DayType.WEEK:
-            return (
-                <>
-                    <Text fontSize="2xs" fontWeight="black">{dayOfWeekLabel}</Text>
-                    <IconButton
-                        size="sm"
-                        disabled
-                        borderRadius="full"
-                        bg={hasValue ? 'gray.50' : undefined}
-                        padding={1}
-                        _icon={{
-                            as: FontAwesome5,
-                            name: getIcon(),
-                            color: getIconColor(),
-                            textAlign: 'center',
-                        }}
-                    />
-                    <Text fontSize="2xs" fontWeight="black">{dayOfMonthLabel}</Text>
-                </>
-            );
-        case DayType.MONTH:
-            return (
-                <Text>{date.date()}</Text>
-            );
-        }
-
+        return (
+            <>
+                {dayType === DayType.WEEK && (
+                    <Text fontSize="2xs" fontWeight="black">
+                        {dayOfWeekLabel}
+                    </Text>
+                )}
+                <IconButton
+                    size="sm"
+                    disabled
+                    borderRadius="full"
+                    bg={hasValue ? 'gray.50' : undefined}
+                    padding={1}
+                    _icon={{
+                        as: FontAwesome5,
+                        name: getIcon(),
+                        color: getIconColor(),
+                        textAlign: 'center',
+                    }}
+                />
+                <Text fontSize="2xs" fontWeight="black">{dayOfMonthLabel}</Text>
+            </>
+        );
     };
 
     return (
-        <VStack alignItems="center" space={1}>
-            {getContent()}
+        <VStack flex={1} alignItems="center" space={0.5}>
+            {isSameMonth && getContent()}
         </VStack>
     );
 };

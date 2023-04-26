@@ -26,12 +26,22 @@ const MonthView = () => {
 
             <Divider bg="white:alpha.50" />
 
-            <VStack>
+            <VStack marginX={-4} space={1.5}>
+                <HStack key="dow_label" justifyContent="space-between">
+                    {dates[0].map((date: Moment, index: number) => (
+                        <VStack key={`dow_${index}`} alignItems='center' flex={1}>
+                            <Text fontSize="2xs" fontWeight="black">
+                                {date.format('dd')[0]}
+                            </Text>
+                        </VStack>
+                    ))}
+                </HStack>
+
                 {dates.map((week: Moment[], rIndex: number) => (
                     <HStack key={`r_${rIndex}`} justifyContent="space-between">
                         {week.map((date: Moment, cIndex: number) => (
                             <DayCell
-                                key={`r_${rIndex}_c_${cIndex}`}
+                                key={`r_${rIndex}_c_${cIndex}_${tracker.id}`}
                                 tracker={tracker}
                                 date={date}
                                 dayType={DayType.MONTH}
