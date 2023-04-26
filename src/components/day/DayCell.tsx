@@ -10,13 +10,13 @@ export enum DayType {
     MONTH = 'MONTH',
 }
 
-interface WeekViewDayProps {
+interface DayCellProps {
     tracker: Tracker;
     date: moment.Moment;
     dayType: DayType;
 }
 
-const WeekViewDay = ({ tracker, date, dayType }: WeekViewDayProps) => {
+const DayCell = ({ tracker, date, dayType }: DayCellProps) => {
     const dayEpoch = `${date.valueOf()}`;
 
     const { getTrackerData } = useUserStore();
@@ -27,10 +27,19 @@ const WeekViewDay = ({ tracker, date, dayType }: WeekViewDayProps) => {
         const get = async () => {
             const data = await getTrackerData(dayEpoch, tracker.id);
             setValue(data);
+            // console.log(`${dayType} - ${date.date()}`);
         };
 
+        if (date.isAfter(moment(), 'day')) {
+            return;
+        }
+
+        if (dayType === DayType.MONTH && date.isBefore(moment(), 'month')) {
+            return;
+        }
+
         get();
-    }, [dayEpoch, getTrackerData, tracker.id]);
+    }, [dayType, date, dayEpoch, getTrackerData, tracker.id]);
 
     const hasValue = value !== undefined;
     const dayOfWeekLabel = date.format('dd')[0];
@@ -100,4 +109,4 @@ const WeekViewDay = ({ tracker, date, dayType }: WeekViewDayProps) => {
     );
 };
 
-export default WeekViewDay;
+export default DayCell;

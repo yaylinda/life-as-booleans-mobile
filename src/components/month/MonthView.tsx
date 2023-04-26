@@ -1,10 +1,10 @@
-import { Moment } from 'moment';
 import { Divider, HStack, Text, VStack } from 'native-base';
 import React from 'react';
 import useDataScreenStore from '../../screens/data/dataScreenStore';
 import { BG } from '../../styles';
 import { getWeekChunksForMonth } from '../../utilities';
-import WeekViewDay, { DayType } from '../week/WeekViewDay';
+import DayCell, { DayType } from '../day/DayCell';
+import type { Moment } from 'moment';
 
 const MonthView = () => {
 
@@ -30,7 +30,7 @@ const MonthView = () => {
                 {dates.map((week: Moment[], rIndex: number) => (
                     <HStack key={`r_${rIndex}`} justifyContent="space-between">
                         {week.map((date: Moment, cIndex: number) => (
-                            <WeekViewDay
+                            <DayCell
                                 key={`r_${rIndex}_c_${cIndex}`}
                                 tracker={tracker}
                                 date={date}

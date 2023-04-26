@@ -3,12 +3,12 @@ import React from 'react';
 import useDataScreenStore from '../../screens/data/dataScreenStore';
 import { BG } from '../../styles';
 import { getDatesBetween } from '../../utilities';
-import WeekViewDay, { DayType } from './WeekViewDay';
+import DayCell, { DayType } from '../day/DayCell';
 
 const WeekView = () => {
 
     const { week: start, selectedTracker: tracker } = useDataScreenStore();
-    const end = start.clone().add(1, 'week').startOf('day');
+    const end = start.clone().endOf('week');
 
     const dates = getDatesBetween(start, end);
 
@@ -28,7 +28,7 @@ const WeekView = () => {
 
             <HStack justifyContent="space-between">
                 {dates.map((date) => (
-                    <WeekViewDay
+                    <DayCell
                         key={`day_${date.valueOf()}_${tracker.id}`}
                         date={date}
                         tracker={tracker}

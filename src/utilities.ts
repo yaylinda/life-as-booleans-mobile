@@ -25,32 +25,23 @@ export const getWeekChunksForMonth = (): moment.Moment[][] => {
     const monthStart = moment().startOf('month').startOf('day');
 
     const daysBeforeMonth: moment.Moment[] = [];
-    for (let i = 0; i < monthStart.weekday(); i++) {
-        daysBeforeMonth.push(monthStart.clone().add(i, 'day'));
-    }
-
-    const daysAfterMonth: moment.Moment[] = [];
-    for (let i = 0; i < NUM_DAYS_IN_WEEK - monthStart.endOf('month').weekday(); i++) {
-        daysAfterMonth.push(monthStart.clone().add(1, 'month').add(i, 'day'));
+    let beforeMonth = monthStart.clone();
+    while (beforeMonth.weekday() > 0) {
+        beforeMonth = beforeMonth.clone().subtract(1, 'day');
+        daysBeforeMonth.push(beforeMonth);
     }
 
     const daysInMonth = getDatesBetween(monthStart, monthStart.clone().endOf('month'));
 
-    return chunk(
-        [...daysBeforeMonth, ...daysInMonth, ...daysAfterMonth],
-        NUM_DAYS_IN_WEEK
-    );
-};
-
-export const getWeekStart = () => {
-    const momentDate = moment();
-    const dayOfWeek = momentDate.day();
-
-    // If the given date is already a Sunday, return the given date.
-    if (dayOfWeek === 0) {
-        return momentDate.startOf('day');
+    const daysAfterMonth: moment.Moment[] = [];
+    let afterMonth = monthStart.clone().endOf('month');
+    while (afterMonth.weekday() < 6) {
+        afterMonth = afterMonth.clone().add(1, 'day');
+        daysAfterMonth.push(afterMonth);
     }
 
-    // Otherwise, subtract the dayOfWeek (in days) from the given date to get the closest past Sunday.
-    return momentDate.subtract(dayOfWeek, 'days').startOf('day');
+    return chunk(
+        [...daysBeforeMonth.reverse(), ...daysInMonth, ...daysAfterMonth],
+        NUM_DAYS_IN_WEEK
+    );
 };
