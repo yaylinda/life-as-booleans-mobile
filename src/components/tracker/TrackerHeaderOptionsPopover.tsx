@@ -48,24 +48,24 @@ const TrackerHeaderOptionsPopover = ({
             <Popover.Content>
                 <Popover.Arrow />
                 <Popover.Body padding={0} paddingTop={2} paddingBottom={1}>
-                    <Button
-                        size="sm"
-                        variant="ghost"
-                        leftIcon={<Icon as={FontAwesome5} name="table" size="sm" />}
-                        justifyContent="flex-start"
-                        onPress={openYearView}
-                        _pressed={{
-                            bg: PRESSED_BG_WHITE,
-                        }}
-                        _text={{
-                            color: 'white',
-                        }}
-                        _icon={{
-                            color: 'white',
-                        }}
-                    >
-                        Show Year View
-                    </Button>
+                    {/*<Button*/}
+                    {/*    size="sm"*/}
+                    {/*    variant="ghost"*/}
+                    {/*    leftIcon={<Icon as={FontAwesome5} name="table" size="sm" />}*/}
+                    {/*    justifyContent="flex-start"*/}
+                    {/*    onPress={openYearView}*/}
+                    {/*    _pressed={{*/}
+                    {/*        bg: PRESSED_BG_WHITE,*/}
+                    {/*    }}*/}
+                    {/*    _text={{*/}
+                    {/*        color: 'white',*/}
+                    {/*    }}*/}
+                    {/*    _icon={{*/}
+                    {/*        color: 'white',*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    Show Year View*/}
+                    {/*</Button>*/}
                     {!isDefaultTracker && (
                         <Button
                             size="sm"

@@ -3,7 +3,7 @@ import { IconButton } from 'native-base';
 import React from 'react';
 import { Alert } from 'react-native';
 import useUserStore from '../../stores/userStore';
-import { PRESSED_BG_WHITE } from '../../styles';
+import {  SELECTED_BG } from '../../styles';
 import TrackerHeaderOptionsPopover from './TrackerHeaderOptionsPopover';
 import { useTrackerContext } from './useTrackerContext';
 import type { PopoverTriggerProps } from '../../types';
@@ -48,7 +48,7 @@ const TrackerHeaderOptionsButton = () => {
             borderRadius="full"
             padding={1.5}
             _pressed={{
-                bg: PRESSED_BG_WHITE,
+                bg: SELECTED_BG,
             }}
             _icon={{
                 as: FontAwesome5,

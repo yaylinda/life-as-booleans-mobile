@@ -1,11 +1,12 @@
 import { HStack } from 'native-base';
 import React from 'react';
-import Animated, { FadeIn, useSharedValue } from 'react-native-reanimated';
+import Animated, { FadeIn } from 'react-native-reanimated';
 import useUserStore from '../../stores/userStore';
 import { BG } from '../../styles';
 import { withContext } from '../../withContext';
 import { TrackerProvider } from './TrackerContext';
 import TrackerHeader from './TrackerHeader';
+import TrackerHeaderOptionsButton from './TrackerHeaderOptionsButton';
 import TrackerValueSelection from './TrackerValueSelection';
 import { useTrackerContext } from './useTrackerContext';
 
@@ -53,6 +54,8 @@ const TrackerSingleLine = ({ index }: TrackerSingleLineProps) => {
                     selectedValue={value}
                     onSelect={onSelectOption}
                 />
+
+                <TrackerHeaderOptionsButton />
             </HStack>
         </Animated.View>
     );
