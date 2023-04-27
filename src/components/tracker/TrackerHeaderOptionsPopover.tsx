@@ -2,7 +2,6 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import invariant from 'invariant';
 import { Button, Icon, Popover } from 'native-base';
 import React from 'react';
-import useUserStore from '../../stores/userStore';
 import { PRESSED_BG_WHITE } from '../../styles';
 import { useTrackerContext } from './useTrackerContext';
 import type { PopoverTriggerProps } from '../../types';
@@ -23,21 +22,21 @@ const TrackerHeaderOptionsPopover = ({
     onEdit,
 }: TrackerOptionsPopoverProps) => {
 
-    const { tracker, date } = useTrackerContext();
+    const { tracker } = useTrackerContext();
 
     invariant(tracker, 'Tracker must not be null to have options');
 
     const isDefaultTracker = tracker.isDefaultTracker;
 
-    const { setYearViewData } = useUserStore();
+    // const { setYearViewData } = useUserStore();
 
-    const openYearView = () => {
-        onClose();
-        setYearViewData({
-            tracker: tracker,
-            year: date.year(),
-        });
-    };
+    // const openYearView = () => {
+    //     onClose();
+    //     setYearViewData({
+    //         tracker: tracker,
+    //         year: date.year(),
+    //     });
+    // };
 
     return (
         <Popover

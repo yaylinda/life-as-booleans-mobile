@@ -2,7 +2,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import moment from 'moment';
 import { IconButton } from 'native-base';
 import React from 'react';
-import Animated, { Layout } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import Tracker from '../../components/tracker/Tracker';
 import TrackerSingleLine from '../../components/tracker/TrackerSingleLine';
 import { EMPTY_TRACKER } from '../../defaultTrackers';
@@ -24,6 +24,7 @@ const TrackerListButton = () => {
             <IconButton
                 bg={BG}
                 borderRadius="full"
+                marginBottom={2}
                 _icon={{
                     as: FontAwesome5,
                     name: 'plus',
@@ -42,6 +43,7 @@ const TrackerListButton = () => {
         <IconButton
             bg={BG}
             borderRadius="full"
+            marginBottom={2}
             _icon={{
                 as: FontAwesome5,
                 name: 'calendar-day',
@@ -115,7 +117,6 @@ const TodayScreenContent = () => {
             showsVerticalScrollIndicator={false}
             data={indexedTrackers}
             renderItem={renderItem}
-            layout={Layout}
         />
     );
 };
