@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "eslint App.tsx src --ext .ts,.tsx --fix"
+    "lint": "eslint App.tsx src --ext .ts,.tsx --fix",
+    "build": "eas build --platform all"
   },
   "dependencies": {
     "@expo-google-fonts/nunito": "^0.2.3",
